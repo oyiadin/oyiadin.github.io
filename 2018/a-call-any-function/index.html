@@ -7,14 +7,14 @@
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="其实这是某社团第三次 C 语言作业中一道附加题，当时一看到题目就觉得很有趣，花了一个下午研究了函数调用栈，内嵌汇编的知识，当晚给做了出来。能跑，但是没有解决函数的返回类型这个问题。 这几天接触宏函数接触得比较多，尝试着实现了一个没用的伪泛型宏函数： 123456#define declare_function(type, function_name, ...) \    type function">
-<meta name="keywords" content="C,ASM,宏">
+<meta name="keywords" content="C,ASM,宏函数">
 <meta property="og:type" content="article">
 <meta property="og:title" content="能调用任意函数的函数">
-<meta property="og:url" content="http://oyiadin.github.io/2018/a-call-any-function/index.html">
+<meta property="og:url" content="https://oyiadin.github.io/2018/a-call-any-function/index.html">
 <meta property="og:site_name" content="oyiadin">
 <meta property="og:description" content="其实这是某社团第三次 C 语言作业中一道附加题，当时一看到题目就觉得很有趣，花了一个下午研究了函数调用栈，内嵌汇编的知识，当晚给做了出来。能跑，但是没有解决函数的返回类型这个问题。 这几天接触宏函数接触得比较多，尝试着实现了一个没用的伪泛型宏函数： 123456#define declare_function(type, function_name, ...) \    type function">
 <meta property="og:locale" content="zh-cn">
-<meta property="og:updated_time" content="2018-02-14T12:13:21.862Z">
+<meta property="og:updated_time" content="2018-02-14T15:57:33.997Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="能调用任意函数的函数">
 <meta name="twitter:description" content="其实这是某社团第三次 C 语言作业中一道附加题，当时一看到题目就觉得很有趣，花了一个下午研究了函数调用栈，内嵌汇编的知识，当晚给做了出来。能跑，但是没有解决函数的返回类型这个问题。 这几天接触宏函数接触得比较多，尝试着实现了一个没用的伪泛型宏函数： 123456#define declare_function(type, function_name, ...) \    type function">
@@ -42,6 +42,8 @@
     <link rel="stylesheet" href="../../css/style.css">
     <!-- rss -->
     
+    
+      <link rel="alternate" href="../../atom.xml" title="oyiadin" type="application/atom+xml" />
     
 </head>
 
@@ -83,16 +85,16 @@
     <br/>
     <div id="share" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://oyiadin.github.io/2018/a-call-any-function/&text=能调用任意函数的函数"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://oyiadin.github.io/2018/a-call-any-function/&is_video=false&description=能调用任意函数的函数"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=能调用任意函数的函数&body=Check out this article: http://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://oyiadin.github.io/2018/a-call-any-function/&name=能调用任意函数的函数&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/a-call-any-function/&text=能调用任意函数的函数"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/a-call-any-function/&is_video=false&description=能调用任意函数的函数"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=能调用任意函数的函数&body=Check out this article: https://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/a-call-any-function/&name=能调用任意函数的函数&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -127,7 +129,7 @@
       
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="../../tags/ASM/">ASM</a>, <a class="tag-link" href="../../tags/C/">C</a>, <a class="tag-link" href="../../tags/宏/">宏</a>
+        <a class="tag-link" href="../../tags/ASM/">ASM</a>, <a class="tag-link" href="../../tags/C/">C</a>, <a class="tag-link" href="../../tags/宏函数/">宏函数</a>
     </div>
 
 
@@ -190,16 +192,16 @@
 
     <div id="share-footer" style="display: none">
       <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=http://oyiadin.github.io/2018/a-call-any-function/&text=能调用任意函数的函数"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://oyiadin.github.io/2018/a-call-any-function/&is_video=false&description=能调用任意函数的函数"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=能调用任意函数的函数&body=Check out this article: http://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=http://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://oyiadin.github.io/2018/a-call-any-function/&name=能调用任意函数的函数&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/a-call-any-function/&text=能调用任意函数的函数"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/a-call-any-function/&is_video=false&description=能调用任意函数的函数"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=能调用任意函数的函数&body=Check out this article: https://oyiadin.github.io/2018/a-call-any-function/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/a-call-any-function/&title=能调用任意函数的函数"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/a-call-any-function/&name=能调用任意函数的函数&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
 </ul>
 
     </div>
@@ -250,6 +252,15 @@
 <!-- search -->
 
 <!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 
 <!-- Disqus Comments -->
 
