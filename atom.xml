@@ -10,7 +10,7 @@
   <id>http://oyiadin.github.io/</id>
   
   <author>
-    <name>Chen Xiaoyuan</name>
+    <name>oyiadin</name>
     
   </author>
   
@@ -39,11 +39,11 @@
     
       <category term="writeup" scheme="http://oyiadin.github.io/tags/writeup/"/>
     
-      <category term="Reverse" scheme="http://oyiadin.github.io/tags/Reverse/"/>
-    
       <category term="HGAME" scheme="http://oyiadin.github.io/tags/HGAME/"/>
     
       <category term="Web" scheme="http://oyiadin.github.io/tags/Web/"/>
+    
+      <category term="Reverse" scheme="http://oyiadin.github.io/tags/Reverse/"/>
     
       <category term="Pwn" scheme="http://oyiadin.github.io/tags/Pwn/"/>
     
@@ -77,9 +77,9 @@
     
       <category term="writeup" scheme="http://oyiadin.github.io/tags/writeup/"/>
     
-      <category term="南邮CTF" scheme="http://oyiadin.github.io/tags/%E5%8D%97%E9%82%AECTF/"/>
-    
       <category term="Reverse" scheme="http://oyiadin.github.io/tags/Reverse/"/>
+    
+      <category term="南邮CTF" scheme="http://oyiadin.github.io/tags/%E5%8D%97%E9%82%AECTF/"/>
     
   </entry>
   
