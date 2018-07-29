@@ -6,18 +6,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python 3.5.2 (Ubuntu)   Libra">
+    <meta name="description" content="深度学习开发环境配置记录 (tf+torch)Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python">
 <meta name="keywords" content="Tensorflow,Pytorch,深度学习,开发环境,记录">
 <meta property="og:type" content="article">
 <meta property="og:title" content="深度学习开发环境配置记录 (tf+torch)">
 <meta property="og:url" content="https://oyiadin.github.io/2018/a-note-on-configure-my-deep-learning-developing-environment/index.html">
 <meta property="og:site_name" content="oyiadin">
-<meta property="og:description" content="Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python 3.5.2 (Ubuntu)   Libra">
+<meta property="og:description" content="深度学习开发环境配置记录 (tf+torch)Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-07-27T13:58:47.994Z">
+<meta property="og:updated_time" content="2018-07-28T14:50:12.828Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="深度学习开发环境配置记录 (tf+torch)">
-<meta name="twitter:description" content="Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python 3.5.2 (Ubuntu)   Libra">
+<meta name="twitter:description" content="深度学习开发环境配置记录 (tf+torch)Versions CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M  Windows 10 Education  Ubuntu 16.04 LTS (VirtualBox 5.2.16)  Python  Python 3.6.5 (Windows, Anaconda) Python">
     
     
         
@@ -97,7 +97,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Versions"><span class="toc-number">1.</span> <span class="toc-text">Versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details"><span class="toc-number">2.</span> <span class="toc-text">Details</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#深度学习开发环境配置记录-tf-torch"><span class="toc-number">1.</span> <span class="toc-text">深度学习开发环境配置记录 (tf+torch)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Versions"><span class="toc-number">1.1.</span> <span class="toc-text">Versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details"><span class="toc-number">1.2.</span> <span class="toc-text">Details</span></a></li></ol></li></ol>
     </div>
   </span>
 </div>
@@ -136,7 +136,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Versions"><a href="#Versions" class="headerlink" title="Versions"></a>Versions</h2><ul>
+    <h1 id="深度学习开发环境配置记录-tf-torch"><a href="#深度学习开发环境配置记录-tf-torch" class="headerlink" title="深度学习开发环境配置记录 (tf+torch)"></a>深度学习开发环境配置记录 (tf+torch)</h1><h2 id="Versions"><a href="#Versions" class="headerlink" title="Versions"></a>Versions</h2><ul>
 <li>CPU: Intel i5-6300HQ (2.30GHz)</li>
 <li><p>GPU: NVIDIA GeForce GTX 950M</p>
 </li>
@@ -166,7 +166,7 @@
 </ul>
 <h2 id="Details"><a href="#Details" class="headerlink" title="Details"></a>Details</h2><p>我的 ubuntu 一直都是配好的，不再赘述。为了便利，我选择使用 Anaconda，安装很容易，只需一路 Next 就行。numpy、pandas、requests 与 bs4 的安装也都很简单，<code>sudo pip3 install</code> 就能直接装上。由于 VBox 不能很好地利用我的显卡，我仅在 Windows 上安装了 GPU 版 Tensorflow，Ubuntu 上只安装了 CPU 版。</p>
 <p><a href="https://www.tensorflow.org/install/install_windows#installing_with_native_pip" target="_blank" rel="noopener">安装 Tensorflow-GPU</a> 时遇到了一个问题：<code>Distributed 1.21.8 requires msgpack, which is not installed</code>，谷歌搜到<a href="https://stackoverflow.com/questions/51050257/distributed-1-21-8-requires-msgpack-which-is-not-installed" target="_blank" rel="noopener">这篇文章</a>，照做即可。不过在真正能够启动 Tensorflow-GPU 前需要安装好 CUDA Toolkit 跟 cuDNN。</p>
-<p><a href="https://www.tensorflow.org/install/install_windows" target="_blank" rel="noopener">Tensorflow 的引导页</a> 所要求的 CUDA Toolkit 版本为 9.0，然而英伟达官网已经发布了 9.2，为了避免兼容问题，我从<a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">这里</a>找到了 v9.0，下载并安装之即可，<code>%PATH%</code> 它会自动设置好。</p>
+<p><a href="https://www.tensorflow.org/install/install_windows" target="_blank" rel="noopener">Tensorflow 的引导页</a> 所要求的 CUDA Toolkit 版本为 9.0，然而英伟达官网已经发布了 9.2，为了避免兼容问题，我从<a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">这里</a>找到了 v9.0，下载并安装之即可，<code>%PATH%</code> 它会自动设置好，但是没加全，还得自己加一条 <code>Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\extras\CUPTI\libx64</code>。</p>
 <p>cuDNN 也有版本要求。同样，有一个 <a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener">Archive 页</a>可供下载，选择符合要求的最新版本 v7.0.5 (Dec 5, 2017), for CUDA 9.0，下载后解压，把 <code>cuDNN/bin/</code> 加到 <code>%PATH%</code> 里（下载需要先注册、登陆），重启 Python 即可。</p>
 <p>装上 Tensorflow 后，我把官方提供的例子给克隆了下来，运行时发现数据总是导入失败（失败于 pd.read_csv）。奇怪的是，在 pandas 项目的 issue 页明明能搜到相关的问题，也早就被标记了“Solved”，可是我更新到最新版本（0.23.3）后还是没有解决。这个问题是因为默认路径有包含有中文（也就是我的系统用户名），最后我只能照着<a href="https://blog.csdn.net/qq_33530388/article/details/71739845" target="_blank" rel="noopener">这篇文章</a>，把我的系统用户名从中文改为英文。改完重启后，终于顺利跑完 <code>premade_estimator.py</code>。</p>
 <p>改完用户名后其实有另外一个问题：VBox 找不到我的虚拟机文件了。要解决这个问题，只要在 <code>~/.VirtualBox</code> 里编辑 <code>VirtualBox.xml</code> 和 <code>VirtualBox.xml-prev</code>，把相应路径改为新的就行了。</p>
@@ -205,7 +205,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Versions"><span class="toc-number">1.</span> <span class="toc-text">Versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details"><span class="toc-number">2.</span> <span class="toc-text">Details</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#深度学习开发环境配置记录-tf-torch"><span class="toc-number">1.</span> <span class="toc-text">深度学习开发环境配置记录 (tf+torch)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Versions"><span class="toc-number">1.1.</span> <span class="toc-text">Versions</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Details"><span class="toc-number">1.2.</span> <span class="toc-text">Details</span></a></li></ol></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
