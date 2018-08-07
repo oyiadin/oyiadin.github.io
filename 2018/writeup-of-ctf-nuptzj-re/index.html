@@ -1,166 +1,179 @@
+
+
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
-    <!-- so meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="共三道题，前边几道题比较简单，就不写 writeup 了。 WxyVM二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名： 1234567891011121314151617181920212223__int64 __fastcall main(__int64 a1, char **a2, char **a3)&amp;#123;  char v4; // [sp+Bh] [b">
-<meta name="keywords" content="CTF,南邮训练平台,Writeup,Reverse">
-<meta property="og:type" content="article">
-<meta property="og:title" content="南邮网络攻防训练平台逆向入门题目 Writeup">
-<meta property="og:url" content="https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/index.html">
-<meta property="og:site_name" content="oyiadin">
-<meta property="og:description" content="共三道题，前边几道题比较简单，就不写 writeup 了。 WxyVM二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名： 1234567891011121314151617181920212223__int64 __fastcall main(__int64 a1, char **a2, char **a3)&amp;#123;  char v4; // [sp+Bh] [b">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-02-14T16:04:46.896Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="南邮网络攻防训练平台逆向入门题目 Writeup">
-<meta name="twitter:description" content="共三道题，前边几道题比较简单，就不写 writeup 了。 WxyVM二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名： 1234567891011121314151617181920212223__int64 __fastcall main(__int64 a1, char **a2, char **a3)&amp;#123;  char v4; // [sp+Bh] [b">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="../../images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="../../images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="../../images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>南邮网络攻防训练平台逆向入门题目 Writeup</title>
-    <!-- styles -->
+    <meta name="X-UA-Compatible" content="IE=edge">
+    <meta name="author" content="oyiadin">
+
+    <title>南邮网络攻防训练平台逆向入门题目 Writeup - oyiadin</title>
+    <meta name="description" content="">
+
+    <meta name="keywords"
+          content="">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="renderer" content="webkit">
+    <noscript>
+        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons"/>
+    </noscript>
+    <link rel="short icon" href="../../favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/mprogress.css">
+    <link rel="stylesheet" href="../../css/open-iconic.min.css">
     <link rel="stylesheet" href="../../css/style.css">
-    <!-- rss -->
-    
-    
-      <link rel="alternate" href="../../atom.xml" title="oyiadin" type="application/atom+xml" />
-    
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="../../atom.xml">
+    <script>
+        /*!
+         loadCSS: load a CSS file asynchronously.
+         [c]2014 @scottjehl, Filament Group, Inc.
+         Licensed MIT
+         */
+        function loadCSS( href, before, media ){
+            "use strict";
+            var ss = window.document.createElement( "link" );
+            var ref = before || window.document.getElementsByTagName( "script" )[ 0 ];
+            var sheets = window.document.styleSheets;
+            ss.rel = "stylesheet";
+            ss.href = href;
+            ss.media = "only x";
+            ref.parentNode.insertBefore( ss, ref );
+            function toggleMedia(){
+                var defined;
+                for( var i = 0; i < sheets.length; i++ ){
+                    if( sheets[ i ].href && sheets[ i ].href.indexOf( href ) > -1 ){
+                        defined = true;
+                    }
+                }
+                if( defined ){
+                    ss.media = media || "all";
+                }
+                else {
+                    setTimeout( toggleMedia );
+                }
+            }
+            toggleMedia();
+            return ss;
+        }
+    </script>
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#" class="active"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu" style="visibility: visible;">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="../writeup-of-hgame-week1/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
-        
-        
-        <li><a class="icon" href="../a-call-any-function/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous Post</span>
-      <span id="i-next" class="info" style="display:none;">Next Post</span>
-      <span id="i-top" class="info" style="display:none;">Back To Top</span>
-      <span id="i-share" class="info" style="display:none;">Share Post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&text=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&is_video=false&description=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=南邮网络攻防训练平台逆向入门题目 Writeup&body=Check out this article: https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&name=南邮网络攻防训练平台逆向入门题目 Writeup&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
 
+<div id="app">
+    <nav ref="navBar" class="navbar fixed-top navbar-light">
+    <div id="global-loading-indicator" class="progress-line global-loading-indicator"></div>
+    <div id="nav_background" class="nav-background"></div>
+    <div style="padding-left: 15px;padding-right: 15px" class="container container-narrow nav-content">
+
+        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" data-toggle="adropdown">
+            <span class="oi" data-glyph="menu"></span>
+        </button>
+        <a id="nav_title" class="navbar-brand Montserrat" href="/">
+            oyiadin
+        </a>
+        <div class="float-right navbar-dark nav-icon-group">
+            <div class="dropdown">
+                <ul class="dropdown-menu" id="collapsed_nav">
+                    <li><a href="/" class="a-block nav-icon">Archive</a></li>
+                    
+                    
+                    <li><a href="/about/index.html" class="a-block nav-icon">About Me &amp; Links</a></li>
+                    
+                    
+                    <li><a href="/atom.xml" target="_blank" class="a-block">
+                            <span data-glyph="rss" class="oi nav-icon"></span>
+                        </a>
+                    </li>
+                    
+                </ul>
+            </div>
+
+        </div>
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WxyVM"><span class="toc-number">1.</span> <span class="toc-text">WxyVM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#maze"><span class="toc-number">2.</span> <span class="toc-text">maze</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WxyVM2"><span class="toc-number">3.</span> <span class="toc-text">WxyVM2</span></a></li></ol>
-    </div>
-  </span>
-</div>
+</nav>
+    <div class="container container-narrow">
 
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        南邮网络攻防训练平台逆向入门题目 Writeup
-    </h1>
+        <div ref="pageHead"
+             v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"
+             class="page-head">
+            <a href="/">
+                <h2>oyiadin</h2>
+                <h5>Shares anything interesting.</h5>
+            </a>
+        </div>
+
+<div class="row stream-container">
+    <div class="card-container">
+
+        <div class="card card-item clear-border card-top-patch card-clear-hover">
+            
+
+            <div class="card-item-container clear-flex-xs">
+                <div class="card-inner-cell">
+                    <h2>南邮网络攻防训练平台逆向入门题目 Writeup</h2>
+
+                    <div>
+                        <p>
+                            <time datetime="2018-02-03T16:00:00.000Z" itemprop="datePublished">
+                                2018-02-04 00:00
+                            </time>
+                            
+
+                            
+                            
+                            <span class="oi" data-glyph="tag" style="vertical-align: middle; margin-left: 5px"> </span>&nbsp;
+                            
+                            <a href='/tags/CTF/'>CTF</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/南邮训练平台/'>南邮训练平台</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Writeup/'>Writeup</a>
+                            
+                            ,
+                            
+                            
+                            <a href='/tags/Reverse/'>Reverse</a>
+                            
+                            
+                            
+                        </p>
+                    </div>
 
 
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">oyiadin</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-02-03T16:00:00.000Z" itemprop="datePublished">2018-02-04</time>
-    </div>
-
-
-      
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="../../tags/CTF/">CTF</a>, <a class="tag-link" href="../../tags/Reverse/">Reverse</a>, <a class="tag-link" href="../../tags/Writeup/">Writeup</a>, <a class="tag-link" href="../../tags/南邮训练平台/">南邮训练平台</a>
-    </div>
-
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <p>共三道题，前边几道题比较简单，就不写 writeup 了。</p>
+                    <p class=" post-block-desc">
+                        <p>共三道题，前边几道题比较简单，就不写 writeup 了。</p>
 <h2 id="WxyVM"><a href="#WxyVM" class="headerlink" title="WxyVM"></a>WxyVM</h2><p>二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [sp+Bh] [bp-5h]@1</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [sp+Ch] [bp-4h]@3</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"[WxyVM 0.0.1]"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"input your flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;scanf_buffer_bytes);</span><br><span class="line">  v4 = <span class="number">1</span>;</span><br><span class="line">  sub_4005B6();</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;scanf_buffer_bytes) != <span class="number">24</span> )</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">23</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( *(&amp;scanf_buffer_bytes + i) != goal_dword[i] )</span><br><span class="line">      v4 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v4 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"correct"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"wrong"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">char</span> v4; <span class="comment">// [sp+Bh] [bp-5h]@1</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [sp+Ch] [bp-4h]@3</span></span><br><span class="line"></span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"[WxyVM 0.0.1]"</span>);</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"input your flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;scanf_buffer_bytes);</span><br><span class="line">  v4 = <span class="number">1</span>;</span><br><span class="line">  sub_4005B6();</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;scanf_buffer_bytes) != <span class="number">24</span> )</span><br><span class="line">    v4 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">23</span>; ++i )</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">if</span> ( *(&amp;scanf_buffer_bytes + i) != goal_dword[i] )</span><br><span class="line">      v4 = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( v4 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"correct"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"wrong"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>代码逻辑很清晰，先读字符串到 <code>scanf_buffer_bytes</code>，然后调用 <code>sub_4005B6()</code>，推测是进行加密，子函数跑完后，让加密后的数据跟 <code>goal_dword</code> 进行比对。读懂代码后直接跟进去子函数，同样，先对意图明显的变量进行命名：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">__<span class="function">int64 <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v0; <span class="comment">// ST04_4@3</span></span><br><span class="line">  __int64 result; <span class="comment">// rax@3</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [sp+0h] [bp-10h]@1</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [sp+8h] [bp-8h]@3</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">14999</span>; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = raw_data[(<span class="keyword">signed</span> __int64)i];</span><br><span class="line">    v3 = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">2</span>)];</span><br><span class="line">    result = v0;</span><br><span class="line">    <span class="keyword">switch</span> ( v0 )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) += v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) -= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) ^= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) *= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) ^= *(&amp;scanf_buffer_bytes + raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">2</span>)]);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__<span class="function">int64 <span class="title">func</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">unsigned</span> <span class="keyword">int</span> v0; <span class="comment">// ST04_4@3</span></span><br><span class="line">  __int64 result; <span class="comment">// rax@3</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> i; <span class="comment">// [sp+0h] [bp-10h]@1</span></span><br><span class="line">  <span class="keyword">char</span> v3; <span class="comment">// [sp+8h] [bp-8h]@3</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> ( i = <span class="number">0</span>; i &lt;= <span class="number">14999</span>; i += <span class="number">3</span> )</span><br><span class="line">  &#123;</span><br><span class="line">    v0 = raw_data[(<span class="keyword">signed</span> __int64)i];</span><br><span class="line">    v3 = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">2</span>)];</span><br><span class="line">    result = v0;</span><br><span class="line">    <span class="keyword">switch</span> ( v0 )</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">1u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) += v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">2u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) -= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">3u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) ^= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">4u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) *= v3;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> <span class="number">5u</span>:</span><br><span class="line">        result = raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">1</span>)];</span><br><span class="line">        *(&amp;scanf_buffer_bytes + result) ^= *(&amp;scanf_buffer_bytes + raw_data[(<span class="keyword">signed</span> __int64)(i + <span class="number">2</span>)]);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>读一下代码，大意是从 <code>raw_data</code> 依次读取数据，3 Bytes 为一组。Byte 1 用来 switch，Byte 2 用来指定相对于 <code>buffer</code> 的偏移量，Byte 3 用以参与计算。</p>
 <p>所以代码到这就很明显了，从 <code>goal_dword</code> 逆操作还原出 <code>scanf_buffer_bytes</code> 即可。不过代码里有两个坑：</p>
 <ol>
 <li>从 <code>goal_dword</code> 取数据时需要每 4 位只保留最低位。</li>
 <li>会溢出</li>
 </ol>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#IDAPython</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">raw_data = <span class="number">0x00000000006010C0</span></span><br><span class="line">answer   = <span class="number">0x0000000000601060</span></span><br><span class="line">buffer   = <span class="number">0x0000000000604B80</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 逆操作</span></span><br><span class="line">op = &#123;</span><br><span class="line">    <span class="number">1</span>: <span class="keyword">lambda</span> x, y: (x-y)%sys.maxint+<span class="number">1</span> <span class="keyword">if</span> x-y&lt;<span class="number">0</span> <span class="keyword">else</span> x-y,</span><br><span class="line">    <span class="comment"># 这里为了模拟溢出，比较粗暴</span></span><br><span class="line">    <span class="number">2</span>: <span class="keyword">lambda</span> x, y: (x+y)%maxint,</span><br><span class="line">    <span class="number">3</span>: <span class="keyword">lambda</span> x, y: x^y,</span><br><span class="line">    <span class="number">4</span>: <span class="keyword">lambda</span> x, y: x/y,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">24</span>):</span><br><span class="line">    PatchByte(buffer+i, Byte(answer+<span class="number">4</span>*i))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14997</span>, <span class="number">-1</span>, <span class="number">-3</span>):</span><br><span class="line">    v0 = Byte(raw_data + i)</span><br><span class="line">    v1 = Byte(raw_data + i + <span class="number">1</span>)</span><br><span class="line">    v2 = Byte(raw_data + i + <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> v0 &gt; <span class="number">0</span> <span class="keyword">and</span> v0 &lt; <span class="number">5</span>:</span><br><span class="line">        PatchByte(buffer+v1, op[v0](Byte(buffer+v1), v2))</span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">5</span>:</span><br><span class="line">        PatchByte(buffer+v1, Byte(buffer+v1)^Byte(buffer+v2))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># find flag at buffer</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#IDAPython</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">raw_data = <span class="number">0x00000000006010C0</span></span><br><span class="line">answer   = <span class="number">0x0000000000601060</span></span><br><span class="line">buffer   = <span class="number">0x0000000000604B80</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 逆操作</span></span><br><span class="line">op = &#123;</span><br><span class="line">    <span class="number">1</span>: <span class="keyword">lambda</span> x, y: (x-y)%sys.maxint+<span class="number">1</span> <span class="keyword">if</span> x-y&lt;<span class="number">0</span> <span class="keyword">else</span> x-y,</span><br><span class="line">    <span class="comment"># 这里为了模拟溢出，比较粗暴</span></span><br><span class="line">    <span class="number">2</span>: <span class="keyword">lambda</span> x, y: (x+y)%maxint,</span><br><span class="line">    <span class="number">3</span>: <span class="keyword">lambda</span> x, y: x^y,</span><br><span class="line">    <span class="number">4</span>: <span class="keyword">lambda</span> x, y: x/y,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">24</span>):</span><br><span class="line">    PatchByte(buffer+i, Byte(answer+<span class="number">4</span>*i))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">14997</span>, <span class="number">-1</span>, <span class="number">-3</span>):</span><br><span class="line">    v0 = Byte(raw_data + i)</span><br><span class="line">    v1 = Byte(raw_data + i + <span class="number">1</span>)</span><br><span class="line">    v2 = Byte(raw_data + i + <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">if</span> v0 &gt; <span class="number">0</span> <span class="keyword">and</span> v0 &lt; <span class="number">5</span>:</span><br><span class="line">        PatchByte(buffer+v1, op[v0](Byte(buffer+v1), v2))</span><br><span class="line">    <span class="keyword">elif</span> v0 == <span class="number">5</span>:</span><br><span class="line">        PatchByte(buffer+v1, Byte(buffer+v1)^Byte(buffer+v2))</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># find flag at buffer</span></span><br></pre></td></tr></table></figure>
 <h2 id="maze"><a href="#maze" class="headerlink" title="maze"></a>maze</h2><p>照常拖进 IDA 顺势 F5，读代码：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> __int64 offset; <span class="comment">// rbx@4</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> chr; <span class="comment">// eax@5</span></span><br><span class="line">  <span class="keyword">bool</span> v5; <span class="comment">// bp@5</span></span><br><span class="line">  <span class="keyword">bool</span> v6; <span class="comment">// al@8</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *msg; <span class="comment">// rdi@19</span></span><br><span class="line">  __int64 y; <span class="comment">// [sp+0h] [bp-28h]@1</span></span><br><span class="line">  __int32 x;  <span class="comment">// 读汇编后觉得 &amp;y+1 视为 &amp;x 更好</span></span><br><span class="line"></span><br><span class="line">  x = <span class="number">0L</span>;</span><br><span class="line">  y = <span class="number">0L</span>L;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Input flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;buffer, <span class="number">0L</span>L);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;buffer) != <span class="number">24</span> || <span class="built_in">strncmp</span>(&amp;buffer, <span class="string">"nctf&#123;"</span>, <span class="number">5u</span>LL) || *(&amp;byte_6010BF + <span class="number">24</span>) != <span class="number">125</span> )</span><br><span class="line">  &#123;</span><br><span class="line">  <span class="comment">// assert len(buffer) == 24 &amp;&amp; buffer.startswith("nctf&#123;") &amp;&amp; buffer.endswith("&#125;")</span></span><br><span class="line">wrong_and_exit:</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Wrong flag!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  offset = <span class="number">5L</span>L;  <span class="comment">// 从 &#123; 后面第一个字符开始，后边 ++offset 遍历 buffer</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;buffer) - <span class="number">1</span> &gt; <span class="number">5</span> )  <span class="comment">// 恒为真</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      chr = *(&amp;buffer + offset);</span><br><span class="line">      v5 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( chr &gt; <span class="string">'N'</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        chr = (<span class="keyword">unsigned</span> __int8)chr;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)chr == <span class="string">'O'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_O((_DWORD *)&amp;x);  <span class="comment">// v6 = x-- &gt; 0;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( chr == <span class="string">'o'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_o((<span class="keyword">int</span> *)&amp;x);  <span class="comment">// v6 = x++ &lt; 8;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        chr = (<span class="keyword">unsigned</span> __int8)chr;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)chr == <span class="string">'.'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_dot(&amp;y);  <span class="comment">// v6 = y-- &gt; 0;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( chr == <span class="string">'0'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_0((<span class="keyword">int</span> *)&amp;y);  <span class="comment">// v6 = y++ &lt; 8;</span></span><br><span class="line">assign_v6_to_v5_and_goto_label_15:</span><br><span class="line">          v5 = v6;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_15;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 分析到下边发现是走迷宫，O左 o右 .上 0下</span></span><br><span class="line">LABEL_15:</span><br><span class="line">      <span class="keyword">if</span> ( !(<span class="keyword">unsigned</span> __int8)check(asc_601060, x, y) )  <span class="comment">// SHIDWORD(y) == x, 检查是否撞到墙壁</span></span><br><span class="line">        <span class="comment">// asc_601060: 8x8 array</span></span><br><span class="line">        <span class="comment">//   ******</span></span><br><span class="line">        <span class="comment">// *   *  *</span></span><br><span class="line">        <span class="comment">// *** * **</span></span><br><span class="line">        <span class="comment">// **  * **</span></span><br><span class="line">        <span class="comment">// *  *#  *</span></span><br><span class="line">        <span class="comment">// ** *** *</span></span><br><span class="line">        <span class="comment">// **     *</span></span><br><span class="line">        <span class="comment">// ********</span></span><br><span class="line">        <span class="comment">// return 1 if asc[x][y] == (' ' or '#') else 0</span></span><br><span class="line">        <span class="keyword">goto</span> wrong_and_exit;  <span class="comment">// assert return == 1;</span></span><br><span class="line">      <span class="keyword">if</span> ( ++offset &gt;= <span class="built_in">strlen</span>(&amp;buffer) - <span class="number">1</span> )  <span class="comment">// 自增，如果下一个已经是 &#125;，则：</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v5 )  <span class="comment">// 防止走出迷宫的范围</span></span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">wrong_and_exit_2:</span><br><span class="line">        msg = <span class="string">"Wrong flag!"</span>;</span><br><span class="line">        <span class="keyword">goto</span> show_msg_and_exit;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( *(&amp;asc_601060[<span class="number">8</span> * (<span class="keyword">signed</span> <span class="keyword">int</span>)y] + x) != <span class="string">'#'</span> )  <span class="comment">// 最后要以 # 为终点，否则 wrong</span></span><br><span class="line">    <span class="keyword">goto</span> wrong_and_exit_2;</span><br><span class="line">  msg = <span class="string">"Congratulations!"</span>;</span><br><span class="line">show_msg_and_exit:</span><br><span class="line">  <span class="built_in">puts</span>(msg);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 综上，就是走迷宫，从 (0, 0) 走到 # 处即为 flag</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">signed</span> __int64 offset; <span class="comment">// rbx@4</span></span><br><span class="line">  <span class="keyword">signed</span> <span class="keyword">int</span> chr; <span class="comment">// eax@5</span></span><br><span class="line">  <span class="keyword">bool</span> v5; <span class="comment">// bp@5</span></span><br><span class="line">  <span class="keyword">bool</span> v6; <span class="comment">// al@8</span></span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">char</span> *msg; <span class="comment">// rdi@19</span></span><br><span class="line">  __int64 y; <span class="comment">// [sp+0h] [bp-28h]@1</span></span><br><span class="line">  __int32 x;  <span class="comment">// 读汇编后觉得 &amp;y+1 视为 &amp;x 更好</span></span><br><span class="line"></span><br><span class="line">  x = <span class="number">0L</span>;</span><br><span class="line">  y = <span class="number">0L</span>L;</span><br><span class="line">  <span class="built_in">puts</span>(<span class="string">"Input flag:"</span>);</span><br><span class="line">  <span class="built_in">scanf</span>(<span class="string">"%s"</span>, &amp;buffer, <span class="number">0L</span>L);</span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;buffer) != <span class="number">24</span> || <span class="built_in">strncmp</span>(&amp;buffer, <span class="string">"nctf&#123;"</span>, <span class="number">5u</span>LL) || *(&amp;byte_6010BF + <span class="number">24</span>) != <span class="number">125</span> )</span><br><span class="line">  &#123;</span><br><span class="line">  <span class="comment">// assert len(buffer) == 24 &amp;&amp; buffer.startswith("nctf&#123;") &amp;&amp; buffer.endswith("&#125;")</span></span><br><span class="line">wrong_and_exit:</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Wrong flag!"</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  offset = <span class="number">5L</span>L;  <span class="comment">// 从 &#123; 后面第一个字符开始，后边 ++offset 遍历 buffer</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ( <span class="built_in">strlen</span>(&amp;buffer) - <span class="number">1</span> &gt; <span class="number">5</span> )  <span class="comment">// 恒为真</span></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">while</span> ( <span class="number">1</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      chr = *(&amp;buffer + offset);</span><br><span class="line">      v5 = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">if</span> ( chr &gt; <span class="string">'N'</span> )</span><br><span class="line">      &#123;</span><br><span class="line">        chr = (<span class="keyword">unsigned</span> __int8)chr;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)chr == <span class="string">'O'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_O((_DWORD *)&amp;x);  <span class="comment">// v6 = x-- &gt; 0;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( chr == <span class="string">'o'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_o((<span class="keyword">int</span> *)&amp;x);  <span class="comment">// v6 = x++ &lt; 8;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">      &#123;</span><br><span class="line">        chr = (<span class="keyword">unsigned</span> __int8)chr;</span><br><span class="line">        <span class="keyword">if</span> ( (<span class="keyword">unsigned</span> __int8)chr == <span class="string">'.'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_dot(&amp;y);  <span class="comment">// v6 = y-- &gt; 0;</span></span><br><span class="line">          <span class="keyword">goto</span> assign_v6_to_v5_and_goto_label_15;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> ( chr == <span class="string">'0'</span> )</span><br><span class="line">        &#123;</span><br><span class="line">          v6 = func_0((<span class="keyword">int</span> *)&amp;y);  <span class="comment">// v6 = y++ &lt; 8;</span></span><br><span class="line">assign_v6_to_v5_and_goto_label_15:</span><br><span class="line">          v5 = v6;</span><br><span class="line">          <span class="keyword">goto</span> LABEL_15;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 分析到下边发现是走迷宫，O左 o右 .上 0下</span></span><br><span class="line">LABEL_15:</span><br><span class="line">      <span class="keyword">if</span> ( !(<span class="keyword">unsigned</span> __int8)check(asc_601060, x, y) )  <span class="comment">// SHIDWORD(y) == x, 检查是否撞到墙壁</span></span><br><span class="line">        <span class="comment">// asc_601060: 8x8 array</span></span><br><span class="line">        <span class="comment">//   ******</span></span><br><span class="line">        <span class="comment">// *   *  *</span></span><br><span class="line">        <span class="comment">// *** * **</span></span><br><span class="line">        <span class="comment">// **  * **</span></span><br><span class="line">        <span class="comment">// *  *#  *</span></span><br><span class="line">        <span class="comment">// ** *** *</span></span><br><span class="line">        <span class="comment">// **     *</span></span><br><span class="line">        <span class="comment">// ********</span></span><br><span class="line">        <span class="comment">// return 1 if asc[x][y] == (' ' or '#') else 0</span></span><br><span class="line">        <span class="keyword">goto</span> wrong_and_exit;  <span class="comment">// assert return == 1;</span></span><br><span class="line">      <span class="keyword">if</span> ( ++offset &gt;= <span class="built_in">strlen</span>(&amp;buffer) - <span class="number">1</span> )  <span class="comment">// 自增，如果下一个已经是 &#125;，则：</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="keyword">if</span> ( v5 )  <span class="comment">// 防止走出迷宫的范围</span></span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">wrong_and_exit_2:</span><br><span class="line">        msg = <span class="string">"Wrong flag!"</span>;</span><br><span class="line">        <span class="keyword">goto</span> show_msg_and_exit;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> ( *(&amp;asc_601060[<span class="number">8</span> * (<span class="keyword">signed</span> <span class="keyword">int</span>)y] + x) != <span class="string">'#'</span> )  <span class="comment">// 最后要以 # 为终点，否则 wrong</span></span><br><span class="line">    <span class="keyword">goto</span> wrong_and_exit_2;</span><br><span class="line">  msg = <span class="string">"Congratulations!"</span>;</span><br><span class="line">show_msg_and_exit:</span><br><span class="line">  <span class="built_in">puts</span>(msg);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 综上，就是走迷宫，从 (0, 0) 走到 # 处即为 flag</span></span><br></pre></td></tr></table></figure>
 <h2 id="WxyVM2"><a href="#WxyVM2" class="headerlink" title="WxyVM2"></a>WxyVM2</h2><p>丢进 IDA，发现 “Sorry, this node is too big to display”，顿时觉得水深 [一脸黑线]。我不管！读汇编好费时的！F5 之后放一边，居然被我等来了 C 代码，哈哈哈，那就继续分析。</p>
 <p>一看发现两万多行，emmm，先读下头尾。很简单，<code>scanf</code> 到 <code>0x694100</code> 处，一番操作后与 <code>0x6940600</code> 进行比对而已（依旧是那个 byte 与 dword 比对的坑，小心）。所以我就去头去尾，把代码丢 Sublime 里分析了。</p>
 <p>看了一会，发现了猫腻：</p>
 <p><code>scanf</code> 放进去那个 <code>buffer</code> 的范围是 <code>0x694100 ~ 0x694118</code>，最终比对的目标是 <code>0x694060 ~ 0x6940C0</code>，而且后者的数据没变过。又发现中间那两万多行很多跟解题无关，就把对无关地址的操作全剔除了，剩下两千多行有效操作。</p>
 <p>然后思路就很清晰了，反向操作即可。先写个 py 脚本逆一下操作顺序：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">l = [i <span class="keyword">for</span> i <span class="keyword">in</span> open(<span class="string">'operations.txt'</span>)]</span><br><span class="line">f = open(<span class="string">'operations-reversed.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> reversed(l):</span><br><span class="line">    f.write(i)</span><br><span class="line">f.close()</span><br><span class="line"><span class="comment"># 没有 close() 至少也 flush() 一下…刚开始这里忘了，卡了很久，很奇怪为啥数据少了一小部分…</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">l = [i <span class="keyword">for</span> i <span class="keyword">in</span> open(<span class="string">'operations.txt'</span>)]</span><br><span class="line">f = open(<span class="string">'operations-reversed.txt'</span>, <span class="string">'w'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> reversed(l):</span><br><span class="line">    f.write(i)</span><br><span class="line">f.close()</span><br><span class="line"><span class="comment"># 没有 close() 至少也 flush() 一下…刚开始这里忘了，卡了很久，很奇怪为啥数据少了一小部分…</span></span><br></pre></td></tr></table></figure>
 <p>然后在 Sublime 里把 <code>--</code> 换成 <code>-= 1</code>，<code>++</code> 同理。再写个很丑的正则替换一下各个操作：<code>(\w+)_(\w+) \+= (.*?);</code> to <code>$1(0x$2) -= $3;</code>，这里是加法变减法，其他同理。</p>
 <p>由于看起来很可能会有溢出，我就直接用 C 写了，省得像之前那样活生生地在 py 里模拟溢出…</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> goal[<span class="number">25</span>] = &#123;</span><br><span class="line">    <span class="number">0xC0</span>, <span class="number">0x85</span>, <span class="number">0xF9</span>, <span class="number">0x6C</span>, <span class="number">0xE2</span>, <span class="number">0x14</span>, <span class="number">0xBB</span>, <span class="number">0xE4</span>, <span class="number">0x0D</span>,</span><br><span class="line">    <span class="number">0x59</span>, <span class="number">0x1C</span>, <span class="number">0x23</span>, <span class="number">0x88</span>, <span class="number">0x6E</span>, <span class="number">0x9B</span>, <span class="number">0xCA</span>, <span class="number">0xBA</span>, <span class="number">0x5C</span>,</span><br><span class="line">    <span class="number">0x37</span>, <span class="number">0xFF</span>, <span class="number">0x48</span>, <span class="number">0xD8</span>, <span class="number">0x1F</span>, <span class="number">0xAB</span>, <span class="number">0xA5</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> byte(i) goal[i-0x694100]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里放上边得到的逆操作们</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">25</span>; ++i)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c"</span>, goal[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;inttypes.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">uint8_t</span> goal[<span class="number">25</span>] = &#123;</span><br><span class="line">    <span class="number">0xC0</span>, <span class="number">0x85</span>, <span class="number">0xF9</span>, <span class="number">0x6C</span>, <span class="number">0xE2</span>, <span class="number">0x14</span>, <span class="number">0xBB</span>, <span class="number">0xE4</span>, <span class="number">0x0D</span>,</span><br><span class="line">    <span class="number">0x59</span>, <span class="number">0x1C</span>, <span class="number">0x23</span>, <span class="number">0x88</span>, <span class="number">0x6E</span>, <span class="number">0x9B</span>, <span class="number">0xCA</span>, <span class="number">0xBA</span>, <span class="number">0x5C</span>,</span><br><span class="line">    <span class="number">0x37</span>, <span class="number">0xFF</span>, <span class="number">0x48</span>, <span class="number">0xD8</span>, <span class="number">0x1F</span>, <span class="number">0xAB</span>, <span class="number">0xA5</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> byte(i) goal[i-0x694100]</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 这里放上边得到的逆操作们</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">25</span>; ++i)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%c"</span>, goal[i]);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <hr>
 <p>Over，至此南邮的训练平台逆向入门题 All Clear~</p>
 <hr>
@@ -170,122 +183,65 @@
 <li><a href="http://blog.csdn.net/huiguixian/article/details/52026710" target="_blank" rel="noopener">IDA逆向常用宏定义, 小小攻城师</a></li>
 </ol>
 
-  </div>
-</article>
+                    </p>
 
-    <div class="blog-post-comments">
-        <div id="disqus_thread">
-            <noscript>Please enable JavaScript to view the comments.</noscript>
+                    <nav class="pagination" role="pagination">
+    
+    <a class="newer-posts" href="../writeup-of-hgame-week1/">
+        Previous post: HGAME Week1 Writeup
+    </a>
+    
+    <span class="page-number"></span>
+    
+    <a class="older-posts" href="../a-call-any-function/">
+        Next post: 能调用任意函数的函数
+    </a>
+    
+</nav>
+
+                    
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WxyVM"><span class="toc-number">1.</span> <span class="toc-text">WxyVM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#maze"><span class="toc-number">2.</span> <span class="toc-text">maze</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WxyVM2"><span class="toc-number">3.</span> <span class="toc-text">WxyVM2</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&text=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&is_video=false&description=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=南邮网络攻防训练平台逆向入门题目 Writeup&body=Check out this article: https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&title=南邮网络攻防训练平台逆向入门题目 Writeup"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://oyiadin.github.io/2018/writeup-of-ctf-nuptzj-re/&name=南邮网络攻防训练平台逆向入门题目 Writeup&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
 </div>
 
+<footer>
+    <p>
+        &copy;&nbsp;2018&nbsp;<a target="_blank"
+                                                               href="">oyiadin</a>
+    </p>
+
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 oyiadin
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="../../index.html">Home</a></li>
-         
-          <li><a href="../../archives/">Archives</a></li>
-         
-          <li><a href="../../about/">About</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+    <p>Theme&nbsp;<a target="_blank"
+                     href="https://github.com/SumiMakito/hexo-theme-journal">Journal.</a>&nbsp;by&nbsp;<a
+                target="_blank" href="https://www.keep.moe">Makito</a>
+    </p>
+    
+
+    <p>
+        Proudly published with&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>
+    </p>
 </footer>
+
+</div>
+</div>
+</div>
+<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../js/popper.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+<script src=" ../../js/vue.min.js"></script>
+<script src=" ../../js/journal.js"></script>
+<script>
+    loadCSS("//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons");
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        $("#global-loading-indicator").fadeOut(600);
+    });
+</script>
 
 </body>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="../../lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="../../lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="../../lib/justified-gallery/justifiedGallery.min.css">
-
-<!-- jquery -->
-<script src="../../lib/jquery/jquery.min.js"></script>
-<script src="../../lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="../../js/main.js"></script>
-<!-- search -->
-
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-    <script type="text/javascript">
-        var disqus_shortname = 'oyiadin';
-
-        (function(){
-            var dsq = document.createElement('script');
-            dsq.type = 'text/javascript';
-            dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        }());
-    </script>
-
-
