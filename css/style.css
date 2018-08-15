@@ -534,3 +534,8 @@ footer > p {
 .card-inner-cell a:hover {
     border-bottom: 1px solid grey;
 }
+
+blockquote {
+    border-left: 7px solid #eee;
+    padding-left: 1.2rem;
+}
