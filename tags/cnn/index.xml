@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>CNN on oyiadin</title>
+    <link>https://blog.b1n.top/tags/cnn/</link>
+    <description>Recent content in CNN on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 25 Jan 2019 14:06:42 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/cnn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>\[Paper-Reading\] very deep convolutional networks for large scale image recognition (ICLR 2015)</title>
+      <link>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</guid>
+      <description>Abstract 这篇论文探究了在大规模的图像识别场景中，CNN 网络的深度对其准确率的影响。论文中，作者使用了一个足以捕获空域信息的最小 conv filter (3x3) 来减少参数数量，并逐渐增加网络的深度。于是有了这样的发现：当深度加深时，模型的准确度有着显著的提高，甚至超过了当时的最佳水平。并且，这种小卷积核、大深度的网络有着很好的泛化能力，在其他领域也有着很不错的表现。
+Sec1: Introduction 已经出现过两种尝试提升准确度的方向：
+ 改进原始模型 Krizhevsky et al. (2012) 的架构 training and testing the networks densely over the whole image and over multiple scales Sermanet et al., 2014; Howard, 2014  这篇论文里重点探究网络深度的影响（方法：固定其他参数(如 FC 层数)，通过增加 conv layers 的方式逐渐增加网络深度）
+作者提供了几个表现最好的模型，不过是 caffe 用的。作者在这里还放出了许多 matlab 的版本，可以用 scipy.io.loadmat(path) 的方法在 Python 里导入。
+Sec2: ConvNet Configurations 2.1 Architecture 训练过程中，输入均是 224x224 的 RGB 格式图片，唯一的预处理是减去 RGB 的均值。
+设计这个架构的主要思路是，先让图片通过一堆卷积层，然后再通过三层 FC 层，最后那层是一个 1000 channels 的 softmax。激活函数一致选用 ReLU。</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>DynELF on oyiadin</title>
+    <link>https://blog.b1n.top/tags/dynelf/</link>
+    <description>Recent content in DynELF on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 07 Mar 2018 20:30:30 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/dynelf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HGAME Week4 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week4/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week4/</guid>
+      <description>开学了 XD 谢谢这些 dalao 们~！这个寒假是我至今学了最多姿势的一个假期~
+{ Re } virtual_waifu [500] 拖进 IDA 读一下 main()：
+// ... ... run((int)&amp;amp;v169, (int *)&amp;amp;v5); // 一番操作 i = 0; while ( *((_BYTE *)&amp;amp;input + i) == byte_40318C[i] ) // 比对，长度 24 Bytes { if ( ++i &amp;gt;= 24 ) goto LABEL_6; } printf((int)&amp;quot;Never Give Up\n&amp;quot;); LABEL_6: system(&amp;quot;pause&amp;quot;); return 0; }  上边那一大段自然就是 VM 的数据来源了。先进去子函数捋一捋这个 VM 是怎么工作的，整理后，主要逻辑如下：
+// m2 = malloc(256), 大致被当成一个栈来使用 case 1: m2[ 4 * ++ptr ] = reg2; break; case 2: reg2 = m2[ 4 * ptr-- ]; reg22 = reg2; break; case 3: m2[ 4 * ++ptr ] = reg4; goto just_exit; case 4: reg4 = m2[ 4 * ptr-- ]; break; case 5: m2[ 4 * ++ptr ] = *pdata++; goto just_exit; case 6: // 解引用得到单个字母 m2[ 4 * ptr ] = *(m2[ 4 * ptr ]); goto just_exit; case 7: v35 = m2[ 4 * ptr-- ]; v36 = m2[ 4 * ptr-- ]; *v35 = v36; goto LABEL_21; case 8: v14 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] += v14; goto LABEL_11; case 9: v17 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] -= v17; LABEL_11: v40 = (m2[ 4 * ptr ] == 0); goto LABEL_21; case 0xA: v20 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] ^= v20; goto just_exit; case 0xB: pdata += m2[ 4 * ptr-- ]; goto just_exit; case 0xC: v24 = m2[ 4 * ptr-- ]; if ( flag ) pdata += v24; goto just_exit; case 0xD: free((void *)m2); free(m1); return 1; case 0xE: v40 = ( m2[ 4 * ptr ] == m2[ 4 * (ptr-1) ] ); LABEL_21: flag = v40; goto just_exit; case 0xF: m2[ 4 * ptr ] = strlen(m2[ 4 * ptr ]); just_exit: reg2 = reg22; break; default: break;  程序从 v169 到 v176 以 Byte 为单位读取数据，根据数据进行相应的操作。v169 ~ v176 相当于 .</description>
+    </item>
+    
+  </channel>
+</rss>

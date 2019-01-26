@@ -1,128 +1,50 @@
-
-
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="zh-cn">
+  <head>
     <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="oyiadin">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>About Me &amp; Links</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
 
-    <title>About Me &amp; Links - Chen&#39;s Notebook</title>
-    <meta name="description" content="">
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
 
-    <meta name="keywords"
-          content="">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <noscript>
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-    </noscript>
-    <link rel="short icon" href="../favicon/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/mprogress.css">
-    <link rel="stylesheet" href="../css/open-iconic.min.css">
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/prism.css">
-    <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="../atom.xml">
-    <script>
-        /*!
-         loadCSS: load a CSS file asynchronously.
-         [c]2014 @scottjehl, Filament Group, Inc.
-         Licensed MIT
-         */
-        function loadCSS( href, before, media ){
-            "use strict";
-            var ss = window.document.createElement( "link" );
-            var ref = before || window.document.getElementsByTagName( "script" )[ 0 ];
-            var sheets = window.document.styleSheets;
-            ss.rel = "stylesheet";
-            ss.href = href;
-            ss.media = "only x";
-            ref.parentNode.insertBefore( ss, ref );
-            function toggleMedia(){
-                var defined;
-                for( var i = 0; i < sheets.length; i++ ){
-                    if( sheets[ i ].href && sheets[ i ].href.indexOf( href ) > -1 ){
-                        defined = true;
-                    }
-                }
-                if( defined ){
-                    ss.media = media || "all";
-                }
-                else {
-                    setTimeout( toggleMedia );
-                }
-            }
-            toggleMedia();
-            return ss;
-        }
-    </script>
-</head>
-<body>
+<div class="article-meta">
+<h1><span class="title">About Me &amp; Links</span></h1>
 
-<div id="app">
-    <nav ref="navBar" class="navbar fixed-top navbar-light">
-    <div id="global-loading-indicator" class="progress-line global-loading-indicator"></div>
-    <div id="nav_background" class="nav-background"></div>
-    <div style="padding-left: 15px;padding-right: 15px" class="container container-narrow nav-content">
+<h2 class="date">2018/02/19</h2>
+</div>
 
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" data-toggle="adropdown">
-            <span class="oi" data-glyph="menu"></span>
-        </button>
-        <a id="nav_title" class="navbar-brand Montserrat" href="/">
-            Chen&#39;s Notebook
-        </a>
-        <div class="float-right navbar-dark nav-icon-group">
-            <div class="dropdown">
-                <ul class="dropdown-menu" id="collapsed_nav">
-                    <li><a href="/" class="a-block nav-icon">Archive</a></li>
-                    
-                    
-                    <li><a href="/about/index.html" class="a-block nav-icon">About Me &amp; Links</a></li>
-                    
-                    
-                    <li><a href="/atom.xml" target="_blank" class="a-block">
-                            <span data-glyph="rss" class="oi nav-icon"></span>
-                        </a>
-                    </li>
-                    
-                </ul>
-            </div>
+<main>
 
-        </div>
-    </div>
-</nav>
-    <div class="container container-narrow">
 
-        <div ref="pageHead"
-             v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"
-             class="page-head">
-            <a href="/">
-                <h2>Chen&#39;s Notebook</h2>
-                <h5>to cultivate curiosity</h5>
-            </a>
-        </div>
+<h2 id="brief-intro">Brief Intro.</h2>
 
-<div class="row stream-container">
-    <div class="card-container">
+<p>I am an ordinary freshman at HDU, also a semi-vidar member (trying hard to be a real one!). I&rsquo;ve already found that I loves everything about computer science so much, long before I was only 13. But, because of the lack of CS-learning atmosphere and the stress of college entrance examination, all my way to CS suspended suddenly after I just comprehended the most basic part of it. Now that I am now a freshman majoring in Computer Science, I&rsquo;d like to seize every opportunity to chase my dreams and my interests of CS.</p>
 
-        <div class="card card-item clear-border card-top-patch card-clear-hover">
-            
+<p>Math is a subject that I have to spend nearly every minute of my time catching up with it, so it seems impossible for me to get any prizes in ACM, let alone in fact I don&rsquo;t love it so much. However, CTF, unlike ACM, attracts me a lot, as it perfectly accords with my expectation of a &ldquo;Hacker-way Life&rdquo;. In short, what supports me to take part in CTFs, is my interests. I learn because I like it - That&rsquo;s the way I live my life.</p>
 
-            <div class="card-item-container clear-flex-xs">
-                <div class="card-inner-cell">
-                    <h2>About Me &amp; Links</h2>
+<p>Mentioning my life &hellip; well, I have a very cute GF, we have been together for around 3 years. A love at the age of 18 is just too fragile, but we do want it to keep on existing, till the day we finnaly &ldquo;get together&rdquo;. (She insists that I add this paragraph =,= Shh~)</p>
 
-                    
+<h2 id="track-of-tech">Track of Tech.</h2>
 
-                    <p class="post-block-desc">
-                        <h2 id="Brief-Intro"><a href="#Brief-Intro" class="headerlink" title="Brief Intro."></a>Brief Intro.</h2><p>I am an ordinary freshman at HDU, also a semi-vidar member (trying hard to be a real one!). I’ve already found that I loves everything about computer science so much, long before I was only 13. But, because of the lack of CS-learning atmosphere and the stress of college entrance examination, all my way to CS suspended suddenly after I just comprehended the most basic part of it. Now that I am now a freshman majoring in Computer Science, I’d like to seize every opportunity to chase my dreams and my interests of CS.</p>
-<p>Math is a subject that I have to spend nearly every minute of my time catching up with it, so it seems impossible for me to get any prizes in ACM, let alone in fact I don’t love it so much. However, CTF, unlike ACM, attracts me a lot, as it perfectly accords with my expectation of a “Hacker-way Life”. In short, what supports me to take part in CTFs, is my interests. I learn because I like it - That’s the way I live my life.</p>
-<p>Mentioning my life … well, I have a very cute GF, we have been together for around 3 years. A love at the age of 18 is just too fragile, but we do want it to keep on existing, till the day we finnaly “get together”. (She insists that I add this paragraph =,= Shh~)</p>
-<h2 id="Track-of-Tech"><a href="#Track-of-Tech" class="headerlink" title="Track of Tech."></a>Track of Tech.</h2><ul>
+<ul>
 <li>L2 @ C (2017 - 2018)</li>
 <li>L2 @ Python (2012 - 2014, 2018 - ?)</li>
 <li>L1 @ Deep Learning (2018 - ?)</li>
@@ -130,96 +52,75 @@
 <li>L1 @ HTML / CSS / Javascript (jQuery) (2011 - 2012)</li>
 <li>L1 @ Visual Basic / Visual Basic Script (2011)</li>
 </ul>
-<h2 id="Links-of-My-Friends-And-The-Ones-I-Admire"><a href="#Links-of-My-Friends-And-The-Ones-I-Admire" class="headerlink" title="Links of My Friends And The Ones I Admire"></a>Links of My Friends And The Ones I Admire</h2><ul>
-<li><a href="https://ch111p.github.io/" target="_blank" rel="noopener">Ch1p</a></li>
-<li><a href="https://blog.0e1.top/" target="_blank" rel="noopener">Li4n0</a></li>
-<li><a href="https://blog.ar1s.top/" target="_blank" rel="noopener">Aris</a></li>
-<li><a href="http://blog.ckj123.com/" target="_blank" rel="noopener">ckj123</a></li>
-<li><a href="http://www.intmain.com/" target="_blank" rel="noopener">mian</a></li>
-<li><a href="http://mki603.top/" target="_blank" rel="noopener">Mki603</a></li>
-<li><a href="http://brownfly.github.io/" target="_blank" rel="noopener">brownfly</a></li>
-<li><a href="https://emmettwoo.github.io/" target="_blank" rel="noopener">emmettwoo</a></li>
+
+<h2 id="links-of-my-friends-and-the-ones-i-admire">Links of My Friends And The Ones I Admire</h2>
+
+<ul>
+<li><a href="https://ch111p.github.io/">Ch1p</a></li>
+<li><a href="https://blog.0e1.top/">Li4n0</a></li>
+<li><a href="https://blog.ar1s.top/">Aris</a></li>
+<li><a href="http://blog.ckj123.com/">ckj123</a></li>
+<li><a href="http://www.intmain.com/">mian</a></li>
+<li><a href="http://mki603.top/">Mki603</a></li>
+<li><a href="http://brownfly.github.io/">brownfly</a></li>
+<li><a href="https://emmettwoo.github.io/">emmettwoo</a></li>
 <li>This is a placeholder for my shy ones ;)</li>
 </ul>
-<hr>
+
+<hr />
+
 <p>Only posts the ID which I have already been familiar with (and I can find where it is …)</p>
+
 <ul>
-<li><a href="http://veritas501.space/" target="_blank" rel="noopener">veritas501</a></li>
-<li><a href="http://vvv-347.space/" target="_blank" rel="noopener">vvv_347</a></li>
-<li><a href="http://blog.0e1.cc/" target="_blank" rel="noopener">hammer</a></li>
-<li><a href="https://ash-zd.com/" target="_blank" rel="noopener">Ash</a></li>
-<li><a href="https://ngc7292.github.io/" target="_blank" rel="noopener">ngc7293</a></li>
-<li><a href="http://fantasyqt.ink/" target="_blank" rel="noopener">fantasyqt</a></li>
-<li><a href="https://lorexxar.cn/" target="_blank" rel="noopener">LoRexxar</a></li>
-<li><a href="https://lightless.me/" target="_blank" rel="noopener">Lightless</a></li>
-<li><a href="http://aklis.info/" target="_blank" rel="noopener">Aklis</a></li>
-<li><a href="http://processor.pub/" target="_blank" rel="noopener">Processor</a></li>
-<li><a href="https://jysperm.me/" target="_blank" rel="noopener">jysperm</a></li>
-<li><a href="http://blog.wangxiyu.me/" target="_blank" rel="noopener">wangxiyu191</a></li>
-<li><a href="http://ipotato.me/" target="_blank" rel="noopener">jm_potato</a></li>
-<li><a href="https://ricterz.me/" target="_blank" rel="noopener">ricterz</a></li>
+<li><a href="http://veritas501.space/">veritas501</a></li>
+<li><a href="http://vvv-347.space/">vvv_347</a></li>
+<li><a href="http://blog.0e1.cc/">hammer</a></li>
+<li><a href="https://ash-zd.com/">Ash</a></li>
+<li><a href="https://ngc7292.github.io/">ngc7293</a></li>
+<li><a href="http://fantasyqt.ink/">fantasyqt</a></li>
+<li><a href="https://lorexxar.cn/">LoRexxar</a></li>
+<li><a href="https://lightless.me/">Lightless</a></li>
+<li><a href="http://aklis.info/">Aklis</a></li>
+<li><a href="http://processor.pub/">Processor</a></li>
+<li><a href="https://jysperm.me/">jysperm</a></li>
+<li><a href="http://blog.wangxiyu.me/">wangxiyu191</a></li>
+<li><a href="http://ipotato.me/">jm_potato</a></li>
+<li><a href="https://ricterz.me/">ricterz</a></li>
 </ul>
 
-                    </p>
+</main>
 
-                    
-<a id="comments"></a>
+
 <div id="disqus_thread"></div>
-<script>var disqus_shortname = 'oyiadin';
-    var disqus_identifier = 'about/index.html';
-    var disqus_title = 'About Me &amp; Links';
-    var disqus_url = 'https://blog.b1n.top/about/index.html';
-    (function () {
-        var dsq = document.createElement('script');
-        dsq.type = 'text/javascript';
-        dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();</script>
-<script id="dsq-count-scr" src="//oyiadin.disqus.com/count.js" async></script>
+<script type="text/javascript">
 
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+(function() {
+  
+  
+  if (window.location.hostname == "localhost")
+    return;
 
-<footer>
-    <p>
-        &copy;&nbsp;2019&nbsp;<a target="_blank"
-                                                               href="">oyiadin</a>
-    </p>
-
-    
-    <p>Theme&nbsp;<a target="_blank"
-                     href="https://github.com/SumiMakito/hexo-theme-journal">Journal.</a>&nbsp;by&nbsp;<a
-                target="_blank" href="https://www.keep.moe">Makito</a>
-    </p>
-    
-
-    <p>
-        Proudly published with&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>
-    </p>
-</footer>
-
-</div>
-</div>
-</div>
-<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="../js/popper.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-<script src=" ../js/vue.min.js"></script>
-<script src=" ../js/journal.js"></script>
-<script>
-    loadCSS("//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons");
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  var disqus_shortname = 'oyiadin';
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
 </script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
 
-<script>
-    $(document).ready(function () {
-        $("#global-loading-indicator").fadeOut(600);
-    });
-</script>
+  <footer>
+  <script src="/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
-</body>
+
+
+  
+  <hr/>
+  &copy; <a href="https://blog.b1n.top/">oyiadin</a> | <a href="https://github.com/oyiadin">Github</a> | <a href="https://twitter.com/oyiadin">Twitter</a>
+  
+  </footer>
+  </body>
 </html>
+

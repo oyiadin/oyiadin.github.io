@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>用Tensorflow实现逻辑与</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">用Tensorflow实现逻辑与</span></h1>
+
+<h2 class="date">2018/08/07</h2>
+</div>
+
+<main>
+
+
+<h2 id="直接使用底层-api">直接使用底层 API</h2>
+
+<p>首先还是一样，导入需要的库。因为要画 3D 的图，需要额外导入 Axes3D。</p>
+
+<pre><code class="language-python">import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+</code></pre>
+
+<p>设置超参数及训练所需数据</p>
+
+<pre><code class="language-python">LEARNING_RATE = 0.08
+EPOCHES = 500
+
+X_input = np.array([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+Y_input = np.array([[0.], [0.], [0.], [1.]])
+</code></pre>
+
+<p>如果不带激活函数的话，训练结果会收敛于 <code>[-0.25, 0.25, 0.25, 0.75]</code>，虽然可以算是训练成功了，不过我不满意。将激活函数函数设为 <code>tf.nn.relu</code> 之后，训练结果就很不错了，很快就收敛到 <code>[0, 0, 0, 1]</code>。</p>
+
+<pre><code class="language-python">X = tf.placeholder(tf.float32, (None, 2))
+Y = tf.placeholder(tf.float32, (None, 1))
+
+W = tf.Variable(tf.random_uniform((2, 1)))
+b = tf.Variable(tf.random_uniform(()))
+
+pred = tf.nn.relu(tf.matmul(X, W) + b)
+loss = tf.reduce_sum((Y - pred) ** 2)
+optimizer = tf.train.GradientDescentOptimizer(LEARNING_RATE).minimize(loss)
+feed_dict = {X: X_input, Y: Y_input}
+</code></pre>
+
+<p>开始训练：</p>
+
+<pre><code class="language-python">with tf.Session() as sess:
+    sess.run(tf.global_variables_initializer())
+    for epoch in range(1, EPOCHES+1):
+        sess.run(optimizer, feed_dict=feed_dict)
+        if epoch % 500 == 0:
+            print('Epoch #{}, loss = {}'.format(
+                epoch, sess.run(loss, feed_dict=feed_dict)))
+</code></pre>
+
+<p>善后，画画图</p>
+
+<pre><code class="language-python"># 仍在 with 里边
+    _w = W.eval()
+    _b = b.eval()
+
+    print('trained successfully')
+    print('real:\n{}'.format(Y_input))
+    print('pred:\n{}'.format(sess.run(pred, feed_dict=feed_dict)))
+
+fig = plt.figure()
+ax = Axes3D(fig)
+ax.scatter(X_input[:, 0], X_input[:, 1], Y_input[:, 0], c=Y_input[:, 0])
+
+_x, _y = np.meshgrid(np.arange(0, 1, 0.1), np.arange(0, 1, 0.1))
+_z = tf.nn.relu(_w[0] * _x + _w[1] * _y + _b).eval(session=tf.Session())
+
+ax.plot_surface(_x, _y, _z)
+plt.show()
+</code></pre>
+
+<p>最后可以发现，这个平面已经拟合得很好了：</p>
+
+<p><img src="Figure_1.png" alt="when_activitation_is_relu" /></p>
+
+<p>有趣的是，如果激活函数选用 <code>tf.nn.sigmoid</code>，这个平面将会是这样的：</p>
+
+<p><img src="Figure_2.png" alt="when_activitation_is_sigmoid" /></p>
+
+<h2 id="keras-版">Keras 版</h2>
+
+<p>Keras 封装了很多方便的模块，而且 <code>tf.keras.layers.Dense</code> 直接对应了 <code>activation(WX + b)</code>。可以不用自己去维护那些权重和偏置值，很方便。</p>
+
+<pre><code class="language-python">import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
+
+LEARNING_RATE = 0.08
+EPOCHES = 10000
+
+X_input = np.array([[0., 0.], [0., 1.], [1., 0.], [1., 1.]])
+Y_input = np.array([[0.], [0.], [0.], [1.]])
+
+def loss(true, pred):
+    return tf.reduce_sum((true - pred) ** 2)
+
+model = tf.keras.models.Sequential([
+    tf.keras.layers.Dense(1, activation=tf.nn.sigmoid)
+])
+
+model.compile(optimizer=tf.train.GradientDescentOptimizer(LEARNING_RATE),
+              loss=lambda a, b:tf.reduce_sum((a-b)**2))
+model.fit(X_input, Y_input, epochs=EPOCHES)
+
+print('true: ', Y_input[:, 0])
+print('pred: ', model.predict(X_input)[:, 0])
+</code></pre>
+
+</main>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+
+(function() {
+  
+  
+  if (window.location.hostname == "localhost")
+    return;
+
+  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+  var disqus_shortname = 'oyiadin';
+  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+  <footer>
+  <script src="/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+  
+  <hr/>
+  &copy; <a href="https://blog.b1n.top/">oyiadin</a> | <a href="https://github.com/oyiadin">Github</a> | <a href="https://twitter.com/oyiadin">Twitter</a>
+  
+  </footer>
+  </body>
+</html>
+

@@ -1,287 +1,77 @@
-
-
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="zh-cn">
+  <head>
     <meta charset="utf-8">
-    <meta name="X-UA-Compatible" content="IE=edge">
-    <meta name="author" content="oyiadin">
-
-    <title>Tags: Writeup - Chen&#39;s Notebook</title>
-    <meta name="description" content="">
-
-    <meta name="keywords"
-          content="">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <meta content="yes" name="apple-mobile-web-app-capable">
-    <meta content="black" name="apple-mobile-web-app-status-bar-style">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="renderer" content="webkit">
-    <noscript>
-        <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons"/>
-    </noscript>
-    <link rel="short icon" href="../../favicon/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/mprogress.css">
-    <link rel="stylesheet" href="../../css/open-iconic.min.css">
-    <link rel="stylesheet" href="../../css/style.css">
-    <link rel="stylesheet" href="../../css/prism.css">
-    <link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="../../atom.xml">
-    <script>
-        /*!
-         loadCSS: load a CSS file asynchronously.
-         [c]2014 @scottjehl, Filament Group, Inc.
-         Licensed MIT
-         */
-        function loadCSS( href, before, media ){
-            "use strict";
-            var ss = window.document.createElement( "link" );
-            var ref = before || window.document.getElementsByTagName( "script" )[ 0 ];
-            var sheets = window.document.styleSheets;
-            ss.rel = "stylesheet";
-            ss.href = href;
-            ss.media = "only x";
-            ref.parentNode.insertBefore( ss, ref );
-            function toggleMedia(){
-                var defined;
-                for( var i = 0; i < sheets.length; i++ ){
-                    if( sheets[ i ].href && sheets[ i ].href.indexOf( href ) > -1 ){
-                        defined = true;
-                    }
-                }
-                if( defined ){
-                    ss.media = media || "all";
-                }
-                else {
-                    setTimeout( toggleMedia );
-                }
-            }
-            toggleMedia();
-            return ss;
-        }
-    </script>
-</head>
-<body>
-
-<div id="app">
-    <nav ref="navBar" class="navbar fixed-top navbar-light">
-    <div id="global-loading-indicator" class="progress-line global-loading-indicator"></div>
-    <div id="nav_background" class="nav-background"></div>
-    <div style="padding-left: 15px;padding-right: 15px" class="container container-narrow nav-content">
-
-        <button id="nav_dropdown_btn" class="nav-dropdown-toggle" type="button" data-toggle="adropdown">
-            <span class="oi" data-glyph="menu"></span>
-        </button>
-        <a id="nav_title" class="navbar-brand Montserrat" href="/">
-            Chen&#39;s Notebook
-        </a>
-        <div class="float-right navbar-dark nav-icon-group">
-            <div class="dropdown">
-                <ul class="dropdown-menu" id="collapsed_nav">
-                    <li><a href="/" class="a-block nav-icon">Archive</a></li>
-                    
-                    
-                    <li><a href="/about/index.html" class="a-block nav-icon">About Me &amp; Links</a></li>
-                    
-                    
-                    <li><a href="/atom.xml" target="_blank" class="a-block">
-                            <span data-glyph="rss" class="oi nav-icon"></span>
-                        </a>
-                    </li>
-                    
-                </ul>
-            </div>
-
-        </div>
-    </div>
-</nav>
-    <div class="container container-narrow">
-
-        <div ref="pageHead"
-             v-bind:style="{ transform: 'translateZ(0px) translateY('+.3*scrollY+'px)', opacity: 1-navOpacity }"
-             class="page-head">
-            <a href="/">
-                <h2>Chen&#39;s Notebook</h2>
-                <h5>to cultivate curiosity</h5>
-            </a>
-        </div>
-
-<h3 class="section-title">Tags: Writeup</h3>
-
-<div class="row stream-container">
-    <div id="stream_inner_left" class="col-lg-6 col-md-6 col-no-h-padding">
-
-    </div>
-    <div id="stream_inner_right" class="col-lg-6 col-md-6 col-no-h-padding">
-
-    </div>
-</div>
-
-<nav class="pagination pagination-flex outside-padding-patch" role="pagination">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Writeup</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
     
-    <a class="older-posts pagination-flex-right"></a>
-    
-    <span class="page-number pagination-flex-center">
-                        Page 1 of 1
-                    </span>
-    
-    <a class="older-posts pagination-flex-right"></a>
-    
-</nav>
+  </head>
 
-<div id="__pending_post_item_container" style="display:none">
-    
-    <div class="card-container">
-        <div class="card card-item clear-border card-top-patch">
-            <a class="a-block" href="/2018/writeup/hgame/week4/" rel="noopener noreferrer">
-                
-                <div class="card-item-container clear-flex-xs">
-                    <div class="card-inner-cell"><h4 class="clear-margin">HGAME Week4 Writeup</h4>
-                        
-                        <p class="clear-margin post-block-desc">开学了 XD 谢谢这些 dalao 们~！这个寒假是我至今学了最多姿势的一个假期~
-{ Re }virtual_waifu [500]拖进 IDA 读一下 main()：
-  // ... ...  run((int)&amp;amp;v169, (int *)&amp;amp;v5);  //</p></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    
-    <div class="card-container">
-        <div class="card card-item clear-border card-top-patch">
-            <a class="a-block" href="/2018/writeup/hgame/week3/" rel="noopener noreferrer">
-                
-                <div class="card-item-container clear-flex-xs">
-                    <div class="card-inner-cell"><h4 class="clear-margin">HGAME Week3 Writeup</h4>
-                        
-                        <p class="clear-margin post-block-desc">没想到节后比春节时的事情还更多，最后一两天终于赶上末班车，上了上分。基本都是看着 Hint 做的，难度比别人低了很多很多…不过反正是学习嘛 XD
-{ Web }送分的SQLi [100]先敲个 1&amp;#39; or &amp;#39;1&amp;#39;=&amp;#39;1 和 1 or 1=1 看看，</p></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    
-    <div class="card-container">
-        <div class="card card-item clear-border card-top-patch">
-            <a class="a-block" href="/2018/writeup/hgame/week2/" rel="noopener noreferrer">
-                
-                <div class="card-item-container clear-flex-xs">
-                    <div class="card-inner-cell"><h4 class="clear-margin">HGAME Week2 Writeup</h4>
-                        
-                        <p class="clear-margin post-block-desc">这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。
-{ Web }Random? [250]根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键</p></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    
-    <div class="card-container">
-        <div class="card card-item clear-border card-top-patch">
-            <a class="a-block" href="/2018/writeup/hgame/week1/" rel="noopener noreferrer">
-                
-                <div class="card-item-container clear-flex-xs">
-                    <div class="card-inner-cell"><h4 class="clear-margin">HGAME Week1 Writeup</h4>
-                        
-                        <p class="clear-margin post-block-desc">{ Web }Are you from Europe? [100]　　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}
-
-s</p></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    
-    <div class="card-container">
-        <div class="card card-item clear-border card-top-patch">
-            <a class="a-block" href="/2018/writeup/nuptzj-re/" rel="noopener noreferrer">
-                
-                <div class="card-item-container clear-flex-xs">
-                    <div class="card-inner-cell"><h4 class="clear-margin">南邮网络攻防训练平台逆向入门题目 Writeup</h4>
-                        
-                        <p class="clear-margin post-block-desc">共三道题，前边几道题比较简单，就不写 writeup 了。
-WxyVM二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名：
-__int64 __fastcall main(__int64 a1, char **a2, char **a3)&amp;#123; </p></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    
-</div>
-
-<footer>
-    <p>
-        &copy;&nbsp;2019&nbsp;<a target="_blank"
-                                                               href="">oyiadin</a>
-    </p>
-
-    
-    <p>Theme&nbsp;<a target="_blank"
-                     href="https://github.com/SumiMakito/hexo-theme-journal">Journal.</a>&nbsp;by&nbsp;<a
-                target="_blank" href="https://www.keep.moe">Makito</a>
-    </p>
-    
-
-    <p>
-        Proudly published with&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>
-    </p>
-</footer>
-
-</div>
-</div>
-</div>
-<script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-<script src="../../js/popper.min.js"></script>
-<script src="../../js/bootstrap.min.js"></script>
-<script src=" ../../js/vue.min.js"></script>
-<script src=" ../../js/journal.js"></script>
-<script>
-    loadCSS("//fonts.googleapis.com/css?family=Source+Sans+Pro:400|Montserrat|Anonymous+Pro:400|Material+Icons");
-</script>
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/tags/">Tags</a></li>
+      
+      <li><a href="/index.xml">Subscribe</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
 
 
-<script>
-    let cachedPostsNodes;
-    let leftContainer;
-    let rightContainer;
-    let lastColumnCount;
-    let loadingIndicator;
 
-    $(document).ready(function () {
-        loadingIndicator = $("#global-loading-indicator");
+<h1>Writeup</h1>
 
-        lastColumnCount = -1;
-        leftContainer = $('#stream_inner_left');
-        rightContainer = $('#stream_inner_right');
 
-        function reLayoutPosts() {
-            // suppress unnecessary re-layouts
-            let columnCount = window.innerWidth < 768 ? 1 : 2;
-            if (columnCount === lastColumnCount)return;
-            loadingIndicator.show();
-            lastColumnCount = columnCount;
-            let leftHeight = 0;
-            let rightHeight = 0;
-            leftContainer.empty();
-            rightContainer.empty();
-            cachedPostsNodes = $("#__pending_post_item_container").find("> .card-container");
-            for (let i = 0; i < cachedPostsNodes.length; i++) {
-                let post = $(cachedPostsNodes[i]).clone();
-                if (columnCount === 1 || leftHeight <= rightHeight) {
-                    leftContainer.append(post);
-                    leftHeight += post.height();
-                } else {
-                    rightContainer.append(post);
-                    rightHeight += post.height();
-                }
-            }
-            loadingIndicator.fadeOut(600);
-        }
 
-        $(window).resize(function () {
-            reLayoutPosts();
-        });
 
-        reLayoutPosts();
-    });
-</script>
+<ul>
+  
+  <li>
+    <span class="date">2018/03/07</span>
+    <a href="/posts/writeup/hgame/week4/">HGAME Week4 Writeup</a>
+  </li>
+  
+  <li>
+    <span class="date">2018/03/07</span>
+    <a href="/posts/writeup/hgame/week3/">HGAME Week3 Writeup</a>
+  </li>
+  
+  <li>
+    <span class="date">2018/02/19</span>
+    <a href="/posts/writeup/hgame/week2/">HGAME Week2 Writeup</a>
+  </li>
+  
+  <li>
+    <span class="date">2018/02/14</span>
+    <a href="/posts/writeup/hgame/week1/">HGAME Week1 Writeup</a>
+  </li>
+  
+  <li>
+    <span class="date">2018/02/04</span>
+    <a href="/posts/writeup/nuptzj-re/">南邮网络攻防训练平台逆向入门题目 Writeup</a>
+  </li>
+  
+</ul>
 
-</body>
+  <footer>
+  <script src="/js/math-code.js"></script>
+<script async src="//mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+  
+  <hr/>
+  &copy; <a href="https://blog.b1n.top/">oyiadin</a> | <a href="https://github.com/oyiadin">Github</a> | <a href="https://twitter.com/oyiadin">Twitter</a>
+  
+  </footer>
+  </body>
 </html>
+

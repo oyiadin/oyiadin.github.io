@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on oyiadin</title>
+    <link>https://blog.b1n.top/tags/</link>
+    <description>Recent content in Tags on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ASM</title>
+      <link>https://blog.b1n.top/tags/asm/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/asm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>C</title>
+      <link>https://blog.b1n.top/tags/c/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/c/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CNN</title>
+      <link>https://blog.b1n.top/tags/cnn/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/cnn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CTF</title>
+      <link>https://blog.b1n.top/tags/ctf/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/ctf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Crypto</title>
+      <link>https://blog.b1n.top/tags/crypto/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/crypto/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>DynELF</title>
+      <link>https://blog.b1n.top/tags/dynelf/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/dynelf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FmtStr</title>
+      <link>https://blog.b1n.top/tags/fmtstr/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/fmtstr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HGAME</title>
+      <link>https://blog.b1n.top/tags/hgame/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/hgame/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ICLR</title>
+      <link>https://blog.b1n.top/tags/iclr/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/iclr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Image-recognition</title>
+      <link>https://blog.b1n.top/tags/image-recognition/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/image-recognition/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Misc</title>
+      <link>https://blog.b1n.top/tags/misc/</link>
+      <pubDate>Wed, 07 Mar 2018 20:19:22 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Paper-reading</title>
+      <link>https://blog.b1n.top/tags/paper-reading/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/paper-reading/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pwn</title>
+      <link>https://blog.b1n.top/tags/pwn/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/pwn/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pytorch</title>
+      <link>https://blog.b1n.top/tags/pytorch/</link>
+      <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ROP</title>
+      <link>https://blog.b1n.top/tags/rop/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/rop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>RSA</title>
+      <link>https://blog.b1n.top/tags/rsa/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/rsa/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reverse</title>
+      <link>https://blog.b1n.top/tags/reverse/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/reverse/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tensorflow</title>
+      <link>https://blog.b1n.top/tags/tensorflow/</link>
+      <pubDate>Tue, 07 Aug 2018 15:46:58 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VGG</title>
+      <link>https://blog.b1n.top/tags/vgg/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/vgg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VM</title>
+      <link>https://blog.b1n.top/tags/vm/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/vm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Web</title>
+      <link>https://blog.b1n.top/tags/web/</link>
+      <pubDate>Wed, 07 Mar 2018 20:19:22 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Writeup</title>
+      <link>https://blog.b1n.top/tags/writeup/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/writeup/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>南邮训练平台</title>
+      <link>https://blog.b1n.top/tags/%E5%8D%97%E9%82%AE%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0/</link>
+      <pubDate>Sun, 04 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E5%8D%97%E9%82%AE%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>宏函数</title>
+      <link>https://blog.b1n.top/tags/%E5%AE%8F%E5%87%BD%E6%95%B0/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E5%AE%8F%E5%87%BD%E6%95%B0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>开发环境</title>
+      <link>https://blog.b1n.top/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</link>
+      <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>感知机</title>
+      <link>https://blog.b1n.top/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</link>
+      <pubDate>Tue, 07 Aug 2018 15:46:58 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E6%84%9F%E7%9F%A5%E6%9C%BA/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>数组</title>
+      <link>https://blog.b1n.top/tags/%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E6%95%B0%E7%BB%84/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深度学习</title>
+      <link>https://blog.b1n.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Mon, 06 Aug 2018 20:55:07 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>线性回归</title>
+      <link>https://blog.b1n.top/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</link>
+      <pubDate>Tue, 07 Aug 2018 15:46:58 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>记录</title>
+      <link>https://blog.b1n.top/tags/%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/tags/%E8%AE%B0%E5%BD%95/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
