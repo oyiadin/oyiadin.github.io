@@ -6,18 +6,40 @@
     <description>Recent content in Posts on oyiadin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Jan 2019 14:06:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.b1n.top/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>\[Paper-Reading\] very deep convolutional networks for large scale image recognition (ICLR 2015)</title>
+      <title>[Paper-Reading] Temporal Segment Networks: Towards Good Practices for Deep Action Recognition (ECCV 2016)</title>
+      <link>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</link>
+      <pubDate>Thu, 14 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</guid>
+      <description>original version
+Abstract 论文目标 找到设计一个用于高效地进行视频动作识别的ConvNets架构的普适经验（而且在样本有限的情况下）
+论文成果：  TSN (temporal segment network) 框架  稀疏时序采样 (sparse temporal sampling) 视频级监督 (video-level supervision) 传统做法可能是固定一个窗口大小，如64帧，然后在整个视频上滑动——因此，无法学习大于64帧的动作信息，TSN则可以，因此称之“视频级”  应用 TSN 的诸多良好做法(经验) (good practices)  最终成绩：HMDB51 (69.4%) and UCF101 (94.2%)
+Introduction 由于变形、视角的改变、镜头运动等原因，单纯地提取物体外形、变化特征并不是关键因素，发展出一种有效表示用以解决这些挑战（视频动作识别）才是至关重要的。应该指的是类似于CNN的输出这些更抽象的表示
+ConvNets在视频动作识别中的应用主要面临着两个障碍：
+1. 大范围时序结构 (long-range temporal structure) 在理解动作时扮演着很一个很重要的角色
+主流的ConvNet框架一般只重视外形以及短期运动，因此缺乏提取大范围时序结构的能力。近期已经出现了一些针对这个问题的尝试，但基本都是基于密集时序采样 (dense temporal sampling)。这会引入过高的计算代价，面对超过最长序列长度的视频也会丢失重要信息。
+2. 训练深度ConvNets需要大量的训练样本以期得到理想效果，但由于收集数据与进行标注的困难，目前的数据集在数量、多样性上均不够
+因此，very deep ConvNets 虽然在图像识别有了出色的表现，但却面临着很高的过拟合风险。
+上述这些挑战促使我们去研究两个问题：
+ 如何设计一个能有效地学习大范围时序结构的框架 如何在有限的样本下学习ConvNet模型  我们的方法构建在在 Two-Stream 架构的基础之上。为了给时序结构建模，一个关键问题是连续帧的高度冗余——因此，密集时序采样是完全没有必要的，稀疏时序采样才是更合适的选择。基于这种考虑，我们形成了一个视频级的框架，并称之为“时序分段网络” (temporal segment network, TSN)。
+此外，为了弥补训练样本的稀缺，我们探索出了一些最佳实践：
+ 交叉模式预训练 正则化 数据增强 探索更多的输入模式  Details Basic Conceptions TSN 的目标是将整个视频的视觉信息利用起来，以便产生视频级的判断。它同样包含了一个空域ConvNets分支与时序ConvNets分支，不过它处理的不是单帧图像，也不是一堆帧序列，而是从整个视频里稀疏采样得到的一系列小片段（short snippets）。每个片段都会产生对动作类别的初步判断，在这基础上产生的“共识”（consensus）就是视频级的结论。在学习阶段，所使用的视频级别的损失值，而不是片段级别的(保证学到的是整个视频的结论，而不是片段上的结论)。</description>
+    </item>
+    
+    <item>
+      <title>[Paper-Reading] Very Deep Convolutional Networks for Large Scale Image Recognition (ICLR 2015)</title>
       <link>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</link>
       <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
       
       <guid>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</guid>
-      <description>Abstract 这篇论文探究了在大规模的图像识别场景中，CNN 网络的深度对其准确率的影响。论文中，作者使用了一个足以捕获空域信息的最小 conv filter (3x3) 来减少参数数量，并逐渐增加网络的深度。于是有了这样的发现：当深度加深时，模型的准确度有着显著的提高，甚至超过了当时的最佳水平。并且，这种小卷积核、大深度的网络有着很好的泛化能力，在其他领域也有着很不错的表现。
+      <description>original version
+Abstract 这篇论文探究了在大规模的图像识别场景中，CNN 网络的深度对其准确率的影响。论文中，作者使用了一个足以捕获空域信息的最小 conv filter (3x3) 来减少参数数量，并逐渐增加网络的深度。于是有了这样的发现：当深度加深时，模型的准确度有着显著的提高，甚至超过了当时的最佳水平。并且，这种小卷积核、大深度的网络有着很好的泛化能力，在其他领域也有着很不错的表现。
 Sec1: Introduction 已经出现过两种尝试提升准确度的方向：
  改进原始模型 Krizhevsky et al. (2012) 的架构 training and testing the networks densely over the whole image and over multiple scales Sermanet et al., 2014; Howard, 2014  这篇论文里重点探究网络深度的影响（方法：固定其他参数(如 FC 层数)，通过增加 conv layers 的方式逐渐增加网络深度）
 作者提供了几个表现最好的模型，不过是 caffe 用的。作者在这里还放出了许多 matlab 的版本，可以用 scipy.io.loadmat(path) 的方法在 Python 里导入。

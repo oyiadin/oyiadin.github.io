@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</loc>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</loc>
     <lastmod>2019-01-25T14:06:42+00:00</lastmod>
   </url>
@@ -74,6 +79,12 @@
   </url>
   
   <url>
+    <loc>https://blog.b1n.top/tags/action-regcognition/</loc>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.b1n.top/tags/c/</loc>
     <lastmod>2018-01-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
@@ -81,7 +92,7 @@
   
   <url>
     <loc>https://blog.b1n.top/tags/cnn/</loc>
-    <lastmod>2019-01-25T14:06:42+00:00</lastmod>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -105,6 +116,12 @@
   <url>
     <loc>https://blog.b1n.top/tags/dynelf/</loc>
     <lastmod>2018-03-07T20:30:30+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.b1n.top/tags/eccv/</loc>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -140,13 +157,13 @@
   
   <url>
     <loc>https://blog.b1n.top/tags/paper-reading/</loc>
-    <lastmod>2019-01-25T14:06:42+00:00</lastmod>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.b1n.top/posts/</loc>
-    <lastmod>2019-01-25T14:06:42+00:00</lastmod>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -177,6 +194,12 @@
   <url>
     <loc>https://blog.b1n.top/tags/reverse/</loc>
     <lastmod>2018-03-07T20:30:30+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.b1n.top/tags/tsn/</loc>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -218,7 +241,7 @@
   
   <url>
     <loc>https://blog.b1n.top/</loc>
-    <lastmod>2019-01-25T14:06:42+00:00</lastmod>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
