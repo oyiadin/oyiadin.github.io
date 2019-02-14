@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>About Me &amp; Links</title>
+      <link>https://blog.b1n.top/about/</link>
+      <pubDate>Thu, 14 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/about/</guid>
+      <description>Brief Intro. I am an ordinary sophomore at HDU, also a member of Vidar-Team. I&amp;rsquo;ve already found that I loves everything about computer science so much, long before I was only 13. But, because of the lack of CS-learning atmosphere and the stress of college entrance examination, all my way to CS suspended suddenly after I just comprehended the most basic part of it. Now that I am now a sophomore majoring in Computer Science, I&amp;rsquo;d like to seize every opportunity to chase my dreams and my interests of CS.</description>
+    </item>
+    
+    <item>
       <title>[Paper-Reading] Temporal Segment Networks: Towards Good Practices for Deep Action Recognition (ECCV 2016)</title>
       <link>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</link>
       <pubDate>Thu, 14 Feb 2019 00:00:00 +0000</pubDate>
@@ -123,15 +132,6 @@ if ( Msg == 0x102 ) // WM_CHAR { last = times; if ( times &amp;lt; 0x20 ) // len
 xss-1 [100] &amp;lt;img src=&amp;ldquo;1&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; /&amp;gt; 可得 Flag：hgame{#X5s_soo00o_e4sy#}
 知识点：括号被过滤掉时，可以用 ` 绕过。
 xss-2 [150] 第一想法是 a&amp;rdquo; autofocus onfocus=&amp;ldquo;alert`1`，没想到在火狐上不能用，换个思路：a&amp;rdquo; src=&amp;ldquo;a&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; type=&amp;ldquo;im&amp;#97;ge 可得 Flag：hgame{#LuCkY_y0u_a1ert_l#}</description>
-    </item>
-    
-    <item>
-      <title>About Me &amp; Links</title>
-      <link>https://blog.b1n.top/about/</link>
-      <pubDate>Mon, 19 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.b1n.top/about/</guid>
-      <description>Brief Intro. I am an ordinary freshman at HDU, also a semi-vidar member (trying hard to be a real one!). I&amp;rsquo;ve already found that I loves everything about computer science so much, long before I was only 13. But, because of the lack of CS-learning atmosphere and the stress of college entrance examination, all my way to CS suspended suddenly after I just comprehended the most basic part of it.</description>
     </item>
     
     <item>

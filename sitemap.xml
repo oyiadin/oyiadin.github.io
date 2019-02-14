@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.b1n.top/about/</loc>
+    <lastmod>2019-02-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</loc>
     <lastmod>2019-02-14T00:00:00+00:00</lastmod>
   </url>
@@ -40,11 +45,6 @@
   <url>
     <loc>https://blog.b1n.top/posts/writeup/hgame/week2/</loc>
     <lastmod>2018-02-19T11:47:41+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.b1n.top/about/</loc>
-    <lastmod>2018-02-19T00:00:00+00:00</lastmod>
   </url>
   
   <url>
