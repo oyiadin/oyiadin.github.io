@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HGAME on oyiadin</title>
+    <link>https://blog.b1n.top/tags/hgame/</link>
+    <description>Recent content in HGAME on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 07 Mar 2018 20:30:30 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/hgame/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HGAME Week4 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week4/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week4/</guid>
+      <description>开学了 XD 谢谢这些 dalao 们~！这个寒假是我至今学了最多姿势的一个假期~
+{ Re } virtual_waifu [500] 拖进 IDA 读一下 main()：
+// ... ... run((int)&amp;amp;v169, (int *)&amp;amp;v5); // 一番操作 i = 0; while ( *((_BYTE *)&amp;amp;input + i) == byte_40318C[i] ) // 比对，长度 24 Bytes { if ( ++i &amp;gt;= 24 ) goto LABEL_6; } printf((int)&amp;quot;Never Give Up\n&amp;quot;); LABEL_6: system(&amp;quot;pause&amp;quot;); return 0; }  上边那一大段自然就是 VM 的数据来源了。先进去子函数捋一捋这个 VM 是怎么工作的，整理后，主要逻辑如下：
+// m2 = malloc(256), 大致被当成一个栈来使用 case 1: m2[ 4 * ++ptr ] = reg2; break; case 2: reg2 = m2[ 4 * ptr-- ]; reg22 = reg2; break; case 3: m2[ 4 * ++ptr ] = reg4; goto just_exit; case 4: reg4 = m2[ 4 * ptr-- ]; break; case 5: m2[ 4 * ++ptr ] = *pdata++; goto just_exit; case 6: // 解引用得到单个字母 m2[ 4 * ptr ] = *(m2[ 4 * ptr ]); goto just_exit; case 7: v35 = m2[ 4 * ptr-- ]; v36 = m2[ 4 * ptr-- ]; *v35 = v36; goto LABEL_21; case 8: v14 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] += v14; goto LABEL_11; case 9: v17 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] -= v17; LABEL_11: v40 = (m2[ 4 * ptr ] == 0); goto LABEL_21; case 0xA: v20 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] ^= v20; goto just_exit; case 0xB: pdata += m2[ 4 * ptr-- ]; goto just_exit; case 0xC: v24 = m2[ 4 * ptr-- ]; if ( flag ) pdata += v24; goto just_exit; case 0xD: free((void *)m2); free(m1); return 1; case 0xE: v40 = ( m2[ 4 * ptr ] == m2[ 4 * (ptr-1) ] ); LABEL_21: flag = v40; goto just_exit; case 0xF: m2[ 4 * ptr ] = strlen(m2[ 4 * ptr ]); just_exit: reg2 = reg22; break; default: break;  程序从 v169 到 v176 以 Byte 为单位读取数据，根据数据进行相应的操作。v169 ~ v176 相当于 .</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week3 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week3/</link>
+      <pubDate>Wed, 07 Mar 2018 20:19:22 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week3/</guid>
+      <description>没想到节后比春节时的事情还更多，最后一两天终于赶上末班车，上了上分。基本都是看着 Hint 做的，难度比别人低了很多很多…不过反正是学习嘛 XD
+{ Web } 送分的SQLi [100] 先敲个 1&#39; or &#39;1&#39;=&#39;1 和 1 or 1=1 看看，确认没有单引号包裹。然后 order by 2，再来点一般套路：
+1 union select 1,table_name from information_schema.tables where table_schema=database()` # 得到表名 f111aa4g 1 union select 1,group_concat(column_name) from information_schema.columns where table_name=&#39;f111aa4g&#39; # 得到字段 f111aaaggg_w3 1 union select 1,f111aaaggg_w3 from f111aa4g # 可得 hgame{Th3_e4sist_sql_injeCti0n##}  { Re } 01 Waifu [300] 哇！图片！那先通过 BeginPaint 试试水找一下函数咯~
+if ( Msg == 0x102 ) // WM_CHAR { last = times; if ( times &amp;lt; 0x20 ) // length == 32 input_data_byte[times] = wParam; // key code // 将键入的键逐个存入 input_data 里 times = last + 1; if ( wParam == 0xD ) // enter { v11 = &amp;quot;Firekeeper: &amp;quot;; if ( check() == 1 ) // &amp;lt;--- check() v10 = &amp;quot;Ashen one, hearest thou my voice, still?</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week2 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week2/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week2/</guid>
+      <description>这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。
+{ Web } Random? [250] 根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:6:&amp;quot;public&amp;quot;;N;s:6:&amp;quot;secret&amp;quot;;R:2;} 即可得到 Flag：hgame{&amp;amp;_Is_wondeRful!@# }
+草莓社区-1 [100] 随便点一个猫片，发现地址栏为 http://118.25.18.223:10011/show_maopian.php?mao=1.jpg，文件引入很可能不带过滤，则构造 ?mao=../flag.php 可得到 flag.php 的内容 PD9waHAKCSRmbGFnPSJoZ2FtZXsjTWEwX3BpNG5faGFPX2s0bl9tYSN9IjsK，解 base64 可得 Flag：hgame{#Ma0_pi4n_haO_k4n_ma# }
+草莓社区-2 [150] 直接构造 ?mao=../flag.php 发现不返回 flag，则用 php 伪协议 php://filter/read=convert.base64-encode/resource=../flag.php 可得到数据 UEQ5d2FIQUtDU1JtYkdGblBTSm9aMkZ0WlhzaGJUUnZYM0JwTkc1ZlEyaGhUMTlvWVc5ZmEyRnVJWDBpT3dvPQ==，解两次 base64（一次是伪协议的）可得 Flag：hgame{!m4o_pi4n_ChaO_hao_kan!}
+xss-1 [100] &amp;lt;img src=&amp;ldquo;1&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; /&amp;gt; 可得 Flag：hgame{#X5s_soo00o_e4sy#}
+知识点：括号被过滤掉时，可以用 ` 绕过。
+xss-2 [150] 第一想法是 a&amp;rdquo; autofocus onfocus=&amp;ldquo;alert`1`，没想到在火狐上不能用，换个思路：a&amp;rdquo; src=&amp;ldquo;a&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; type=&amp;ldquo;im&amp;#97;ge 可得 Flag：hgame{#LuCkY_y0u_a1ert_l#}</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week1 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week1/</link>
+      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week1/</guid>
+      <description>{ Web } Are you from Europe? [100] 　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}
+special number [100] 　读源码：先拿到 GET 的参数 key，然后匹配一下正则，过了之后要使 json_decode() 的返回值与未知字符串相等。结合正则的提示：必须包含数字，可联想到 0 == &amp;quot;xxx&amp;quot; 为真，所以可构造 ?key=0e00000 得到 Flag：hgame{pHp_w34k_typing_s000_e4sy}。
+can u find me? [50] 　根据提示 “only robot know where is the Flag”，直接访问 /robots.txt，发现一行 Disallow: /f1aaaaaaaag.php，跟到该文件，并根据提示把 cookies 改为 user: admin，成功获取 Flag：hgame{78e01ee77a39ef4e}
+tell me what you want [100] 　打开页面，填入 flag 并提交，提示需要用 POST。于是 F12 把 method 改为 POST 后重新提交，并打开 Burp Suite 把这个 HTTP 请求复制一下。之后根据提示依次添加/修改以下 HTTP 头即可得到 Flag：hgame{For9e_hTTp_iS_N0T_HArd}</description>
+    </item>
+    
+  </channel>
+</rss>

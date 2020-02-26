@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ASM on oyiadin</title>
+    <link>https://blog.b1n.top/tags/asm/</link>
+    <description>Recent content in ASM on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/asm/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>能调用任意函数的函数</title>
+      <link>https://blog.b1n.top/posts/a-call-any-function/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/a-call-any-function/</guid>
+      <description>其实这是某社团第三次 C 语言作业中一道附加题，当时一看到题目就觉得很有趣，花了一个下午研究了函数调用栈，内嵌汇编的知识，当晚给做了出来。能跑，但是没有解决函数的返回类型这个问题。
+这几天接触宏函数接触得比较多，尝试着实现了一个没用的伪泛型宏函数：
+#define declare_function(type, function_name, ...) \ type function_name ## _ ## type(__VA_ARGS__) declare_function(int, my_f, int argc, char *argv[]) { return call(...); }  上边这段代码会被展开成为：
+int my_f_int(int argc, char *argv[]) { return call(...); }  原本按照我的设想，通过临时定义一个函数就可以让用户指定返回类型了，虽然多次调用会使函数重名，但至少离目标更近了一步。但是等到 gcc 报错我才意识到，函数不能嵌套定义…
+所以又停滞了好几天，直到我看到一个用 gcc 特性实现的 lambda 宏函数，这件事才终于得到解决。虽然并非标准 C，但在这过程中已经学到够多了，心满意足。
+Talk is cheap, here is my code :)
+#include &amp;lt;stdio.h&amp;gt; #define lambda(type, function_body) \ ({ type fn function_body fn; }) // usage: lambda(int, (int a, int b) { return a+b; })(2, 3) == 5 // 涉及的第一个特性叫 Statement Expression [1] // 由括号包裹起来的代码可以有自己的循环、分支甚至是局部变量 // 考虑到这里涉及的代码不止一行，所以用花括号包裹起来(这一项是标准 C) // 最后一行代码将成为整个 Statement Expression 的值 // 展开得到： // ({ // int fn (int a, int b) { return a+b; } // fn; // }) (2, 3); // 首先在 Statement Expression 中定义了一个局部函数，然后返回这个函数并调用 // 涉及到第二个特性叫 Nested Functions，可以在函数内定义函数 [2] #define call(type, f, .</description>
+    </item>
+    
+    <item>
+      <title>HelloWorld：从 C 到 ASM 之旅</title>
+      <link>https://blog.b1n.top/posts/a-asm-helloworld-generated-from-c/</link>
+      <pubDate>Tue, 12 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/a-asm-helloworld-generated-from-c/</guid>
+      <description>这篇文章似乎有不少错误，有空再看心情改=。=
+ /* filename: helloworld.c */ #include &amp;lt;stdio.h&amp;gt; int hello(int b) { printf(&amp;quot;Received: %d\n&amp;quot;, b); return b+333; } int main() { int a=111, b=222; printf(&amp;quot;Passing arguments: %d, %d\n&amp;quot;, a, b); ++a; int c = hello(b); return 444; }  /* gcc -S helloworld.c -o helloworld.asm */ /* filename: helloworld.asm */ .file &amp;quot;helloworld.c&amp;quot; .section .rdata,&amp;quot;dr&amp;quot; LC0: .ascii &amp;quot;Received: %d\12\0&amp;quot; .text .globl _hello .def _hello; .scl 2; .type 32; .endef _hello: hello 函数开始的地址 LFB10: .</description>
+    </item>
+    
+  </channel>
+</rss>

